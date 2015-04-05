@@ -1,0 +1,70 @@
+#!/bin/sh
+
+
+# Wait for program coming up
+wait_for_program () {
+  n=0
+  while true
+  do
+    # PID of last background command
+    if xdotool search --onlyvisible --pid $! 2>/dev/null; then
+      break
+    else
+      if [ $n -eq 90 ]; then
+        notify-send -u critical "Error during start"
+        break
+      else
+        n=`expr $n + 1`
+        sleep 0.5
+      fi
+    fi
+  done
+}
+
+## Merge Xresources
+xrdb -merge ~/.Xresources &
+
+
+xset -dpms s 0 0 s noblank s noexpose s off &
+
+
+
+feh --bg-scale "${HOME}/.wallpapers/wallpaper.jpg"  &
+
+
+## Terminal daemon
+#urxvt256cd -q -f -o &
+TERMINAL=xtermR
+
+## Set startup volume (use pactl info to determine sink name)
+pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo '60%' &
+
+
+
+## Disable beeps
+xset -b &
+
+
+
+## Set LCD brightness
+xbacklight -set 100 &
+
+
+
+## Applets
+LC_ALL=C klipper &
+LC_ALL=C stardict &
+LC_ALL=C conkey &
+LC_ALL=C nm-applet  &
+LC_ALL=C thunderbird  &
+LC_ALL=C dropbox start  &
+
+## OSD
+dunst &
+lexicon &
+sleep 1s
+
+## Refresh
+xrefresh &
+
+exit 0

@@ -1,0 +1,28 @@
+regexp=^\[INFO\].*$
+colours=green
+
+=
+regexp=^\[WARNING\].*$
+colours=yellow
+
+=
+regexp=^\[ERROR\].*$
+colours=red
+
+=
+regexp=\[echo\].*$
+colours=cyan
+
+=
+
+regexp=BUILD SUCCESS
+colours=green
+=
+
+regexp=BUILD FAILURE
+colours=red
+
+=
+
+regexp=^\[echoproperties\].*$
+colours=bold magenta

@@ -97,7 +97,7 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1
+bindsym $mod+1 workspace 1:www
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
@@ -105,24 +105,24 @@ bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+9 workspace 9:mail
+bindsym $mod+0 workspace 10:skype
 
 
 # workspace screens
-workspace 1  output xinerama-0
-workspace 2 output xinerama-0
-workspace 3 output xinerama-0
-workspace 4 output xinerama-0
-workspace 5 output xinerama-0
-workspace 6 output xinerama-1
-workspace 7 output xinerama-1
-workspace 8 output xinerama-1
-workspace 9 output xinerama-1
-workspace 10  output xinerama-1
+#<> workspace 1:www  output xinerama-0
+#<> workspace 2 output xinerama-0
+#<> workspace 3 output xinerama-0
+#<> workspace 4 output xinerama-0
+#<> workspace 5 output xinerama-0
+#<> workspace 6 output xinerama-1
+#<> workspace 7 output xinerama-1
+#<> workspace 8 output xinerama-1
+#<> workspace 9:mail output xinerama-1
+#<> workspace 10:skype  output xinerama-1
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+1 move container to workspace 1:www
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
@@ -130,8 +130,8 @@ bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+9 move container to workspace 9:mail
+bindsym $mod+Shift+0 move container to workspace 10:skype
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -167,9 +167,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
 	position top
-        status_command i3status --config ~/.i3/i3status.conf
+        status_command i3status --config ~/.i3/.i3status.conf
 	#show status on primary monitor(output)
 	output xinerama-0
 	#tray_output primary
@@ -181,20 +183,39 @@ bar {
 	output xinerama-1
 }
 
+#=================================================================
+
 #workspace layout
 workspace_layout stacking
 
+#border style for new windows
 
+
+###new_window none
+###new_float pixel 3
 
 default_orientation vertical
+
+#hiding vertical borders
+
+###hide_edge_borders both
+
+assign [class="Firefox"] 1:www
+assign [class="Thunderbird"] 9:mail
+assign [class="Skype"] 10:skype
 
 bindsym $mod+F1 exec intellij-idea-14-ultimate
 bindsym $mod+F2 exec --no-startup-id google-chrome-stable
 bindsym $mod+F3 exec subl3
 bindsym $mod+F4 exec firefox
 bindsym $mod+F5 exec  apulse32 skype
+bindsym $mod+F7 exec konsole
+bindsym $mod+F8 exec --no-startup-id dolphin
+bindsym $mod+F9 exec --no-startup-id krusader
+bindsym $mod+F11 exec --no-startup-id audacious 
+bindsym $mod+F12 exec --no-startup-id ksysguard
 
-#arbitrary commands for specific windows
+
 
 
 
@@ -211,9 +232,18 @@ workspace_auto_back_and_forth yes
 force_display_urgency_hint 500 ms
 
 
+#bindsym $mod+x debuglog toggle
+
+
+
+
+
 bindsym $mod+t exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 
 exec xcompmgr -c -f -n
+
+
+
 
 mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
     bindsym s exec sudo pm-suspend; mode "default"
@@ -234,8 +264,11 @@ bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- '+5%'
 
 
 
+
 bindsym $mod+b border toggle
+
 bindsym $mod+Tab workspace back_and_forth
+
 bindsym $mod+m move scratchpad
 bindsym $mod+o scratchpad show
 
@@ -258,7 +291,6 @@ bindsym $mod+c exec --no-startup-id mpc clear
 bindsym $mod+Left exec --no-startup-id mpc seek '-5'
 bindsym $mod+Right exec --no-startup-id mpc seek '+5'
 bindsym $mod+i exec --no-startup-id ~/.bin/mpc-dmenu-select
-
 
 
 

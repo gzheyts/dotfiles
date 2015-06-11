@@ -1,0 +1,245 @@
+" init {{{
+set titlestring=vimp
+set hintchars=abcdefghijklmnopqrstuvwxyz
+set gui=nomenu,nonavigation,nobookmarks,notabs
+set status=bookmark,history,input,location,ssl,tabcount,position
+set cpt=sl
+colorscheme gzheyts
+
+let mapleader = ','
+" }}}
+
+nnoremap 	sc 			:sa cache sitesettings offlineapps<CR>
+nnoremap 	sh 			:so $VIMPERATOR_RUNTIME/clearhistory<CR>
+nnoremap 	sn 			:emenu Tools.Sync Now<cr>
+
+" set browser preferences
+set! findbar.entireword=false
+set! findbar.highlightAll=true
+
+set hintmatching=fuzzy
+
+" gui options {{{
+" tab bar
+nnoremap 	[t 			:set gui=notabs<CR>
+nnoremap 	]t 			:set gui=tabs<CR>
+" navigation bar
+nnoremap 	[n 			:set gui=nonavigation<CR>
+nnoremap 	]n 			:set gui=navigation<CR>
+" bookmarks 
+nnoremap 	[b 			:set gui=nobookmarks<CR>
+nnoremap 	]b 			:set gui=bookmarks<CR>
+" menu
+nnoremap 	[m 			:set gui=nomenu<CR>
+nnoremap 	]m 			:set gui=menu<CR>
+
+nnoremap 	]gb 			:set gui=tabs,navigation,nobookmarks,nomenu,noaddons<CR>
+nnoremap 	]gn			:set gui=none<CR>
+
+" }}}
+" movements {{{
+noremap 	<s-j>			10j
+noremap 	<s-k> 			10k
+" }}}
+" dialog mappings  {{{
+noremap 	gb  			:dialog bookmarks<CR>
+noremap		gsc 			:emenu 	View.Sidebar.ScrapBook<CR>
+noremap 	gab 			:dialog addbookmark<CR>
+noremap 	ga  			:dialog about<CR>
+noremap 	gcd 			:dialog cleardata<CR>
+noremap 	gcoo 			:dialog cookies<CR>
+noremap 	gcon 			:dialog console<CR>
+noremap 	gdown 			:dialog downloads<CR>
+noremap 	ghist 			:dialog history<CR>
+noremap 	gpass 			:dialog passwords<CR>
+noremap 	gpl 			:dialog places<CR>
+noremap 	gpref 			:dialog preferences<CR>
+noremap 	gse 			:dialog searchengines<CR>
+" }}}
+" bookmarks {{{
+noremap 	<Leader>bf 		:bmark -f 
+noremap 	<Leader>bk 		:bmark -k 
+noremap 	<Leader>bt 		:bmark -t
+noremap 	<Leader>bT 		:bmark -T
+
+"list bookmarks by filter 
+nnoremap 	<Leader>fb 		:bmarks 
+" open bookmarks by filter 
+nnoremap 	<Leader>ob 		:bmarks!  
+
+nnoremap 	<leader>j 		:jumps<cr>
+nnoremap 	<leader>h		:history -m 100<cr>
+
+" delete bookmarks
+nnoremap 	<Leader>db 		:delbm 
+
+" }}}
+" about tab mappings {{{
+noremap 	<Leader>gd 		:tabopen about:downloads<CR>
+noremap 	<Leader>gmem 		:tabopen about:memory<CR>
+noremap 	<Leader>gh 		:tabopen about:healthreport<CR>
+noremap 	<Leader>gc 		:tabopen about:cache<CR>
+noremap 	<Leader>gn 		:tabopen about:networking<CR>
+noremap 	<Leader>gsw 		:tabopen about:serviceworkers<CR>
+noremap 	<Leader>gt 		:tabopen about:telemetry<CR>
+noremap 	<Leader>gperm 		:tabopen about:permissions<CR>
+noremap 	<Leader>gpref 		:tabopen about:preferences<CR>
+" }}}
+" misc {{{
+" source config
+noremap 	ss 			:so ~/.vimperatorrc<CR>
+" execute last command
+nnoremap 	<C-.> 			@:
+
+noremap  	ZR 			:restart<CR>
+noremap 	[oh 			:set nohlsearch<CR>
+noremap 	]oh 			:set hlsearch<CR>
+noremap 	[oi 			:set noignorecase<CR>
+noremap 	]oi 			:set ignorecase<CR>
+
+" menu
+nnoremap 	<Leader>m     		:emenu 	
+
+" }}}
+" tabgroups mappings {{{
+nnoremap 	<Leader>tg:    		:tabgroups 
+nnoremap 	<Leader>tga    		:tabgroups add  
+nnoremap 	<Leader>tgr    		:tabgroups remove 
+nnoremap 	<Leader>tgpl   		:tabgroups pulltab 
+nnoremap 	<Leader>tgps   		:tabgroups pushtab 
+nnoremap 	<Leader>tgl    		:tabgroups list<CR> 
+nnoremap  	<Leader>tgs    		:tabgroups switch  
+" }}}
+" tabs mappings {{{
+nnoremap  	<Leader>tl    		:buffers<CR>
+nnoremap  	<Leader>ts    		:buffer 
+nnoremap  	<Leader>td    		:bufdo  
+noremap 	<Leader>tdt 		:tabdetach<CR>
+noremap 	<Leader>tdp 		:tabduplicate<CR>
+noremap 	<Leader>ta 		:tabattach  
+" reload all tabs
+nnoremap 	<Leader>ra    		:reloadall<CR>
+
+" }}}
+" window mappings {{{
+"
+" open private window
+noremap     <Leader>wp	 :winopen -private<CR>
+" open default window
+noremap     <Leader>wd	 :winopen<CR>
+
+" }}}
+" disable on specific urls {{{
+ignorekeys add mail\.google\.com
+ignorekeys add www\.google\.com\/calendar
+
+" }}}
+" custom styles {{{
+
+set! browser.tabs.closeButtons=3
+style about:blank html { background-color:#333; }
+style -name tab chrome://* <<EOM
+#content { background-color: #ddd; } /* tabbar */
+.tabs-alltabs-button { padding: 0 !important; }   
+.tabs-container { height: 40px; }
+.tabs-container > stack {display:none;} /* remove tab selection menu */
+.tabbrowser-tab {
+    -moz-appearance: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -moz-border-radius-topleft:0 !important;
+    -moz-border-radius-topright:0 !important;
+    -moz-border-radius-bottomright:0 !important;
+    -moz-border-radius-bottomleft:0 !important;
+    border: none !important;
+    border-bottom: thin solid #ddd !important;
+    background-image:none !important;
+    background-color: #ddd !important;
+}
+.tabbrowser-tab > .tab-text { color: #333; }
+.tabbrowser-tab[selected=true] { background: #333 !important; }
+.tabbrowser-tab[selected=true] > .tab-body > .tab-text-container > .tab-text { color: #ddd !important; }
+EOM
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 0 8px !important; }
+statusbarpanel > * { margin: 0 !important; padding:0 !important; }
+EOM
+
+" history navigation {{
+cmap <C-P> <Up>
+cmap <C-N> <Down>
+
+" }}}
+" russian mappings {{{
+map ё `
+map й q
+map ц w
+map у e
+map к r
+map е t
+map н y
+map г u
+map ш i
+map щ o
+map з p
+map х [
+map ъ ]
+map ф a
+map ы s
+map в d
+map а f
+map п g
+map р h
+map о j
+map л k
+map д l
+map ж ;
+map э '
+map я z
+map ч x
+map с c
+map м v
+map и b
+map т n
+map ь m
+map б ,
+map ю .
+map Ё ~
+map Й Q
+map Ц W
+map У E
+map К R
+map Е T
+map Н Y
+map Г U
+map Ш I
+map Щ O
+map З P
+map Х {
+map Ъ }
+map Ф A
+map Ы S
+map В D
+map А F
+map П G
+map Р H
+map О J
+map Л K
+map Д L
+map Ж :
+map Э "
+map Я Z
+map Ч X
+map С C
+map М V
+map И B
+map Т N
+map Ь M
+map Б <
+map Ю >
+map пп gg
+map П G
+" }}}
+
+" vim:ft=vim:fdm=marker

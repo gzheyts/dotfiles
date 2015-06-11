@@ -1,0 +1,4 @@
+#!/bin/bash
+
+feh --bg-scale "$HOME/Pictures/wallpapers/current"
+

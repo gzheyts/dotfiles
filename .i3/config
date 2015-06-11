@@ -2,20 +2,22 @@
 # It will not be overwritten, so edit it as you like.
 #
 # Should you change your keyboard layout some time, delete
-# this file and re-run i3-config-wizard(1).
-#
+# this file and re-run i3-config-wizard(1).  #
 
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:monospace 9
+
+set $font_size 7
+
+font pango:monospace $font_size, FontAwesome  $font_size 
+
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -25,59 +27,83 @@ font pango:monospace 9
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up l
-set $down k
-set $left j
-set $right semicolon
+set $up    k
+set $down  j
+set $left  h
+set $right l
+
+set $outPrimary eDP1
+set $outSlave   HDMI2
+
+set $tag1 www
+set $tag2 ide
+set $tag3 vim
+set $tag4 database
+# set $tag5 
+# set $tag6 
+set $tag7 7
+set $tag8 media
+set $tag9 mail
+set $tag10 im
+
+#for_window [class="(?i)firefox"] title_format %title %class %instance
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec konsole
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# launcher {{{
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu_run -i -l 10 -fn 'DejaVu Sans-8' "
+# }}}
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# change focus {{{
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
 
-# alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
+# Sets focus to the last focused tiling container. 
+bindsym $mod+t 		focus tiling
+# change focus between tiling / floating windows
+bindsym $mod+space 	focus mode_toggle
+# focus the parent container
+bindsym $mod+a 		focus parent
+# focus the child container
+bindsym $mod+Shift+a 	focus child
+# Followed by a direction or an output name, this will focus the corresponding output. 
+bindsym $mod+Control+h	focus output left
+bindsym $mod+Control+l	focus output right
+bindsym $mod+Control+j  focus output down
+bindsym $mod+Control+k  focus output up
+# }}}
 
-# move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# move focused window {{{
+set $move_inc 15
+bindsym $mod+Shift+$left 	move left  $move_inc px
+bindsym $mod+Shift+$down 	move down  $move_inc px
+bindsym $mod+Shift+$up 		move up    $move_inc px
+bindsym $mod+Shift+$right 	move right $move_inc px
+# }}}
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+semicolon split h
 
 # split in vertical orientation
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+bindsym $mod+Shift+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -85,53 +111,59 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-
-# focus the parent container
-bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+f floating toggle
 
 # switch to workspace
-bindsym $mod+1 workspace 1:www
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
+bindsym $mod+1 workspace 1:$tag1
+bindsym $mod+2 workspace 2:$tag2
+bindsym $mod+3 workspace 3:$tag3
+bindsym $mod+4 workspace 4:$tag4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9:mail
-bindsym $mod+0 workspace 10:skype
+bindsym $mod+7 workspace 7:$tag7
+bindsym $mod+8 workspace 8:$tag8
+bindsym $mod+9 workspace 9:$tag9
+bindsym $mod+0 workspace 10:$tag10
+bindsym $mod+y workspace y
+bindsym $mod+d workspace docs
+bindsym $mod+u workspace u
+bindsym $mod+o workspace o
 
+# mapping workspace to output
 
-# workspace screens
-#<> workspace 1:www  output xinerama-0
-#<> workspace 2 output xinerama-0
-#<> workspace 3 output xinerama-0
-#<> workspace 4 output xinerama-0
-#<> workspace 5 output xinerama-0
-#<> workspace 6 output xinerama-1
-#<> workspace 7 output xinerama-1
-#<> workspace 8 output xinerama-1
-#<> workspace 9:mail output xinerama-1
-#<> workspace 10:skype  output xinerama-1
+workspace 1:$tag1 	output 		$outPrimary 
+workspace 3:$tag3	output 		$outPrimary
+workspace 5 		output 		$outPrimary 
+workspace 6 		output 		$outPrimary 
+workspace 7:$tag7 	output 		$outPrimary 
+workspace 8$tag8 	output 		$outPrimary 
+workspace 10:$tag10 	output 		$outPrimary 
+
+workspace 2:$tag2	output 		$outSlave
+workspace 4:$tag4 	output 		$outSlave
+workspace 9:$tag9 	output 		$outSlave
+
+workspace y 	output 		$outSlave 
+workspace docs 	output 		$outSlave 
+workspace q	output 		$outSlave 
+workspace u 	output 		$outSlave 
+workspace o 	output 		$outSlave 
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1:www
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+1 move container to workspace 1:$tag1
+bindsym $mod+Shift+2 move container to workspace 2:$tag2
+bindsym $mod+Shift+3 move container to workspace 3:$tag3
+bindsym $mod+Shift+4 move container to workspace 4:$tag4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9:mail
-bindsym $mod+Shift+0 move container to workspace 10:skype
+bindsym $mod+Shift+7 move container to workspace 7:$tag7
+bindsym $mod+Shift+8 move container to workspace 8:$tag8
+bindsym $mod+Shift+9 move container to workspace 9:$tag9
+bindsym $mod+Shift+0 move container to workspace 10:$tag10
+bindsym $mod+Shift+y move container to workspace y
+bindsym $mod+Shift+d move container to workspace docs
+bindsym $mod+Shift+u move container to workspace u
+bindsym $mod+Shift+o move container to workspace o
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -140,111 +172,91 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# resizing {{{
 # resize window (you can also use the mouse for that)
+set $resize_inc 2
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym $left 	resize shrink 	width 	$resize_inc px or $resize_inc ppt
+        bindsym $down 	resize grow 	height 	$resize_inc px or $resize_inc ppt
+        bindsym $up 	resize shrink 	height 	$resize_inc px or $resize_inc ppt
+        bindsym $right 	resize grow 	width 	$resize_inc px or $resize_inc ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
+# }}}
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-	position top
-        status_command i3status --config ~/.i3/.i3status.conf
-	#show status on primary monitor(output)
-	output xinerama-0
-	#tray_output primary
-	tray_output xinerama-0
-}
-
-bar {
-	position top
-	output xinerama-1
-}
-
-#=================================================================
-
-#workspace layout
-workspace_layout stacking
-
-#border style for new windows
-
-
-###new_window none
-###new_float pixel 3
-
-default_orientation vertical
-
-#hiding vertical borders
-
-###hide_edge_borders both
-
-assign [class="Firefox"] 1:www
-assign [class="Thunderbird"] 9:mail
-assign [class="Skype"] 10:skype
-
-bindsym $mod+F1 exec intellij-idea-14-ultimate
-bindsym $mod+F2 exec --no-startup-id google-chrome-stable
-bindsym $mod+F3 exec subl3
-bindsym $mod+F4 exec firefox
-bindsym $mod+F5 exec  apulse32 skype
-bindsym $mod+F7 exec konsole
-bindsym $mod+F8 exec --no-startup-id dolphin
-bindsym $mod+F9 exec --no-startup-id krusader
-bindsym $mod+F11 exec --no-startup-id audacious 
-bindsym $mod+F12 exec --no-startup-id ksysguard
+# i3bar {{{
+ bar {
+ 	position top
+        status_command i3blocks -c ~/.i3blocks/config
+ 	tray_output $outPrimary
+ 	workspace_buttons yes
+	
+ 	strip_workspace_numbers yes # default no
+ 	#separator_symbol ")" 
+	#tray_padding 3
+  	colors {
+  		statusline	#999999
+  		background	#252525
+  		
+ 	    	#class             border 		backgrd 	text
+  		focused_workspace  #292929 		#292929 	#cccccc
+  		active_workspace   #252525 		#252525 	#696f89
+  		inactive_workspace #252525 		#252525     	#6b6b6b
+  		urgent_workspace   #252525 		#252525 	#c7a551
+  	   }
+ 
+ }
 
 
+workspace_layout default
 
+default_orientation horizontal
 
+# assign [class="Firefox"] 1:www
+assign [class="Thunderbird"]   9:$tag9
+assign [class="Skype|Pidgin"]  10:$tag10
+
+#assign [class="TestSwing2"] 8:$tag8
+assign [class="sample.Main"] 8:$tag8
+
+# Don't focus window upon opening
+no_focus [window_role="pop-up"]
+
+# Focus follows mouse
+focus_follows_mouse yes #default no
+show_marks yes
+# Mouse warping
+mouse_warping output # default none
+popup_during_fullscreen smart
+
+# app shortcuts {{{
+bindsym $mod+F1 exec 					intellij-idea-ultimate-edition 
+bindsym $mod+F2 exec 					whatsapp-web-desktop
+bindsym $mod+F3 exec 					firefox
+bindsym $mod+F4 exec 					zathura
+bindsym $mod+F5 exec 					stardict
+bindsym $mod+F8 exec 		--no-startup-id 	dolphin
+bindsym $mod+F9 exec  					shutter
+bindsym $mod+F10 exec 		--no-startup-id 	rofi -show ssh
+bindsym $mod+F11 exec 		--no-startup-id 	~/bin/save-request
+bindsym $mod+period exec 	--no-startup-id 	rofi -show run 
+bindsym $mod+backslash exec 	--no-startup-id 	rofi -show window 
+# }}}
 
 ipc-socket ~/.i3/i3-ipc.sock
-
-
-force_xinerama yes
-
 
 #automatic back-and-forth when switching to the current workspace
 workspace_auto_back_and_forth yes
 
+force_display_urgency_hint 200 ms
 
-force_display_urgency_hint 500 ms
-
-
-#bindsym $mod+x debuglog toggle
-
-
-
-
-
-bindsym $mod+t exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
-
-exec xcompmgr -c -f -n
-
-
-
-
+# (s)leep (h)ybernate (p)owersave (r)estart shut(d)own {{{
 mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
     bindsym s exec sudo pm-suspend; mode "default"
     bindsym h exec sudo pm-hibernate; mode "default"
@@ -256,46 +268,83 @@ mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+n mode "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own"
+bindsym $mod+Shift+Escape mode "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" 
+# }}}
+
+bindsym $mod+Shift+Tab workspace back_and_forth
+
+# scratchpad {{{
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 
-bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 0 -- '-5%'
-bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- '+5%'
-
-
-
-
-bindsym $mod+b border toggle
-
-bindsym $mod+Tab workspace back_and_forth
-
-bindsym $mod+m move scratchpad
-bindsym $mod+o scratchpad show
-
-
-
-# also control volume by up/down arrows
-bindsym $mod+Down exec amixer -c 0 set Master 4-
-bindsym $mod+Up exec amixer -c 0 set Master 4+ unmute
+# volume {{{
+bindsym $mod+plus exec amixer -c 0 set Master 4+ unmute
+bindsym $mod+Shift+plus exec amixer -c 0 set Master 4-
+# }}}
 
 # locker
-bindsym Control+Mod1+l exec slock
+bindsym Control+Mod1+l exec i3lock-wrapper
 
+bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
 
+# mpd hotkeys {{{
 
-# mpd hotkeys
 bindsym $mod+p exec --no-startup-id mpc toggle
-bindsym $mod+z exec --no-startup-id mpc prev
-bindsym $mod+x exec --no-startup-id mpc next
+
+bindsym $mod+bracketleft  exec --no-startup-id mpc prev 
+bindsym $mod+bracketright exec --no-startup-id mpc next
+
+bindsym $mod+Shift+bracketleft 	exec --no-startup-id mpc seek '-6'
+bindsym $mod+Shift+bracketright exec --no-startup-id mpc seek '+5'
+
 bindsym $mod+c exec --no-startup-id mpc clear
-bindsym $mod+Left exec --no-startup-id mpc seek '-5'
-bindsym $mod+Right exec --no-startup-id mpc seek '+5'
-bindsym $mod+i exec --no-startup-id ~/.bin/mpc-dmenu-select
+bindsym $mod+i exec --no-startup-id ~/bin/mpc-open-directory
 
+# }}}
 
+# window settings {{{
 
+for_window [class="Firefox" instance="SessionManager"] 	floating enable
+for_window [class="Firefox" instance="Places"] 		floating enable
+for_window [class="Firefox" instance="Library"] 	floating enable
 
+for_window [instance="scratchpad"] move to scratchpad, resize set 1366 500, move absolute position 0 0
 
-#exec i3-config-wizard
+# }}}
+
+bindsym $mod+b border toggle
+# colors  {{{
+# class                 	border  backgr.    text     indicator
+#client.focused			#0b6cc4 #2b6cc4	 #111111    #2e9ef4
+
+# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
+
+client.focused			#0000ff 	#008EA1	 	#111111    	#00ff7f
+client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
+client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
+client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
+client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
+client.background 	    	#E7D3E7
+
+#border style for new windows
+new_window pixel 3
+new_float  pixel 3 
+
+hide_edge_borders none
+
+# }}}
 
 exec --no-startup-id ~/.i3/autostart
+
+bindsym $mod+m  exec i3-input -F 'mark %s' 	     -P 'Mark name: '
+bindsym $mod+n 	exec i3-input -F '[con_mark=%s] focus'  -P 'Go to mark: '
+
+# i3-gaps
+gaps inner 2
+gaps outer 2
+
+smart_gaps on
+smart_borders on
+
+# vim:fdm=marker

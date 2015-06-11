@@ -10,7 +10,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -24,16 +23,13 @@ alias toff='systemctl poweroff'
 alias ll="ls -la"
 alias la='ls -A'
 
-
 alias ff='find -type f -name '
 alias fd='find -type d -name '
 alias t='tree'
 alias r='ranger'
 
-
 alias pu="pushd"
 alias po="popd"
-
 
 # Function which adds an alias to the current shell and to
 # the ~/.bash_aliases file.
@@ -44,7 +40,6 @@ add-alias ()
    eval alias $name=\'$value\'
    alias $name
 }
-
 
 # Subfunction needed by `repeat'.
 _seq ()
@@ -61,14 +56,12 @@ _seq ()
     echo "$lower"
 }
 
-
 alias imc='sudo vim /usr/share/applications/mimeinfo.cache'
 alias ep='vim ~/.pacman_aliases'
 alias ea='vim ~/.bash_aliases'
 
 alias svn='grc -c conf.cvs svn'
 alias mvn='grc -c conf.mvn mvn'
-
 
 alias kj='pkill java'
 

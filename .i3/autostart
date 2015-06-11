@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 # Wait for program coming up
 wait_for_program () {
   n=0
@@ -24,45 +23,37 @@ wait_for_program () {
 ## Merge Xresources
 xrdb -merge ~/.Xresources &
 
-
 xset -dpms s 0 0 s noblank s noexpose s off &
 
+~/bin/scratchpad & 
 
+feh --bg-scale "${HOME}/Pictures/wallpapers/current"  &
 
-feh --bg-scale "${HOME}/.wallpapers/wallpaper.jpg"  &
-
+xautolock -time 5  -locker "/usr/bin/slock" &
 
 ## Terminal daemon
 #urxvt256cd -q -f -o &
-TERMINAL=xtermR
+TERMINAL=xterm
 
 ## Set startup volume (use pactl info to determine sink name)
 pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo '60%' &
 
-
-
 ## Disable beeps
 xset -b &
-
-
 
 ## Set LCD brightness
 xbacklight -set 100 &
 
-
-
 ## Applets
-LC_ALL=C klipper &
-LC_ALL=C stardict &
-LC_ALL=C conkey &
+#LC_ALL=C conkey &
 LC_ALL=C nm-applet  &
-LC_ALL=C thunderbird  &
-LC_ALL=C dropbox start  &
+#LC_ALL=C firefox  &
+#LC_ALL=C thunderbird  &
+#LC_ALL=C dropbox start  &
 
-## OSD
 dunst &
+mpd &
 lexicon &
-sleep 1s
 
 ## Refresh
 xrefresh &

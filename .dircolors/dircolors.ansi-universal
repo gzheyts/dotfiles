@@ -31,7 +31,6 @@
 #   And blue is kept for custom use of this scheme's user.
 # - See table below to see the assignments.
 
-
 # Insatllation instructions:
 # This file goes in the /etc directory, and must be world readable.
 # You can copy this file to .dir_colors in your $HOME directory to override
@@ -132,7 +131,6 @@ EIGHTBIT 1
 #   01;37 bright white    base3      bg in SolLight                                                                        
 #   05;37;41                         unclear in Putty dark
 
-
 ### By file type
 
 # global default
@@ -150,7 +148,6 @@ SOCK 35;44
 DOOR 35;44 # Solaris 2.5 and later
 BLK  33;44
 CHR  37;44
-
 
 #############################################################################
 ### By file attributes

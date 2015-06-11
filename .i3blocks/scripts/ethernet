@@ -1,0 +1,21 @@
+#!/bin/sh
+
+INTERFACE="enp2s0"
+LABEL=""
+
+state="$(cat /sys/class/net/$INTERFACE/operstate)"
+
+if [ "$state" != "up" ]; then
+	echo "$LABEL"
+	echo "$LABEL"
+	echo "#E02760"
+	exit 0
+fi
+
+SPEED="$(cat /sys/class/net/$INTERFACE/speed 2> /dev/null)"
+#IPADDR="$(ip addr show $INTERFACE | perl -n -e'/inet (.+)\// && print $1')"
+IPADDR="$INTERFACE"
+
+echo "$LABEL " $IPADDR "("$SPEED")"
+echo "$LABEL " $IPADDR "("$SPEED")"
+echo "#52B5B9"

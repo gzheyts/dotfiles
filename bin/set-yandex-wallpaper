@@ -1,0 +1,9 @@
+#!/bin/bash
+
+URL="https://yandex.ru/images/today?size=1920x1080"
+DEST=$HOME/Pictures/wallpapers/yandex-today.jpg
+
+if curl "$URL" > "$DEST" ; then
+    feh --bg-scale "$DEST"
+fi
+

@@ -1,0 +1,27 @@
+rofi.font: DejaVu Sans 9
+rofi.opacity: 100
+rofi.fake-transparency: false
+rofi.location:          0
+rofi.color-enabled:     true
+rofi.color-window:                   argb:ee333333, #1aa,#1aa
+rofi.color-normal:                   argb:00000000, #1aa, argb:11FFFFFF, #1aa,#333
+rofi.color-urgent:                   argb:00000000, #f99, argb:11FFFFFF, #f99,#333
+rofi.color-active:                   argb:00000000, #aa1, argb:11FFFFFF, #aa1,#333
+rofi.key-combi:         Alt-F3
+rofi.separator-style:                dash
+rofi.fullscreen:        false
+rofi.padding:           2
+!rofi.hide-scrollbar:    true
+rofi.line-margin:       5
+rofi.yoffset:           -20
+rofi.xoffset:           0
+rofi.width:             1000
+
+rofi.fg: #E5DBCF
+rofi.bg: #0F3B5F
+rofi.hlfg: #0F3B5F
+rofi.hlbg: #CC9752
+rofi.bc: #CC9752
+rofi.bw: 2
+
+! vim:ft=xdefaults:fdm=marker

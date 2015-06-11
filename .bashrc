@@ -19,22 +19,17 @@ shopt -s histappend
 
 set -o vi
 
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-
 export TERM=xterm-256color
-
-
 
 
 [ -n "$XTERM_VERSION" ] && transset-df -a >/dev/null
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -56,9 +51,7 @@ function include {
 include $HOME .bash_aliases # custom bash aliases
 include $HOME .pacman_aliases # custom pacman  aliases
 
-
 eval `dircolors ~/.dircolors/dircolors.ansi-light`
-
 
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -76,26 +69,18 @@ export MANPATH="${MANPATH}:${HOME}/.man"
 export MC_SKIN=xoria256.ini
 
 
-
-
 function cls {
 	printf "\ec";
 }
 
 
-
-
 unset include # remove unnecessary
-
-
 
 
 function be {
  js-beautify $1 > $1-beautified
  mv $1-beautified $1
 }
-
-
 
 
 # Run twolfson/sexy-bash-prompt

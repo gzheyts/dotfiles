@@ -85,6 +85,8 @@ editor_ask_filename_before_edit=0
 editor_filesize_threshold=64M
 editor_stop_format_chars=-+*\\,.;:&>
 
+editor_state_full_filename=0
+
 [Layout]
 message_visible=1
 keybar_visible=1

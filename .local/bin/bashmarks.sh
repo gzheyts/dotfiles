@@ -21,8 +21,7 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 # POSSIBILITY OF SUCH DAMAGE.
 
-
-# USAGE: 
+# USAGE:
 # s bookmarkname - saves the curr dir as bookmarkname
 # g bookmarkname - jumps to the that bookmark
 # g b[TAB] - tab completion is available

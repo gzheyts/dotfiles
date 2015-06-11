@@ -1,0 +1,8 @@
+set font "dejavu sans mono 8"
+set smooth-scroll 		"true"
+set adjust-open 		"best-fit"
+set guioptions 			"s"
+set incremental-search 		"true"
+set page-padding 		4
+set selection-clibboard 	"clipboard"
+set render-loading 		"false"

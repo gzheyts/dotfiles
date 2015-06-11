@@ -1,0 +1,27 @@
+\set QUIET 1
+
+\timing
+-- formatting
+-- \pset format ...
+-- \H <-- enable html format 
+-- \x <-- expanded mode
+-- \pset pager off 
+\pset border 2 
+
+\pset pager off 
+
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+-- PROMPT2 is printed when the prompt expects more input, like when you type
+-- SELECT * FROM<enter>. %R shows what type of input it expects.
+\set PROMPT2 '[more] %R > '
+
+-- Show how long each query takes to execute
+\timing
+
+-- Use best available output format
+\x auto
+\set VERBOSITY verbose
+\set HISTFILE ~/.psql_history- :DBNAME
+\set HISTCONTROL ignoredups
+\set COMP_KEYWORD_CASE lower
+\unset quiet

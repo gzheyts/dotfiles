@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd /storage/music
+
+dir="`find * -follow -type d -maxdepth 2 | rofi -dmenu  -i -l 15 -p 'music dir:'`"
+
+if ! [ -z "$dir" ] ; then
+    mpc clear
+    mpc add "$dir"
+fi

@@ -1,0 +1,3 @@
+#!/bin/sh
+rsync -rtu --modify-window=1 --delete  -Ph --info=progress2 /fast-storage  /storage/backups 2>/dev/null
+notify-send '... synced'

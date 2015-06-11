@@ -4,6 +4,31 @@ set ignorecase smartcase
 set showmode
 set history=1000
 
+" emulate vim-surround plugin
+set surround
+
+"Disabling old keys
+inoremap <esc> <nop>
+
+let mapleader= ","
+
+"Breakpoints
+noremap <leader>bl :action ToggleLineBreakpoint<cr>
+noremap <leader>bm :action ToggleMethodBreakpoint<cr>
+noremap <leader>bf :action ToggleFieldBreakpoint<cr>
+noremap <leader>be :action ToggleBreakpointEnabled<cr>
+noremap <leader>bv :action ViewBreakpoints<cr>
+
+"Bookmarks 
+noremap <leader>Bt :action ToggleBookmark<cr>
+noremap <leader>Bm :action ToggleBookmarkWithMnemonic<cr>
+noremap <leader>Bv :action ShowBookmarks<cr>
+noremap <leader>Bn :action GotoNextBookmark<cr>
+noremap <leader>Bp :action GotoPreviousBookmark<cr>
+
+inoremap jk <esc>
+inoremap ол <esc>
+
 " easy buffer scrolling
 noremap K 5k
 noremap J 5j
@@ -37,18 +62,45 @@ nnoremap <space>\ :action VimFilePrevious<cr>
 nnoremap <space>E :action Switcher<cr>
 nnoremap <space>t :action FileStructurePopup<cr>
 
+nnoremap \p :action ParameterInfo<cr>
+nnoremap ]p :action NextParameter<cr>
+nnoremap [p :action PrevParameter<cr>
 
-nnoremap th :action TypeHierarchy<cr>
+nnoremap \f :action FileStructurePopup<cr>
+nnoremap \a :action AddToFavoritesPopup<cr>
+
+nnoremap \spm :action ShowPopupMenu<cr>
+
+" Call Hierarchy Popup menu
+" Java Method Hierarchy menu
+" Method Hierarchy Popup Menu
+" Type Hierarchy Popup Menu
+
+" <C-S-H>
+nnoremap \m :action MethodHierarchy<cr>
+" <C-H>
+nnoremap \t :action TypeHierarchy<cr>
+"<A-C-H>
+nnoremap \c :action CallHierarchy<cr>
+
+"  <A-C-S-T>
+nnoremap \rp  :action Refactorings.QuickListPopupAction<cr> 
+nnoremap \vcs  :action Vcs.QuickListPopupAction<cr> 
 
 nnoremap ga :action GotoAction<cr>
 nnoremap gs :action GotoSymbol<cr>
+nnoremap gf :action GotoFile<cr>
 nnoremap gr :action RecentFiles<cr>
 nnoremap gc :action GotoClass<cr>
+nnoremap gi :action GotoImplementation<cr>
+nnoremap gsm :action GotoSuperMethod<cr>
+nnoremap gtd :action GotoTypeDeclaration<cr>
 
 " code navigation
 nnoremap <space>] :action GotoImplementation<cr>
 nnoremap <space>[ :action GotoSuperMethod<cr>
 nnoremap <space>u :action FindUsages<cr>
+nnoremap <space>U :action ShowUsages<cr>
 nnoremap <space>gt :action GotoTest<cr>
 nnoremap \r :action RunClass<cr>
 nnoremap \d :action Debug<cr>
@@ -75,3 +127,10 @@ nnoremap g<c-i> <c-i>
 nnoremap / :action Find<cr>
 " but preserve ideavim search
 nnoremap g/ /
+
+nnoremap \<c-r> :action Git.Revert<cr>
+nnoremap ZZ :action Exit<cr>
+
+noremap <c-q>  :action QuickJavaDoc<cr>
+noremap ss     :source ~/.ideavimrc<cr>
+

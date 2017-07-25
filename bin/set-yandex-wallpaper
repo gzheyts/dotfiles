@@ -1,9 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
 URL="https://yandex.ru/images/today?size=1920x1080"
-DEST=$HOME/Pictures/wallpapers/yandex-today.jpg
+DESTDIR=$HOME/Pictures/wallpapers
+DESTFILE=yandex-today.jpg
 
-if curl "$URL" > "$DEST" ; then
-    feh --bg-scale "$DEST"
+if ! -d $DESTDIR ; then
+	mkdir -p $DESTDIR
+fi
+
+if curl "$URL" > "$DESTDIR/$DESTFILE" ; then
+    feh --bg-scale "$DESTDIR/$DESTFILE"
 fi
 

@@ -9,17 +9,17 @@ hi Number color: Orchid;
 hi Object color: Khaki;
 hi String color: Orchid;
 
-hi Normal color: #d0d0d0; background: #1c1c1c; font-size: 10px; opacity: 0.9;
-hi ErrorMsg color: #ffffff; background: #440000; font-size:10px;
-hi InfoMsg color: #d0d0d0; background: #1c1c1c; font-size: 10px;
-hi ModeMsg color: #d0d0d0; background: #1c1c1c; font-size: 10px;
-hi MoreMsg color: #d0ffd0; background: #1c1c1c; font-size: 10px;
-hi WarningMsg color: #ff0000; background: #1c1c1c; font-size: 10px;
+hi Normal color: #d0d0d0; background: #1c1c1c; font-size: 12px; opacity: 0.9;
+hi ErrorMsg color: #ffffff; background: #440000; font-size:12px;
+hi InfoMsg color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi ModeMsg color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi MoreMsg color: #d0ffd0; background: #1c1c1c; font-size: 12px;
+hi WarningMsg color: #ff0000; background: #1c1c1c; font-size: 12px;
 
 hi NonText color: #a0a0d0; min-height: 12px; padding-left: 2px;
 hi Filter color: #7090d0; font-weight: bold;
 
-hi CmdLine color: #d0d0d0; background: #0c0c0c; font-size: 7px; -moz-transition: all 0.25s;
+hi CmdLine color: #d0d0d0; background: #0c0c0c; font-size: 12px; -moz-transition: all 0.25s;
 
 hi CompGroup background: rgba(28,28,28,0.25);
 hi CompItem[selected] color: #dddddd; background: rgba(88,88,96,0.5); box-shadow: 0px 0px 1px white;
@@ -35,13 +35,13 @@ hi Tag color: #a0a0d0; background: #1c1c1c; font-size: 12px;
 hi LineNr color: #ffd0d0; background: #1c1c1c; font-size: 12px;
 hi Question color: #a0a0d0; background: #1c1c1c; font-size: 12px;
 
-hi StatusLine color: #7090d0; background: #0c0c0c; font-weight: normal; font-size: 7px;
+hi StatusLine color: #7090d0; background: #0c0c0c; font-weight: normal; font-size: 12px;
 hi TabNumber font-weight: bold; color: white; text-align: center;
 
 hi Title color: #d0d0ff;
 hi URL color: LightGreen;
 
-hi Hint font-family: monospace; font-size: 9px; font-weight: normal; color: #dddddd; background-color: #1c1c1c; border-color: #1c1c1c; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px;
+hi Hint font-family: monospace; font-size: 12px; font-weight: normal; color: #dddddd; background-color: #1c1c1c; border-color: #1c1c1c; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px;
 hi HintElem background-color: #d0d0f0; color: #1c1c1c;
 hi HintActive background-color: #5566bb; color: #dddded;
 

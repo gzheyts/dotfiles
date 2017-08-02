@@ -1,5 +1,5 @@
 # dotfiles
-my personal configuration files and configs
+my personal configuration files
 
 # screenshots
 clean desktop

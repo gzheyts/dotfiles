@@ -12,7 +12,6 @@ inoremap <esc> <nop>
 
 let mapleader= ","
 
-
 "Tabs 
 nnoremap <leader>t :action TabsPlacementTop<cr>
 nnoremap <leader>r :action TabsPlacementRight<cr>
@@ -30,7 +29,6 @@ noremap <leader>Bm :action ToggleBookmarkWithMnemonic<cr>
 noremap <leader>Bv :action ShowBookmarks<cr>
 noremap <leader>Bn :action GotoNextBookmark<cr>
 noremap <leader>Bp :action GotoPreviousBookmark<cr>
-
 
 inoremap jk <esc>
 inoremap ол <esc>
@@ -76,24 +74,9 @@ nnoremap \a :action AddToFavoritesPopup<cr>
 
 nnoremap \spm :action ShowPopupMenu<cr>
 
-
-" Call Hierarchy Popup menu
-" Java Method Hierarchy menu
-" Method Hierarchy Popup Menu
-" Type Hierarchy Popup Menu
-
-" <C-S-H>
 nnoremap \m :action MethodHierarchy<cr>
-" <C-H>
 nnoremap \t :action TypeHierarchy<cr>
-"<A-C-H>
 nnoremap \c :action CallHierarchy<cr>
-
-
-"  <A-C-S-T>
-nnoremap \rp  :action Refactorings.QuickListPopupAction<cr> 
-nnoremap \vcs  :action Vcs.QuickListPopupAction<cr> 
-
 
 nnoremap ga :action GotoAction<cr>
 nnoremap gs :action GotoSymbol<cr>
@@ -108,13 +91,12 @@ nnoremap gtd :action GotoTypeDeclaration<cr>
 nnoremap <space>u :action FindUsages<cr>
 nnoremap <space>U :action ShowUsages<cr>
 nnoremap <space>gt :action GotoTest<cr>
-nnoremap \r :action RunClass<cr>
+nnoremap \r :action Run<cr>
+nnoremap \R :action RunClass<cr>
 nnoremap \d :action Debug<cr>
+nnoremap \D :action DebugClass<cr>
 nnoremap [] :action MethodUp<cr>
 nnoremap ][ :action MethodDown<cr>
-
-" code refactoring
-nnoremap <space>rr :action RenameElement<cr>
 
 " unimpaired mappings
 nnoremap [<space> O<esc>j
@@ -131,8 +113,9 @@ nnoremap g<c-i> <c-i>
 
 " built in search looks better
 nnoremap / :action Find<cr>
-" but preserve ideavim search
+" but preserve ideavim search and replace
 nnoremap g/ /
+nnoremap g<c-r> :action Replace<cr>
 
 nnoremap \<c-r> :action Git.Revert<cr>
 nnoremap ZZ :action Exit<cr>
@@ -140,3 +123,4 @@ nnoremap ZZ :action Exit<cr>
 noremap <c-q>  :action QuickJavaDoc<cr>
 noremap ss     :source ~/.ideavimrc<cr>
 
+nnoremap <space>oe :action FileEditor.OpenDataEditor<cr>

@@ -241,5 +241,20 @@ map Ю >
 map пп gg
 map П G
 " }}}
-
+" Command line movements {{{
+" word backward/forward
+cnoremap <a-b> <c-left>
+cnoremap <a-f> <c-right>
+" symbol backward/forward
+cnoremap <c-b> <left>
+cnoremap <c-f> <right>
+" start/end of line
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+" enter alias
+cnoremap <c-m> <cr>
+" up/down movement
+cnoremap <c-k> <s-tab>
+cnoremap <c-j> <tab>
+"}}}
 " vim:ft=vim:fdm=marker

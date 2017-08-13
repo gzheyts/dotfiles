@@ -8,3 +8,6 @@
 	st = status
 	unstage = reset HEAD --
 	last = log -1 HEAD
+[user]
+	name = Georgy Zheyts
+	email = gzheyts@gmail.com

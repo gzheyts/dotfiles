@@ -11,3 +11,11 @@
 [user]
 	name = Georgy Zheyts
 	email = gzheyts@gmail.com
+[color]
+	ui = auto
+[mergetool]
+	keepBackup = false
+	prompt = false
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3

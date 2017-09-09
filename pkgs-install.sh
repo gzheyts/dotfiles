@@ -13,152 +13,37 @@ makepkg -si
 cd ..
 
 
-yaourt -S abs \
-	ack \
-	acpi \
-	acpid \
-	adwaita-qt4 \
-	adwaita-qt5 \
-	alsa-utils \
+yaourt -S ack \
 	alsi \
 	android-file-transfer \
-	apache-ant \
-	arch-firefox-search \
-	arch-wiki-docs \
 	asus-kbd-backlight \
-	atomicparsley \
-	atool \
-	autoconf \
-	automake \
-	babl \
-	baloo \
-	baloo-widgets \
-	baobab \
-	bash \
-	bash-completion \
-	bc \
-	binutils \
-	bison \
-	bluez \
-	bluez-libs \
-	bluez-qt \
-	bower \
-	brackets \
-	breeze \
 	broadcom-wl \
-	bzip2 \
-	cava \
-	cmatrix \
 	colordiff \
 	compton \
 	coreutils \
-	cryptsetup \
-	device-mapper \
-	dhclient \
-	dhcpcd \
-	dialog \
-	diffutils \
-	djview \
-	docker \
-	docker-compose \
-	docker-machine \
-	dolphin \
 	dropbox \
 	dunst \
-	e2fsprogs \
-	eclipse-java \
-	efibootmgr \
 	elinks \
-	fakeroot \
-	fceux \
 	feh \
-	file \
-	filesystem \
-	filezilla \
-	findutils \
 	firefox \
-	flashplugin \
-	flex \
 	fzf \
-	gawk \
-	genymotion \
-	gettext \
-	ghostscript \
 	git \
-	gitkraken \
-	gitlist \
-	glibc \
-	google-chrome \
 	google-talkplugin \
-	gradle \
 	grc \
-	grep \
-	grub \
-	gst-plugins-bad \
-	gst-plugins-ugly \
-	gtk-chtheme \
-	gtkpod \
 	gvim \
-	gwenview \
-	gzip \
-	haroopad \
-	highlight \
 	htop \
 	httpie \
 	i3-gaps-git \
 	i3blocks \
-	i3lock \
 	i3lock-wrapper \
-	i3status \
-	inetutils \
 	inotify-tools \
-	intel-ucode \
 	intellij-idea-ultimate-edition \
-	iproute2 \
-	iputils \
-	iw \
-	javafx-docs \
-	javafx-scenebuilder \
-	jdk \
-	jdk-demos \
-	jdk-docs \
-	jdk7 \
-	jfsutils \
 	jq \
 	js-beautify \
-	kde-gtk-config \
 	kdiff3-qt \
-	konsole \
-	krusader \
-	less \
-	lib32-alsa-plugins \
-	lib32-jack \
-	lib32-libsamplerate \
-	lib32-libtinfo \
-	lib32-speex \
-	libcaca \
-	libreoffice-fresh \
-	libsynaptics \
-	libtaginfo \
-	libtinfo \
-	libtool \
-	libxss \
-	libxtst \
-	licenses \
-	linux \
 	lm_sensors \
-	logrotate \
-	lsof \
-	lvm2 \
-	lxappearance \
 	lynx \
-	m4 \
-	make \
-	man-db \
-	man-pages \
-	mdadm \
 	mediainfo \
-	mesa \
 	moreutils \
 	mp3cue \
 	mp3cut \
@@ -166,96 +51,35 @@ yaourt -S abs \
 	mpc \
 	mpd \
 	mplayer \
-	mps-youtube \
 	mtpfs \
-	mupdf \
 	mvnvm \
 	nano \
 	ncdu \
 	ncftp \
 	ncmpcpp \
-	ncurses5-compat-libs \
 	neovim \
-	netbeans \
 	netctl \
-	networkmanager \
-	networkmanager-openvpn \
-	networkmanager-qt \
-	networkmanager-vpnc \
-	npm \
 	ntp \
-	nvidia-beta \
-	nvidia-bl \
-	openconnect \
-	openssh \
-	openvpn \
-	otf-droid-sans-mono-powerline-git \
-	oxygen \
-	package-query \
-	pacman \
-	pamixer \
-	patch \
 	pavucontrol \
-	pciutils \
-	pcmciautils \
 	pdfgrep \
-	pdfjs \
-	perl \
-	perl-anyevent-i3 \
-	perl-image-exiftool \
-	perl-json-xs \
-	pgadmin3 \
 	pidgin-libnotify \
-	pkg-config \
 	playerctl \
-	pob-2250 \
-	pob-3119 \
-	pob-fec \
-	poc \
-	poc-2250 \
-	poc-3119 \
-	poc-fec \
-	poc-http \
 	pogg-http \
-	polybar \
 	poppler \
-	postgresql \
-	postgresql-docs \
 	postman-bin \
-	powerline \
-	procps-ng \
 	profile-cleaner \
-	psmisc \
-	pulseaudio \
-	pulseaudio-alsa \
-	python-pip \
-	python-pyperclip \
-	python2-xlsx2csv \
 	qbittorrent \
-	qt-recordmydesktop \
-	qt5-styleplugins \
-	qt5-webengine \
-	qt5ct \
-	qtcurve-qt5 \
 	qterminal \
 	quiterss \
 	ranger \
 	redshift \
 	reflector \
-	reiserfsprogs \
-	rescuetime \
 	rofi \
 	rsync \
 	ruby \
-	rxvt-unicode-256xresources \
-	s-nail \
-	screenfetch \
 	screenkey \
-	sed \
 	shadow \
 	shutter \
-	skypeforlinux \
-	slock \
 	speedcrunch \
 	spring-boot-cli \
 	stardict \
@@ -263,23 +87,13 @@ yaourt -S abs \
 	stardict-en-ru-bars \
 	stardict-full-eng-rus \
 	stardict-full-rus-eng \
-	stow \
-	sublime-text-dev \
-	subversion \
-	sudo \
-	sysfsutils \
-	sysstat \
-	systemd-sysvcompat \
-	tar \
-	telegram-desktop-bin \
-	telegram-qt \
-	texinfo \
-	texlive-core \
+	telegram-desktop \
 	thunderbird \
 	tmux \
 	tomighty \
 	translate-shell \
 	tree \
+	otf-droid-sans-mono-powerline-git \
 	ttf-aller \
 	ttf-dejavu-sans-mono-powerline-git \
 	ttf-droid \
@@ -292,61 +106,36 @@ yaourt -S abs \
 	ttf-vista-fonts \
 	unrar \
 	unzip \
+	rxvt-unicode-256xresources \
 	urxvt-font-size-git \
 	urxvt-fullscreen \
 	urxvt-perls \
 	urxvt-vtwheel \
 	usbutils \
-	util-linux \
 	vi \
 	vimpager \
 	vlc \
-	vulkan-intel \
 	w3m \
 	wget \
-	whatsapp-web-desktop \
-	which \
-	wpa_actiond \
 	xclip \
-	xdg-user-dirs \
 	xdotool \
-	xf86-input-synaptics \
-	xf86-video-fbdev \
-	xf86-video-intel \
-	xf86-video-vesa \
 	xfsprogs \
-	xorg-appres \
-	xorg-docs \
-	xorg-server \
-	xorg-server-utils \
-	xorg-twm \
-	xorg-utils \
-	xorg-xclipboard \
-	xorg-xclock \
-	xorg-xdpyinfo \
-	xorg-xdriinfo \
-	xorg-xev \
-	xorg-xfd \
-	xorg-xfontsel \
-	xorg-xinit \
-	xorg-xlsatoms \
-	xorg-xlsclients \
-	xorg-xlsfonts \
-	xorg-xmessage \
-	xorg-xprop \
-	xorg-xvinfo \
-	xorg-xwininfo \
-	xterm \
 	yad \
 	yandex-browser-beta \
 	yandex-disk \
-	yaourt \
-	youtube-dl \
 	zathura \
-	zathura-djvu \
-	zathura-pdf-mupdf \
 	zip \
 	zsh \
+	qt5-styleplugins \
+	qt5-webengine \
+	qt5ct \
+	lxappearance \
+	gtk-chtheme \
+	adwaita-qt4 \
+	adwaita-qt5 \
+	breeze \
+	oxygen \
+	qtcurve-qt5 \
  --noconfirm --tmp /storage/tmp/ 
 
  

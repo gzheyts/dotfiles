@@ -251,8 +251,8 @@ mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
     bindsym s exec sudo pm-suspend; mode "default"
     bindsym h exec sudo pm-hibernate; mode "default"
     bindsym p exec sudo pm-powersave; mode "default"
-    bindsym d exec sudo 'shutdown -h now'; mode "default"
-    bindsym r exec sudo 'shutdown -r now'; mode "default"
+    bindsym d exec systemctl poweroff; mode "default"
+    bindsym r exec systemctl reboot; mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -261,7 +261,7 @@ mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
 bindsym $mod+Shift+Escape mode "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" 
 # }}}
 
-bindsym $mod+Shift+Tab workspace back_and_forth
+bindsym $mod+Tab workspace back_and_forth
 
 # scratchpad {{{
 bindsym $mod+Shift+o move scratchpad

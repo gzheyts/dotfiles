@@ -13,7 +13,10 @@ makepkg -si
 cd ..
 
 
-yaourt -S ack \
+yaourt -S  \
+	pacaur \
+	cower \
+	ack \
 	alsi \
 	android-file-transfer \
 	asus-kbd-backlight \
@@ -33,6 +36,8 @@ yaourt -S ack \
 	gvim \
 	htop \
 	httpie \
+	xautolock \
+	slock \
 	i3-gaps-git \
 	i3blocks \
 	i3lock-wrapper \
@@ -52,6 +57,8 @@ yaourt -S ack \
 	mpd \
 	mplayer \
 	mtpfs \
+	gvfs \
+	gvfs-mtp \
 	mvnvm \
 	nano \
 	ncdu \
@@ -76,7 +83,6 @@ yaourt -S ack \
 	reflector \
 	rofi \
 	rsync \
-	ruby \
 	screenkey \
 	shadow \
 	shutter \
@@ -93,17 +99,12 @@ yaourt -S ack \
 	tomighty \
 	translate-shell \
 	tree \
-	otf-droid-sans-mono-powerline-git \
 	ttf-aller \
-	ttf-dejavu-sans-mono-powerline-git \
-	ttf-droid \
-	ttf-droid-sans-mono-dotted-powerline-git \
 	ttf-font-awesome \
-	ttf-liberation \
 	ttf-ms-fonts \
-	ttf-oxygen \
-	ttf-ubuntu-font-family \
 	ttf-vista-fonts \
+	ttf-droid \
+	otf-droid-sans-mono-powerline-git \
 	unrar \
 	unzip \
 	rxvt-unicode-256xresources \
@@ -129,12 +130,14 @@ yaourt -S ack \
 	qt5-styleplugins \
 	qt5-webengine \
 	qt5ct \
-	lxappearance \
-	gtk-chtheme \
+	vertex-themes \
+	adapta-gtk-theme \
+	paper-gtk-theme-git \
+	paper-icon-theme-git \
+	oxygen-gtk2 \
+	breeze-gtk \
 	adwaita-qt4 \
 	adwaita-qt5 \
-	breeze \
-	oxygen \
 	qtcurve-qt5 \
  --noconfirm --tmp /storage/tmp/ 
 

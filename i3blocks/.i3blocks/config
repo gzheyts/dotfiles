@@ -1,5 +1,5 @@
 command=~/.i3blocks/scripts/$BLOCK_NAME
-separator_block_width=16
+separator_block_width=18
 markup=pango
 separator=false
 
@@ -12,34 +12,18 @@ interval=1
 [battery]
 interval=30
 
-[volume]
-label=
-instance=Master
-interval=1
-command=amixer get Master | grep -E -o '[0-9]{1,3}?%' | head -1
-signal=10
+[mem]
+label=
+interval=10
+
+[disk]
+label=
+instance=/
+interval=10
 
 [cpu_usage]
 label=
 interval=2
-
-[mem]
-label=
-interval=10
-
-[temperature]
-label=
-interval=10
-
-[disk]
-label=
-instance=/
-interval=30
-
-[disk]
-label=&#xf015;
-instance=$HOME
-interval=10
 
 [ethernet]
 interval=5
@@ -47,7 +31,21 @@ interval=5
 [wifi]
 interval=5
 
-[time]
-label=&#xf017;
-command=date '+%D %T'
+[temperature]
+label=
+interval=10
+
+[keylayout]
+interval=1
+
+[volume]
+label=
+instance=Master
+interval=1
+command=amixer get Master | grep -E -o '[0-9]{1,3}?%' | head -1
+signal=10
+
+[script]
+label=
+command=date '+%a, %d %b %H:%M'
 interval=5

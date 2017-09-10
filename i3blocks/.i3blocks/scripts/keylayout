@@ -1,0 +1,5 @@
+#!/bin/bash 
+
+Key=$(xkblayout-state print "%s")
+
+echo -e " $Key"

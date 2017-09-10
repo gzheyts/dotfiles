@@ -121,6 +121,7 @@ yaourt -S  \
 	xclip \
 	xdotool \
 	xfsprogs \
+	xkblayout-state \
 	yad \
 	yandex-browser-beta \
 	yandex-disk \

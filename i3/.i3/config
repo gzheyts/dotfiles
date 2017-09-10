@@ -1,26 +1,10 @@
-# i3 config file (v4)
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
 set $mod Mod4
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
 
-set $font_size 7
+set $font_size 9
 
 font pango:monospace $font_size, FontAwesome  $font_size 
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
-
-# use these keys for focus, movement, and resize directions when reaching for
-# the arrows is not convenient
 set $up    k
 set $down  j
 set $left  h
@@ -29,17 +13,19 @@ set $right l
 set $outPrimary <1>
 set $outSlave   <2>
 
-set $tag1 www
-set $tag2 ide
-set $tag3 vim
-set $tag4 database
-# set $tag5 
-# set $tag6 
-set $tag7 7
-set $tag8 media
-set $tag9 mail
-set $tag10 im
-
+set $tag1 	"1: www"
+set $tag2 	"2: ide"
+set $tag3 	"3: vim"
+set $tag4 	"4: database"
+set $tag5 	"5: "
+set $tag6 	"6: docs"
+set $tag7 	"7: postman"
+set $tag8 	"8: media"
+set $tag9 	"9: mail"
+set $tag0 	"10: im"
+set $tagD	"d"
+set $tagU 	"u"
+set $tagY	"y"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -51,14 +37,6 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+q kill
 
-# launcher {{{
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-#bindsym $mod+d exec dmenu_run
-#bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu_run -i -l 10 -fn 'DejaVu Sans-8' "
-# }}}
 
 # change focus {{{
 bindsym $mod+$left  focus left
@@ -107,53 +85,51 @@ bindsym $mod+e layout toggle split
 bindsym $mod+f floating toggle
 
 # switch to workspace
-bindsym $mod+1 workspace 1:$tag1
-bindsym $mod+2 workspace 2:$tag2
-bindsym $mod+3 workspace 3:$tag3
-bindsym $mod+4 workspace 4:$tag4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7:$tag7
-bindsym $mod+8 workspace 8:$tag8
-bindsym $mod+9 workspace 9:$tag9
-bindsym $mod+0 workspace 10:$tag10
-bindsym $mod+y workspace y
-bindsym $mod+d workspace docs
-bindsym $mod+u workspace u
+bindsym $mod+1 workspace $tag1
+bindsym $mod+2 workspace $tag2
+bindsym $mod+3 workspace $tag3
+bindsym $mod+4 workspace $tag4
+bindsym $mod+5 workspace $tag5
+bindsym $mod+6 workspace $tag6
+bindsym $mod+7 workspace $tag7
+bindsym $mod+8 workspace $tag8
+bindsym $mod+9 workspace $tag9
+bindsym $mod+0 workspace $tag0
+bindsym $mod+y workspace $tagY
+bindsym $mod+d workspace $tagD
+bindsym $mod+u workspace $tagU
 
 # mapping workspace to output
 
-workspace 1:$tag1 	output 		$outPrimary 
-workspace 3:$tag3	output 		$outPrimary
-workspace 5 		output 		$outPrimary 
-workspace 6 		output 		$outPrimary 
-workspace 7:$tag7 	output 		$outPrimary 
-workspace 8$tag8 	output 		$outPrimary 
-workspace 10:$tag10 	output 		$outPrimary 
+workspace $tag1 	output 		$outPrimary
+workspace $tag3 	output 		$outPrimary
+workspace $tag5 	output 		$outPrimary
+workspace $tag6 	output 		$outPrimary
+workspace $tag7 	output 		$outPrimary
+workspace $tag8 	output 		$outPrimary
+workspace $tag0 	output 		$outPrimary
 
-workspace 2:$tag2	output 		$outSlave
-workspace 4:$tag4 	output 		$outSlave
-workspace 9:$tag9 	output 		$outSlave
-
-workspace y 	output 		$outSlave 
-workspace docs 	output 		$outSlave 
-workspace q	output 		$outSlave 
-workspace u 	output 		$outSlave 
+workspace $tag2 	output 		$outSlave
+workspace $tag4 	output 		$outSlave
+workspace $tag9 	output 		$outSlave
+workspace $tagY 	output 		$outSlave
+workspace $tagD 	output 		$outSlave
+workspace $tagU 	output 		$outSlave
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1:$tag1
-bindsym $mod+Shift+2 move container to workspace 2:$tag2
-bindsym $mod+Shift+3 move container to workspace 3:$tag3
-bindsym $mod+Shift+4 move container to workspace 4:$tag4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7:$tag7
-bindsym $mod+Shift+8 move container to workspace 8:$tag8
-bindsym $mod+Shift+9 move container to workspace 9:$tag9
-bindsym $mod+Shift+0 move container to workspace 10:$tag10
-bindsym $mod+Shift+y move container to workspace y
-bindsym $mod+Shift+d move container to workspace docs
-bindsym $mod+Shift+u move container to workspace u
+bindsym $mod+Shift+1 move container to workspace $tag1
+bindsym $mod+Shift+2 move container to workspace $tag2
+bindsym $mod+Shift+3 move container to workspace $tag3
+bindsym $mod+Shift+4 move container to workspace $tag4
+bindsym $mod+Shift+5 move container to workspace $tag5
+bindsym $mod+Shift+6 move container to workspace $tag6
+bindsym $mod+Shift+7 move container to workspace $tag7
+bindsym $mod+Shift+8 move container to workspace $tag8
+bindsym $mod+Shift+9 move container to workspace $tag9
+bindsym $mod+Shift+0 move container to workspace $tag0
+bindsym $mod+Shift+y move container to workspace $tagY
+bindsym $mod+Shift+d move container to workspace $tagD
+bindsym $mod+Shift+u move container to workspace $tagU
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -186,14 +162,10 @@ bindsym $mod+r mode "resize"
         status_command i3blocks -c ~/.i3blocks/config
  	tray_output $outPrimary
  	workspace_buttons yes
-	
- 	strip_workspace_numbers yes # default no
- 	#separator_symbol ")" 
-	#tray_padding 3
+ 	strip_workspace_numbers yes
   	colors {
   		statusline	#999999
   		background	#252525
-  		
  	    	#class             border 		backgrd 	text
   		focused_workspace  #292929 		#292929 	#cccccc
   		active_workspace   #252525 		#252525 	#696f89
@@ -208,12 +180,9 @@ workspace_layout default
 
 default_orientation horizontal
 
-# assign [class="Firefox"] 1:www
 assign [class="Thunderbird"]   9:$tag9
 assign [class="Skype|Pidgin"]  10:$tag10
 
-#assign [class="TestSwing2"] 8:$tag8
-assign [class="sample.Main"] 8:$tag8
 
 # Don't focus window upon opening
 no_focus [window_role="pop-up"]
@@ -331,9 +300,8 @@ bindsym $mod+m  exec i3-input -F 'mark %s' 	     -P 'Mark name: '
 bindsym $mod+n 	exec i3-input -F '[con_mark=%s] focus'  -P 'Go to mark: '
 
 # i3-gaps
-gaps inner 2
+gaps inner 5
 gaps outer 2
-
 smart_gaps on
 smart_borders on
 

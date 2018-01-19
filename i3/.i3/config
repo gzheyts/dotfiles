@@ -1,7 +1,7 @@
 set $mod Mod4
 
 
-set $font_size 9
+set $font_size 10
 
 font pango:monospace $font_size, FontAwesome  $font_size 
 
@@ -106,15 +106,15 @@ workspace $tag3 	output 		$outPrimary
 workspace $tag5 	output 		$outPrimary
 workspace $tag6 	output 		$outPrimary
 workspace $tag7 	output 		$outPrimary
-workspace $tag8 	output 		$outPrimary
 workspace $tag0 	output 		$outPrimary
+workspace $tagU 	output 		$outPrimary
 
 workspace $tag2 	output 		$outSlave
 workspace $tag4 	output 		$outSlave
+workspace $tag8 	output 		$outSlave
 workspace $tag9 	output 		$outSlave
 workspace $tagY 	output 		$outSlave
 workspace $tagD 	output 		$outSlave
-workspace $tagU 	output 		$outSlave
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $tag1
@@ -178,10 +178,10 @@ bindsym $mod+r mode "resize"
 
 workspace_layout default
 
-default_orientation horizontal
+default_orientation vertical
 
-assign [class="Thunderbird"]   9:$tag9
-assign [class="Skype|Pidgin"]  10:$tag10
+assign [class="Thunderbird"]   $tag9
+assign [class="Skype|Pidgin"]  $tag0
 
 
 # Don't focus window upon opening
@@ -196,14 +196,16 @@ popup_during_fullscreen smart
 
 # app shortcuts {{{
 bindsym $mod+F1 exec 					intellij-idea-ultimate-edition 
-bindsym $mod+F2 exec 					whatsapp-web-desktop
+bindsym $mod+F2 exec 					telegram-desktop
 bindsym $mod+F3 exec 					firefox
-bindsym $mod+F4 exec 					zathura
+bindsym $mod+F4 exec 				 	tomighty
 bindsym $mod+F5 exec 					stardict
-bindsym $mod+F8 exec 		--no-startup-id 	dolphin
-bindsym $mod+F9 exec  					shutter
+bindsym $mod+F6 exec 					vlc
+bindsym $mod+F8 exec 		--no-startup-id 	pcmanfm
+bindsym $mod+F9 exec  					zathura
 bindsym $mod+F10 exec 		--no-startup-id 	rofi -show ssh
 bindsym $mod+F11 exec 		--no-startup-id 	~/bin/save-request
+bindsym $mod+F12 exec 				 	yandex-browser-beta
 bindsym $mod+period exec 	--no-startup-id 	rofi -show run 
 bindsym $mod+backslash exec 	--no-startup-id 	rofi -show window 
 # }}}
@@ -243,7 +245,7 @@ bindsym $mod+Shift+plus exec amixer -c 0 set Master 4-
 # }}}
 
 # locker
-bindsym Control+Mod1+l exec i3lock-wrapper
+bindsym Control+Mod1+l exec slock
 
 bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
 
@@ -268,7 +270,7 @@ for_window [class="Firefox" instance="SessionManager"] 	floating enable
 for_window [class="Firefox" instance="Places"] 		floating enable
 for_window [class="Firefox" instance="Library"] 	floating enable
 
-for_window [instance="scratchpad"] move to scratchpad, resize set 1366 500, move absolute position 0 0
+for_window [instance="scratchpad"] move to scratchpad, resize set 1920 800, move absolute position 0 0
 
 # }}}
 

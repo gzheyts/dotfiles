@@ -14,66 +14,55 @@ endif
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'lilydjwg/colorizer'
-Plugin 'PotatoesMaster/i3-vim-syntax'
-Plugin 'VisIncr'
-Plugin 'MattesGroeger/vim-bookmarks'
-Plugin 'guns/xterm-color-table.vim'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'bling/vim-airline'
-Plugin 'taglist.vim'
-Plugin 'elzr/vim-json'
-Plugin 'docunext/closetag.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-eunuch'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'jistr/vim-nerdtree-tabs'
-
-Plugin 'morhetz/gruvbox'
-" Wiki 
-Plugin 'vimwiki/vimwiki'
-Plugin 'suan/vim-instant-markdown'
-
-"Color picker 
-Plugin 'KabbAmine/vCoolor.vim'
-
-Plugin 'diepm/vim-rest-console'
-
-Plugin 'derekwyatt/vim-scala'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-"Plugin 'cosminadrianpopescu/vim-sql-workbench'
-Plugin 'sudo.vim'
-Plugin 'rking/ag.vim'
-Plugin 'tpope/vim-abolish'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'Valloric/YouCompleteMe' 
-"Plugin 'tpope/vim-classpath'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'thinca/vim-quickrun'
-Plugin 'scrooloose/syntastic'
-Plugin 'godlygeek/tabular'
-Plugin 'dbext.vim'
-Plugin 'Shougo/vimshell.vim'
-Plugin 'wincent/Command-T'
-Plugin 'kana/vim-textobj-user'
-Plugin 'Shougo/unite-outline'
-Plugin 'greplace.vim'
-Plugin 'ervandew/supertab'
-Plugin 'mattn/emmet-vim'
-Plugin 'haya14busa/incsearch.vim'
-Plugin 'haya14busa/incsearch-fuzzy.vim'
-Plugin 'LargeFile'
+Plugin '1995parham/vim-zimpl'
 Plugin 'AnsiEsc.vim'
-
+"Color picker
+Plugin 'KabbAmine/vCoolor.vim'
+Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'PotatoesMaster/i3-vim-syntax'
+Plugin 'Shougo/unite-outline'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/vimshell.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'VisIncr'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'bling/vim-airline'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'dbext.vim'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'diepm/vim-rest-console'
+Plugin 'docunext/closetag.vim'
+Plugin 'elzr/vim-json'
+Plugin 'godlygeek/tabular'
+Plugin 'guns/xterm-color-table.vim'
+Plugin 'haya14busa/incsearch-fuzzy.vim'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'honza/vim-snippets'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kabbamine/zeavim.vim'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kien/ctrlp.vim'
+Plugin 'lervag/vimtex'
+Plugin 'lilydjwg/colorizer'
+Plugin 'majutsushi/tagbar'
+Plugin 'morhetz/gruvbox'
+Plugin 'rking/ag.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'sudo.vim'
+Plugin 'thinca/vim-quickrun'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+" Wiki
+Plugin 'vimwiki/vimwiki'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -88,6 +77,9 @@ let g:instant_markdown_autostart = 0
 " }}}
 
 set grepprg=ack\ -k
+
+set tags+=/tmp/jdk8-sources/java.util.tags,/tmp/jdk8-sources/java.lang.tags,/tmp/jdk8-sources/java.math.tags,/tmp/jdk8-sources/java.io.tags
+
 let mapleader = ","
 let maplocalleader = " "
 
@@ -95,51 +87,37 @@ set encoding=utf-8
 set t_Co=256
 set term=rxvt-256color
 set cursorline
+set cursorcolumn
 set autoindent
 set mouse=a
 syntax enable
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:full
 set number
+set relativenumber
 set numberwidth=4
 set ruler
-set showmode
 set autowrite
-set writebackup
-set complete=.,w,b,u,t,i
-set confirm
-set hlsearch
-set history=1000
 set ignorecase
 set smartcase
 set incsearch
 set laststatus=2
-set showcmd
 set showfulltag
-set statusline=
-set foldenable          
-set foldlevel=0         
-set foldlevelstart=-1   
-set foldminlines=1      
-set foldmethod=manual
+set foldmethod=indent
+set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set showbreak=↪
 
-set listchars=tab:▸\ ,eol:¬,space:.
-
-set cmdwinheight=15
-
-"setup bookmarks plugin
+" setup bookmarks plugin
 highlight BookmarkSign ctermbg=NONE ctermfg=160
 let g:bookmark_sign = '♥'
 
-"setup vimwiki plugin
+" setup vimwiki plugin
 let g:vimwiki_folding = 'list'
 let g:vimwiki_list = [{},
           \ {'path': '/storage/files/notes', 'ext': '.notes'}]
 
 silent! colorscheme  gruvbox
-
-"Disabling old keys
-inoremap <esc> <nop>
 
 noremap <s-j> 5j
 noremap <s-k> 5k
@@ -157,25 +135,25 @@ highlight SpecialKey guifg=#4a4a59
 noremap <silent> <F4> 	:NERDTreeToggle<cr>
 noremap <leader>nl 	:NERDTreeFind<cr>
 
-"insert closing brackets automatically
-inoremap {      {}<Left>
-inoremap {<CR>  {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
+noremap <silent> <F8> :TagbarToggle<CR>
 
-"taglist setup
-let Tlist_Ctags_Cmd="/usr/bin/ctags"
-let Tlist_WinWidth=50
+" {{{  window mapings
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <leader>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <leader>j :TmuxNavigateDown<cr>
+nnoremap <silent> <leader>k :TmuxNavigateUp<cr>
+nnoremap <silent> <leader>l :TmuxNavigateRight<cr>
+nnoremap <silent> <leader>p :TmuxNavigatePrevious<cr>
+" }}}
 
-nnoremap <silent> <C-F12> :TagbarToggle<CR>
-
-"ctrlp setup  {{{
-
+" ctrlp setup  {{{
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
                           \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+" window prefferences
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_max_depth 	=   40
 let g:ctrlp_max_files 	= 100000
 let g:ctrlp_max_history = 1000
@@ -198,18 +176,14 @@ nnoremap <Leader>gs 	:shell <CR>
 
 " }}}
 
-" ctrlp window prefferences
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
-
 " Ultisnips setup {{{
-"
-let g:UltiSnipsExpandTrigger="<F8>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+inoremap <C-\> <C-R>=UltiSnips#ListSnippets()<cr>
+
 let g:UltiSnipsEditSplit="vertical"
-
 " }}}
 
 nnoremap <Leader>w 	:update <CR>
@@ -232,10 +206,75 @@ if has('persistent_undo')
 endif
 
 if has('gui_running')
-" vim:ft=vim:fdm=marker
 	set go=*
 endif 
 
-autocmd filetype javascript nnoremap <buffer> <localleader>c I/<esc>
-
+" russian mappings {{{
+map ё `
+map й q
+map ц w
+map у e
+map к r
+map е t
+map н y
+map г u
+map ш i
+map щ o
+map з p
+map х [
+map ъ ]
+map ф a
+map ы s
+map в d
+map а f
+map п g
+map р h
+map о j
+map л k
+map д l
+map ж ;
+map э '
+map я z
+map ч x
+map с c
+map м v
+map и b
+map т n
+map ь m
+map б ,
+map ю .
+map Ё ~
+map Й Q
+map Ц W
+map У E
+map К R
+map Е T
+map Н Y
+map Г U
+map Ш I
+map Щ O
+map З P
+map Х {
+map Ъ }
+map Ф A
+map Ы S
+map В D
+map А F
+map П G
+map Р H
+map О J
+map Л K
+map Д L
+map Ж :
+map Э "
+map Я Z
+map Ч X
+map С C
+map М V
+map И B
+map Т N
+map Ь M
+map Б <
+map Ю >
+" }}}
 " vim:ft=vim:fdm=marker

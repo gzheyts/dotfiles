@@ -1,0 +1,29 @@
+#!/bin/zsh
+
+# Usage:
+# generate-jdk-tags part1 part2 part3
+
+target=/tmp/jdk8-sources
+
+if [ ! -d $target ]; then
+    echo
+    echo "Extract java sources to $target:"
+    unzip /usr/lib/jvm/java-8-jdk/src.zip -d $target
+fi
+
+if  ls $target | grep -qe "java.*.tags" ; then
+    echo
+    echo "Remove old tag files:"
+    rm $target/java.*.tags -v
+fi
+
+if [ "$?" -eq 0 ]; then
+    for part in $*; do
+        ctags -f $target/java.$part.tags -R $target/java/$part  --fields=+ln -V
+    done
+fi
+echo
+echo "New tag files:"
+ls -1 $target/java.*.tags
+echo
+echo "Done!"

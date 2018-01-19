@@ -55,6 +55,10 @@ dunst &
 mpd &
 lexicon &
 
+redshift &
+
+compton -bcG &
+
 ## Refresh
 xrefresh &
 

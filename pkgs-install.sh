@@ -140,6 +140,8 @@ yaourt -S  \
 	adwaita-qt4 \
 	adwaita-qt5 \
 	qtcurve-qt5 \
+	zeal \
+	viewnior \
  --noconfirm --tmp /storage/tmp/ 
 
  

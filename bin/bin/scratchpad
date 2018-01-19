@@ -3,7 +3,7 @@
 # reopen scratchpad when closed
 while true; do
   if pgrep '^i3$' > /dev/null 2>&1; then
-    urxvt +sb -name scratchpad -e tmux
+          urxvt +sb -name scratchpad -e ~/bin/tmux-session-local
 sleep 1
   else
     break

@@ -8,9 +8,8 @@ eval `dircolors ~/.dircolors/dircolors.ansi-light`
 # time that oh-my-zsh is loaded.
 #
 
-#ZSH_THEME="wezm"
-#ZSH_THEME="ys"
-ZSH_THEME="jreese" #<--
+ZSH_THEME="blinks"
+# ZSH_THEME="cloud"
 
 ENABLE_CORRECTION="false"
 
@@ -124,6 +123,7 @@ alias t="tree"
 alias pactree='pactree -c'
 alias pacman='pacman --color always '
 alias r="ranger"
+alias tlc="tmux list-commands"
 
 alias mvn='grc -c conf.mvn mvn'
 
@@ -188,8 +188,6 @@ function  fetch-logs {
 
 export CATALINA_HOME=/work/server/tomcat-8.0.30
 export CATALINA_BASE=/work/server/tomcat-8.0.30
-export JAVA_HOME=/usr/lib/jvm/java-8-jdk
-export JRE_HOME=/usr/lib/jvm/java-8-jdk/jre
 
 export PATH="$PATH:$HOME/bin:$HOME/.bin"
 

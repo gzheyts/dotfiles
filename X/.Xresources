@@ -1,9 +1,9 @@
-
 !#include  ".Xresources.d/color/mine"
 #include  ".Xresources.d/color/pencil-dark"
 #include  ".Xresources.d/urxvt"
 !#include  ".Xresources.d/urxvt.keysym"
-#include  ".Xresources.d/fonts"
+#include  ".Xresources.d/font/current"
 #include  ".Xresources.d/rofi"
+#include  ".Xresources.d/i3wm/current"
 
 ! vim:ft=xdefaults:fdm=marker

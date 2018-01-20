@@ -1,3 +1,5 @@
+*~
+*.sw[po]
 i3/.i3/i3log
 mpd/.config/mpd/database
 mpd/.config/mpd/log
@@ -6,8 +8,10 @@ mpd/.config/mpd/slicker.sql
 mpd/.config/mpd/state
 ncmpcpp/.ncmpcpp/error.log
 ranger/.config/ranger/bookmarks
-ranger/.config/ranger/colorschemes/__init__.py
-ranger/.config/ranger/colorschemes/__pycache__/
 ranger/.config/ranger/history
 ranger/.config/ranger/tagged
+ranger/.config/ranger/colorschemes
+ranger/.config/ranger/rifle.conf
 vimperator/.vimperator/info/
+X/.Xresources.d/font/current
+X/.Xresources.d/i3wm/current

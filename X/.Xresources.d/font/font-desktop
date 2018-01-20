@@ -1,0 +1,5 @@
+xterm*faceName:Droid Sans Mono for Powerline:pixelsize=11
+
+URxvt.font : xft:Droid Sans Mono for Powerline:pixelsize=11:antialias=true
+
+! vim:ft=xdefaults:fdm=marker

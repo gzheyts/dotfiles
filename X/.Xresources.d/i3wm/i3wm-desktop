@@ -1,0 +1,5 @@
+i3wm.output_primary  :  DVI-I-1
+i3wm.output_slave    :  VGA-0
+i3wm.scratchpad_size :  1680 800
+i3wm.font_size       :  9
+! vim:ft=xdefaults:fdm=marker

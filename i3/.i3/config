@@ -1,17 +1,17 @@
 set $mod Mod4
 
+set_from_resource $font_size i3wm.font_size
 
-set $font_size 10
-
-font pango:monospace $font_size, FontAwesome  $font_size 
+font pango:monospace $font_size, FontAwesome  $font_size
 
 set $up    k
 set $down  j
 set $left  h
 set $right l
 
-set $outPrimary <1>
-set $outSlave   <2>
+set_from_resource $outPrimary i3wm.output_primary
+set_from_resource $outSlave   i3wm.output_slave
+set_from_resource $scratchpad_size i3wm.scratchpad_size
 
 set $tag1 	"1: www"
 set $tag2 	"2: ide"
@@ -266,11 +266,11 @@ bindsym $mod+i exec --no-startup-id ~/bin/mpc-open-directory
 
 # window settings {{{
 
-for_window [class="Firefox" instance="SessionManager"] 	floating enable
-for_window [class="Firefox" instance="Places"] 		floating enable
-for_window [class="Firefox" instance="Library"] 	floating enable
+for_window [class="Firefox" instance="SessionManager"]  floating enable
+for_window [class="Firefox" instance="Places"]          floating enable
+for_window [class="Firefox" instance="Library"]         floating enable
 
-for_window [instance="scratchpad"] move to scratchpad, resize set 1920 800, move absolute position 0 0
+for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_size, move absolute position 0 0
 
 # }}}
 

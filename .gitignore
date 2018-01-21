@@ -15,3 +15,4 @@ ranger/.config/ranger/rifle.conf
 vimperator/.vimperator/info/
 X/.Xresources.d/font/current
 X/.Xresources.d/i3wm/current
+bin/bin/idea-wrapper

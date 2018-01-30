@@ -142,6 +142,7 @@ yaourt -S  \
 	qtcurve-qt5 \
 	zeal \
 	viewnior \
+	xarchiver \
  --noconfirm --tmp /storage/tmp/ 
 
  

@@ -135,6 +135,9 @@ highlight SpecialKey guifg=#4a4a59
 noremap <silent> <F4> 	:NERDTreeToggle<cr>
 noremap <leader>nl 	:NERDTreeFind<cr>
 
+noremap <leader>M 	:w \| make<cr><cr>
+noremap <leader>R 	:exe "! java %< -cp $PWD"<cr>
+
 noremap <silent> <F8> :TagbarToggle<CR>
 
 " {{{  window mapings

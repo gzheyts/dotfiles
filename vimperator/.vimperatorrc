@@ -45,6 +45,8 @@ noremap 	<s-k> 			10k
 " dialog mappings  {{{
 noremap 	gb  			:dialog bookmarks<CR>
 noremap		gsc 			:emenu 	View.Sidebar.ScrapBook<CR>
+noremap		gss 			:emenu  View.Sidebar.Synced Tabs<CR>
+noremap		gst 			:emenu  View.Sidebar.Google Tasks<CR>
 noremap 	gab 			:dialog addbookmark<CR>
 noremap 	ga  			:dialog about<CR>
 noremap 	gcd 			:dialog cleardata<CR>

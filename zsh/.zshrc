@@ -124,6 +124,9 @@ alias pactree='pactree -c'
 alias pacman='pacman --color always '
 alias r="ranger"
 alias tlc="tmux list-commands"
+alias ,ru="trans -e yandex en:ru"
+alias ,en="trans -e yandex ru:en"
+alias oj="open-javadoc"
 
 alias mvn='grc -c conf.mvn mvn'
 
@@ -142,23 +145,11 @@ alias lsmnt="findmnt -o TARGET,SOURCE,FSTYPE,LABEL,UUID,SIZE,AVAIL,USED,USE%,OPT
 
 function ffo { ffj $1 | sed 's/\ /\\ /gi' | vipe; }
 
-function vim-swap-list { find * -type f -follow -name "\.*sw[klmnop]"; 2 > /dev/null }
-
-function vim-swap-remove { find *  -type f -follow -name "\.*sw[klmnop]" -delete 2 > /dev/null;  } 
-
 alias  vfatmount="sudo mount -t vfat -o rw,uid=1000,gid=100,utf8,shortname=mixed "
 
 alias showimg="feh --force-aliasing --geometry 800x60 --zoom 200 --stretch  -f -"
 
-alias findd="find -type d "
-alias findf="find -type f " 
-
-function fj { findf -iname  $1.java  ; }
-function findc { findf -iname  $1.class ; }
 function ffo { fj $1 | sed 's/\ /\\ /gi' | vipe; } 
-
-function mavenjars { find /work/maven-repo -type f -name \*.jar | vim -  ;  }
- 
 
 alias mi="mvn install -Dmaven.test.skip=true"
 alias mis="mvn install source:jar -Dmaven.test.skip=true"

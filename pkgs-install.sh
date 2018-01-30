@@ -78,7 +78,7 @@ yaourt -S  \
 	qbittorrent \
 	qterminal \
 	quiterss \
-	ranger \
+	ranger-git \
 	redshift \
 	reflector \
 	rofi \

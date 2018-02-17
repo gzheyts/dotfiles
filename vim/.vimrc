@@ -210,6 +210,7 @@ endif
 
 if has('gui_running')
 	set go=*
+        set background=dark
 endif 
 
 " russian mappings {{{

@@ -125,6 +125,7 @@ yaourt -S  \
 	yad \
 	yandex-browser-beta \
 	yandex-disk \
+	yandex-disk-indicator \
 	zathura \
 	zip \
 	zsh \

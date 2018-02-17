@@ -56,6 +56,7 @@ mpd &
 lexicon &
 
 redshift &
+yandex-disk-indicator &
 
 compton -bcG &
 

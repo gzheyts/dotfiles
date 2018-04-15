@@ -1,28 +1,38 @@
 [global]
     font = "Inconsolata 8"
     allow_markup = yes
-    format = "<b>%s %p</b>\n%b"
+    bounce_freq = 0
+    format = "<b>%s</b>\n%b"
     sort = yes
     indicate_hidden = true
-    # geometry = "x5"
-    idle_threshold = 0
-    geometry = "300x5-20+20"
-    alignment = center
+    geometry = "350-20+20"
+    idle_threshold = 120
+    alignment = left
     show_age_threshold = 60
+    show_indicators = yes
+    shrink = no
+    transparency = 0
+    monitor = 0
+    line_height = 0
+    ignore_newline = no
     sticky_history = yes
+    history_length = 50
     follow = mouse
     word_wrap = yes
-    separator_height = 2
+    separator_height = 5
     padding = 10
     horizontal_padding = 10
     separator_color = frame
-    startup_notification = true
+    startup_notification = false
     dmenu = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
+    browser = /usr/bin/xdg-open
+    icon_position = left
+    max_icon_size = 32
  
  
 [frame]
-    width = 3
-    color = "#000000"
+    width = 1
+    color = "#1f252d"
  
 [shortcuts]
     close = ctrl+space
@@ -31,16 +41,18 @@
     context = ctrl+shift+period
  
 [urgency_low]
-    background = "#ffffff"
-    foreground = "#000000"
-    timeout = 5
- 
+# IMPORTANT: colors have to be defined in quotation marks.
+# Otherwise the "#" and following would be interpreted as a comment.
+background = "#1f252d"
+foreground = "#a2a8ba"
+timeout = 10
+
 [urgency_normal]
-    background = "#94DBFF"
-    foreground = "#000000"
-    timeout = 10
- 
+background = "#1f252d"
+foreground = "#a2a8ba"
+timeout = 15
+
 [urgency_critical]
-    background = "#ff9999"
-    foreground = "#000000"
-    timeout = 0
+background = "#1f252d"
+foreground = "#a2a8ba"
+timeout = 0

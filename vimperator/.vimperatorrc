@@ -1,7 +1,7 @@
 " init {{{
 set titlestring=vimp
 set hintchars=abcdefghijklmnopqrstuvwxyz
-set gui=nomenu,nonavigation,bookmarks,tabs
+set gui=nomenu,nonavigation,bookmarks,notabs
 set status=bookmark,history,input,location,ssl,tabcount,position
 set cpt=sl
 colorscheme gzheyts
@@ -33,7 +33,7 @@ nnoremap 	]b 			:set gui=bookmarks<CR>
 nnoremap 	[m 			:set gui=nomenu<CR>
 nnoremap 	]m 			:set gui=menu<CR>
 
-nnoremap 	]gs 			:set gui=nomenu,nonavigation,bookmarks,tabs<CR>
+nnoremap 	]gs 			:set gui=nomenu,nonavigation,bookmarks,notabs<CR>
 nnoremap 	]gn			:set gui=none<CR>
 nnoremap 	]ga			:set gui=all<CR>
 

@@ -118,7 +118,7 @@ alias i3-config="vim ~/.i3/config"
 alias xinit-config="vim ~/.xinitrc"
 alias psql-config="vim ~/.psqlrc"
 
-alias h="history"
+alias :h="man"
 alias t="tree"
 alias pactree='pactree -c'
 alias pacman='pacman --color always '

@@ -6,6 +6,7 @@ if ! (( tmux has -t $session )); then
 	tmux split-window -v		-t $session -c $workdir
 	tmux select-layout		-t $session main-vertical
 	tmux new-window	-n ranger	-t $session -c $workdir ranger $workdir
+	tmux new-window	-n music	-t $session -c $workdir ncmpcpp
 	tmux select-window		-t $session:editor
 fi
 tmux attach -t $session

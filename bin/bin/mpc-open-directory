@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /storage/music
+cd ~/Yandex.Disk/music
 
 dir="`find * -follow -type d -maxdepth 2 | rofi -dmenu  -i -l 15 -p 'music dir:'`"
 

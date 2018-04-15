@@ -83,6 +83,20 @@ set tags+=/tmp/jdk8-sources/java.util.tags,/tmp/jdk8-sources/java.lang.tags,/tmp
 let mapleader = ","
 let maplocalleader = " "
 
+
+let g:quickrun_config = {}
+let g:quickrun_config.java =  {
+    \ 'hook/output_encode/encoding': '&termencoding',
+    \ 'exec': [
+    \           'javac %o -d %s:p:h %s',
+    \           '%c    %o %s:t:r %a'
+    \  ],
+    \ 'hook/sweep/files': '%S:p:r.class',
+    \ 'cmdopt': '-cp /tmp/deps.jar:.'
+    \ }
+let g:syntastic_java_javac_classpath="/tmp/deps.jar:."
+
+set directory=~/tmp
 set encoding=utf-8
 set t_Co=256
 set term=rxvt-256color

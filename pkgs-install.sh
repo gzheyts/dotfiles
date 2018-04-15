@@ -23,6 +23,7 @@ yaourt -S  \
 	broadcom-wl \
 	colordiff \
 	compton \
+	compton-conf \
 	coreutils \
 	dropbox \
 	dunst \

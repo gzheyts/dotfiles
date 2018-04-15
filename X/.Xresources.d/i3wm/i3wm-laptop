@@ -2,4 +2,8 @@ i3wm.output_primary  :  eDP1
 i3wm.output_slave    :  eDP1
 i3wm.scratchpad_size :  1920 800
 i3wm.font_size       :  10
+i3wm.border_size_window : 1
+i3wm.border_size_float  : 1
+i3wm.gaps_offset_inner : 15
+i3wm.gaps_offset_outer : 5
 ! vim:ft=xdefaults:fdm=marker

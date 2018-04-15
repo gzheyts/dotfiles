@@ -13,12 +13,18 @@ set_from_resource $outPrimary i3wm.output_primary
 set_from_resource $outSlave   i3wm.output_slave
 set_from_resource $scratchpad_size i3wm.scratchpad_size
 
+set_from_resource $gaps_offset_inner i3wm.gaps_offset_inner
+set_from_resource $gaps_offset_outer i3wm.gaps_offset_outer
+
+set_from_resource $border_size_window i3wm.border_size_window
+set_from_resource $border_size_float  i3wm.border_size_float
+
 set $tag1 	"1: www"
 set $tag2 	"2: ide"
 set $tag3 	"3: vim"
 set $tag4 	"4: database"
 set $tag5 	"5: "
-set $tag6 	"6: docs"
+set $tag6 	"6: docs"
 set $tag7 	"7: postman"
 set $tag8 	"8: media"
 set $tag9 	"9: mail"
@@ -32,7 +38,6 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
-#bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+q kill
@@ -59,6 +64,43 @@ bindsym $mod+Control+j  focus output down
 bindsym $mod+Control+k  focus output up
 # }}}
 
+# jumping {{{
+mode "jump" {
+# hardcoded focus keybindings
+bindsym f [class="Firefox"] focus; mode "default"
+bindsym q [class="qBittorrent"] focus; mode "default"
+bindsym y [class="Yandex-browser-beta"] focus; mode "default"
+bindsym t [class="TelegramDesktop"] focus; mode "default"
+bindsym m [class="Thunderbird"] focus; mode "default"
+bindsym i [class="intellij-idea-ultimate-edition"] focus; mode "default"
+bindsym z [class="Zathura"] focus; mode "default"
+
+bindsym n       workspace next_on_output; mode "default"
+bindsym Shift+n workspace prev_on_output; mode "default"
+
+bindsym Shift+m exec i3-input -F 'mark %s' -P 'Mark name: '; mode "default"
+bindsym j       exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '; mode "default"
+
+bindsym Shift+1 mark mark1; mode "default"
+bindsym Shift+2 mark mark2; mode "default"
+bindsym Shift+3 mark mark3; mode "default"
+bindsym Shift+4 mark mark4; mode "default"
+bindsym Shift+5 mark mark5; mode "default"
+bindsym Shift+6 mark mark6; mode "default"
+
+bindsym 1 [con_mark="mark1"] focus; mode "default"
+bindsym 2 [con_mark="mark2"] focus; mode "default"
+bindsym 3 [con_mark="mark3"] focus; mode "default"
+bindsym 4 [con_mark="mark4"] focus; mode "default"
+bindsym 5 [con_mark="mark5"] focus; mode "default"
+bindsym 6 [con_mark="mark6"] focus; mode "default"
+
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+bindsym $mod+n mode "jump"
+# }}}
 # move focused window {{{
 set $move_inc 15
 bindsym $mod+Shift+$left 	move left  $move_inc px
@@ -114,7 +156,7 @@ workspace $tag4 	output 		$outSlave
 workspace $tag8 	output 		$outSlave
 workspace $tag9 	output 		$outSlave
 workspace $tagY 	output 		$outSlave
-workspace $tagD 	output 		$outSlave
+workspace $tagD 	output 		$outPrimary
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $tag1
@@ -135,8 +177,6 @@ bindsym $mod+Shift+u move container to workspace $tagU
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resizing {{{
 # resize window (you can also use the mouse for that)
@@ -172,13 +212,11 @@ bindsym $mod+r mode "resize"
   		inactive_workspace #252525 		#252525     	#6b6b6b
   		urgent_workspace   #252525 		#252525 	#c7a551
   	   }
- 
  }
 
 
 workspace_layout default
-
-default_orientation vertical
+default_orientation horizontal
 
 assign [class="Thunderbird"]   $tag9
 assign [class="Skype|Pidgin"]  $tag0
@@ -191,13 +229,15 @@ no_focus [window_role="pop-up"]
 focus_follows_mouse yes #default no
 show_marks yes
 # Mouse warping
-mouse_warping output # default none
+mouse_warping output
 popup_during_fullscreen smart
 
 # app shortcuts {{{
 bindsym $mod+F1 exec 					intellij-idea-ultimate-edition 
 bindsym $mod+F2 exec 					telegram-desktop
 bindsym $mod+F3 exec 					firefox
+bindsym $mod+shift+i exec 				firefox --new-instance `xsel -bo`
+bindsym $mod+shift+s exec 				firefox --new-instance --search `xsel -bo`
 bindsym $mod+F4 exec 				 	tomighty
 bindsym $mod+F5 exec 					stardict
 bindsym $mod+F6 exec 					vlc
@@ -217,19 +257,16 @@ workspace_auto_back_and_forth yes
 
 force_display_urgency_hint 200 ms
 
-# (s)leep (h)ybernate (p)owersave (r)estart shut(d)own {{{
-mode  "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" {
-    bindsym s exec sudo pm-suspend; mode "default"
-    bindsym h exec sudo pm-hibernate; mode "default"
-    bindsym p exec sudo pm-powersave; mode "default"
-    bindsym d exec systemctl poweroff; mode "default"
-    bindsym r exec systemctl reboot; mode "default"
-
+# (r)reboot (s)hutdown {{{
+mode  "(r)reboot (s)hutdown (e)xit" {
+    bindsym s exec poweroff; mode "default"
+    bindsym r exec reboot; mode "default"
+    bindsym e exec i3-msg exit; mode "default"
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym $mod+Shift+Escape mode "(s)leep (h)ybernate (p)owersave (r)estart shut(d)own" 
+bindsym $mod+Shift+Escape mode "(r)reboot (s)hutdown (e)xit" 
 # }}}
 
 bindsym $mod+Tab workspace back_and_forth
@@ -238,6 +275,7 @@ bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+Shift+o move scratchpad
 bindsym $mod+o scratchpad show
 
+#}}}
 
 # volume {{{
 bindsym $mod+plus exec amixer -c 0 set Master 4+ unmute
@@ -275,35 +313,30 @@ for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_si
 # }}}
 
 bindsym $mod+b border toggle
-# colors  {{{
-# class                 	border  backgr.    text     indicator
-#client.focused			#0b6cc4 #2b6cc4	 #111111    #2e9ef4
 
+# color setup {{{
 # <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
 
-client.focused			#0000ff 	#008EA1	 	#111111    	#00ff7f
+client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
 client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
 client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
 client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
 client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
 client.background 	    	#E7D3E7
+#}}}
 
 #border style for new windows
-new_window pixel 3
-new_float  pixel 3 
+new_window pixel $border_size_window
+new_float  pixel $border_size_float
 
 hide_edge_borders none
 
-# }}}
 
 exec --no-startup-id ~/.i3/autostart
 
-bindsym $mod+m  exec i3-input -F 'mark %s' 	     -P 'Mark name: '
-bindsym $mod+n 	exec i3-input -F '[con_mark=%s] focus'  -P 'Go to mark: '
-
 # i3-gaps
-gaps inner 5
-gaps outer 2
+gaps inner $gaps_offset_inner
+gaps outer $gaps_offset_outer
 smart_gaps on
 smart_borders on
 

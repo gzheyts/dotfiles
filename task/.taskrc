@@ -1,0 +1,28 @@
+# NOTE see local bin for my task add wrapper
+
+# General
+data.location=~/.config/task
+detection=on
+defaultwidth=80
+defaultheight=0
+hyphenate=on
+indent.annotation=4
+abbreviation.minimum=2
+nag="There are tasks with a set date"
+list.all.projects=yes
+complete.all.tags=yes
+list.all.tags=yes
+undo.style=diff
+
+# interface
+color=on
+fontunderline=off
+
+# Time
+due=3
+dateformat=YMD
+# dateformat.report=yMD (a)
+weekstart=Monday
+
+# Theme
+include ~/.config/task/themes/tempus_theme_light.theme

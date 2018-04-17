@@ -1,9 +1,9 @@
 i3wm.output_primary  :  DVI-I-1
-i3wm.output_slave    :  VGA-0
+i3wm.output_slave    :  DVI-I-1
 i3wm.scratchpad_size :  1680 800
-i3wm.font_size       :  9
+i3wm.font_size       :  10
 i3wm.border_size_window : 1
 i3wm.border_size_float  : 1
-i3wm.gaps_offset_inner : 10
-i3wm.gaps_offset_outer : 5
+i3wm.gaps_default_inner : 10
+i3wm.gaps_default_outer : 5
 ! vim:ft=xdefaults:fdm=marker

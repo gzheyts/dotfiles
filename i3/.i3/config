@@ -1,5 +1,4 @@
 set $mod Mod4
-
 set_from_resource $font_size i3wm.font_size
 
 font pango:monospace $font_size, FontAwesome  $font_size
@@ -13,11 +12,38 @@ set_from_resource $outPrimary i3wm.output_primary
 set_from_resource $outSlave   i3wm.output_slave
 set_from_resource $scratchpad_size i3wm.scratchpad_size
 
-set_from_resource $gaps_offset_inner i3wm.gaps_offset_inner
-set_from_resource $gaps_offset_outer i3wm.gaps_offset_outer
-
 set_from_resource $border_size_window i3wm.border_size_window
 set_from_resource $border_size_float  i3wm.border_size_float
+
+set_from_resource $darkred     color1  #000000
+set_from_resource $red         color9  #000000
+set_from_resource $darkgreen   color2  #000000
+set_from_resource $green       color10 #000000
+set_from_resource $darkyellow  color3  #000000
+set_from_resource $yellow      color11 #000000
+set_from_resource $darkblue    color4  #000000
+set_from_resource $blue        color12 #000000
+set_from_resource $darkmagenta color5  #000000
+set_from_resource $magenta     color13 #000000
+set_from_resource $darkcyan    color6  #000000
+set_from_resource $cyan        color14 #000000
+set_from_resource $darkwhite   color7  #000000
+set_from_resource $white       color15 #000000
+# Use custom colors for black
+set $black       #282828
+set $darkblack   #1d2021
+set $transparent #00000000
+
+
+# color setup {{{
+# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
+client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
+client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
+client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
+client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
+client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
+client.background 	    	#E7D3E7
+#}}}
 
 set $tag1 	"1: www"
 set $tag2 	"2: ide"
@@ -118,6 +144,8 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+Shift+f fullscreen
 
+bindsym $mod+Shift+space sticky toggle
+
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -181,7 +209,9 @@ bindsym $mod+Shift+r restart
 # resizing {{{
 # resize window (you can also use the mouse for that)
 set $resize_inc 2
-mode "resize" {
+
+set $mode-resize " resize"
+mode $mode-resize {
         # These bindings trigger as soon as you enter the resize mode
         bindsym $left 	resize shrink 	width 	$resize_inc px or $resize_inc ppt
         bindsym $down 	resize grow 	height 	$resize_inc px or $resize_inc ppt
@@ -192,9 +222,28 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
-
+bindsym $mod+r mode $mode-resize
 # }}}
+
+# brightness {{{
+set $mode-brightness " brightness"
+mode $mode-brightness {
+    bindsym $up exec "xbacklight -inc 5"
+    bindsym $down exec "xbacklight -dec 5"
+
+    bindsym $left exec "kbdlight down"
+    bindsym $right exec "kbdlight up"
+
+    bindsym 1 exec "xbacklight -set 10"
+    bindsym 9 exec "xbacklight -set 100"
+    bindsym 0 exec "xbacklight -set 100"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+shift+b mode $mode-brightness
+
+#}}}
 
 # i3bar {{{
  bar {
@@ -203,6 +252,7 @@ bindsym $mod+r mode "resize"
  	tray_output $outPrimary
  	workspace_buttons yes
  	strip_workspace_numbers yes
+        separator_symbol "■"
   	colors {
   		statusline	#999999
   		background	#252525
@@ -211,16 +261,12 @@ bindsym $mod+r mode "resize"
   		active_workspace   #252525 		#252525 	#696f89
   		inactive_workspace #252525 		#252525     	#6b6b6b
   		urgent_workspace   #252525 		#252525 	#c7a551
-  	   }
+ 	   }
  }
 
 
 workspace_layout default
 default_orientation horizontal
-
-assign [class="Thunderbird"]   $tag9
-assign [class="Skype|Pidgin"]  $tag0
-
 
 # Don't focus window upon opening
 no_focus [window_role="pop-up"]
@@ -228,26 +274,37 @@ no_focus [window_role="pop-up"]
 # Focus follows mouse
 focus_follows_mouse yes #default no
 show_marks yes
+
 # Mouse warping
 mouse_warping output
 popup_during_fullscreen smart
 
 # app shortcuts {{{
-bindsym $mod+F1 exec 					intellij-idea-ultimate-edition 
-bindsym $mod+F2 exec 					telegram-desktop
-bindsym $mod+F3 exec 					firefox
 bindsym $mod+shift+i exec 				firefox --new-instance `xsel -bo`
 bindsym $mod+shift+s exec 				firefox --new-instance --search `xsel -bo`
-bindsym $mod+F4 exec 				 	tomighty
-bindsym $mod+F5 exec 					stardict
-bindsym $mod+F6 exec 					vlc
-bindsym $mod+F8 exec 		--no-startup-id 	pcmanfm
-bindsym $mod+F9 exec  					zathura
 bindsym $mod+F10 exec 		--no-startup-id 	rofi -matching fuzzy -show ssh
 bindsym $mod+F11 exec 		--no-startup-id 	~/bin/save-request
-bindsym $mod+F12 exec 				 	yandex-browser-beta
-bindsym $mod+period exec 	--no-startup-id 	rofi -matching fuzzy -show run 
+bindsym $mod+F2 exec 	        --no-startup-id 	rofi -matching fuzzy -show run 
 bindsym $mod+backslash exec 	--no-startup-id 	rofi -matching fuzzy -show window 
+# }}}
+
+# launch {{{
+set $mode-launch "launch"
+bindsym $mod+period mode $mode-launch
+mode $mode-launch {
+    bindsym i mode "default", exec intellij-idea-ultimate-edition
+    bindsym t mode "default", exec telegram-desktop
+    bindsym f mode "default", exec firefox
+    bindsym y mode "default", exec yandex-browser-beta
+    bindsym s mode "default", exec stardict
+    bindsym z mode "default", exec zathura
+    bindsym p mode "default", exec pcmanfm
+    bindsym v mode "default", exec vlc
+    bindsym shift+t mode "default", exec tomighty
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 # }}}
 
 ipc-socket ~/.i3/i3-ipc.sock
@@ -257,16 +314,16 @@ workspace_auto_back_and_forth yes
 
 force_display_urgency_hint 200 ms
 
-# (r)reboot (s)hutdown {{{
-mode  "(r)reboot (s)hutdown (e)xit" {
-    bindsym s exec poweroff; mode "default"
-    bindsym r exec reboot; mode "default"
-    bindsym e exec i3-msg exit; mode "default"
+# poweroff {{{
+set $mode-poweroff "[r]reboot [s]hutdown [e]xit"
+bindsym $mod+Shift+x mode $mode-poweroff
+mode $mode-poweroff {
+    bindsym s mode "default", exec poweroff
+    bindsym r mode "default", exec reboot
+    bindsym e mode "default", exec i3-msg exit
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-
-bindsym $mod+Shift+Escape mode "(r)reboot (s)hutdown (e)xit" 
 # }}}
 
 bindsym $mod+Tab workspace back_and_forth
@@ -312,32 +369,68 @@ for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_si
 
 # }}}
 
-bindsym $mod+b border toggle
-
-# color setup {{{
-# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
-
-client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
-client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
-client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
-client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
-client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
-client.background 	    	#E7D3E7
-#}}}
-
 #border style for new windows
 new_window pixel $border_size_window
 new_float  pixel $border_size_float
 
 hide_edge_borders none
 
+bindsym $mod+b border toggle
 
 exec --no-startup-id ~/.i3/autostart
 
 # i3-gaps
-gaps inner $gaps_offset_inner
-gaps outer $gaps_offset_outer
+
+set_from_resource $gaps_default_inner i3wm.gaps_default_inner 0
+set_from_resource $gaps_default_outer i3wm.gaps_default_outer 0
+
+gaps inner $gaps_default_inner
+gaps outer $gaps_default_outer
 smart_gaps on
 smart_borders on
 
+set $mode_gaps gaps
+set $mode_gaps_outer outer gaps
+set $mode_gaps_inner inner gaps
+bindsym $mod+Shift+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+    bindsym i      mode "$mode_gaps_inner"
+
+    bindsym 0      mode "default", exec --no-startup-id i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
+    bindsym d      mode "default", exec --no-startup-id i3-msg "gaps inner current set $gaps_default_inner" && i3-msg "gaps outer current set $gaps_default_outer"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     mode "default", gaps inner current set 0
+    bindsym d     mode "default", gaps inner current set $gaps_default_inner
+
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     mode "default", gaps inner all set 0
+    bindsym Shift+d     mode "default", gaps inner all set $gaps_default_inner
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0     mode "default", gaps outer current set 0
+    bindsym d     mode "default", gaps outer current set $gaps_default_outer
+
+    bindsym Shift+plus  gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0     mode "default", gaps outer all set 0
+    bindsym Shift+d     mode "default", gaps outer all set $gaps_default_outer
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 # vim:fdm=marker

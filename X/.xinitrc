@@ -34,18 +34,9 @@ xset r 116
 #typematic delay/ rate
 xset r rate 200 20
 
-#autocutsel -fork &
-#autocutsel -selection PRIMARY -fork &
-
-# ramdisk setup 
-# [[ -f ~/bin/ramdisk-restore ]] && . ~/bin/ramdisk-restore 
-
-[[ -f ~/bin/twinview ]] && . ~/bin/twinview
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
-# xcompmgr -fF &
-# compton -bc  & # xcompmgr fork
 
 exec i3 -V >> ~/.i3/i3log 2>&1
 

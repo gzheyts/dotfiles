@@ -1,5 +1,0 @@
-#!/bin/sh
-
-rsync -rtvu --modify-window=1 -Ph  /storage/backups/fast-storage / 2>/dev/null 
-
-notify-send '.. restored'

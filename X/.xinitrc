@@ -35,6 +35,7 @@ xset r 116
 xset r rate 200 20
 
 
+[[ -f ~/bin/twinview ]] &&  ~/bin/twinview
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
 

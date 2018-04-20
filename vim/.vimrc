@@ -18,6 +18,7 @@ Plugin '1995parham/vim-zimpl'
 Plugin 'AnsiEsc.vim'
 "Color picker
 Plugin 'KabbAmine/vCoolor.vim'
+Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'Shougo/unite-outline'
@@ -95,6 +96,7 @@ let g:quickrun_config.java =  {
     \ 'cmdopt': '-cp /tmp/deps.jar:.'
     \ }
 let g:syntastic_java_javac_classpath="/tmp/deps.jar:."
+autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 
 set directory=~/tmp
 set encoding=utf-8

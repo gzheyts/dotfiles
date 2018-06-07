@@ -1,8 +1,0 @@
-#!/bin/sh
-
-#xrandr  --output HDMI2 --auto
-#xrandr --addmode HDMI2 1920x1080_60.00
-#xrandr --output DVI-I-1 --mode 1680x1050   --left-of VGA-0 --mode 1680x1050
-
-#xrandr  --output eDP1 --auto
-xrandr --output DVI-I-1 --mode 1680x1050

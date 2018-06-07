@@ -1,5 +1,6 @@
 *~
 *.sw[po]
+bin/bin/twinview
 i3/.i3/i3log
 mpd/.config/mpd/database
 mpd/.config/mpd/log

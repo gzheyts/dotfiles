@@ -1,3 +1,3 @@
 #!/bin/bash
 
-xdg-open $(find /usr/share/doc/java/api -name \*.html -type f  | fzf) 2> /dev/null >&2
+xdg-open $(find /usr/share/doc/java/api -name \*.html -type f  -regextype posix-extended -not -regex '.*(package-|class-|index-|-list|-form|-tree|-frame|-summary).*'| fzf) 2> /dev/null >&2

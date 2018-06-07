@@ -45,18 +45,20 @@ client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
 client.background 	    	#E7D3E7
 #}}}
 
+# font cheatsheet https://fontawesome.com/v4.7.0/cheatsheet/
+
 set $tag1 	"1: www"
 set $tag2 	"2: ide"
 set $tag3 	"3: vim"
 set $tag4 	"4: database"
 set $tag5 	"5: "
-set $tag6 	"6: docs"
+set $tag6 	"6: docs"
 set $tag7 	"7: postman"
 set $tag8 	"8: media"
 set $tag9 	"9: mail"
 set $tag0 	"10: im"
 set $tagD	"d"
-set $tagU 	"u"
+set $tagU 	""
 set $tagY	"y"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -91,18 +93,24 @@ bindsym $mod+Control+k  focus output up
 # }}}
 
 # jumping {{{
-mode "jump" {
+set $mode-jump " jump"
+
+mode $mode-jump {
 # hardcoded focus keybindings
 bindsym f [class="Firefox"] focus; mode "default"
 bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
 bindsym t [class="TelegramDesktop"] focus; mode "default"
+bindsym s [class="Skype"] focus; mode "default"
 bindsym m [class="Thunderbird"] focus; mode "default"
-bindsym i [class="intellij-idea-ultimate-edition"] focus; mode "default"
+bindsym i [class="jetbrains-idea"] focus; mode "default"
 bindsym z [class="Zathura"] focus; mode "default"
+bindsym c [instance="urxvt"] focus; mode "default"
+bindsym p [instance="pcmanfm"] focus; mode "default"
+bindsym o [instance="postman"] focus; mode "default"
 
-bindsym n       workspace next_on_output; mode "default"
-bindsym Shift+n workspace prev_on_output; mode "default"
+bindsym l       workspace next_on_output; mode "default"
+bindsym h       workspace prev_on_output; mode "default"
 
 bindsym Shift+m exec i3-input -F 'mark %s' -P 'Mark name: '; mode "default"
 bindsym j       exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '; mode "default"
@@ -125,7 +133,7 @@ bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
-bindsym $mod+n mode "jump"
+bindsym $mod+n mode $mode-jump
 # }}}
 # move focused window {{{
 set $move_inc 15
@@ -252,7 +260,7 @@ bindsym $mod+shift+b mode $mode-brightness
  	tray_output $outPrimary
  	workspace_buttons yes
  	strip_workspace_numbers yes
-        separator_symbol "■"
+        separator_symbol "("
   	colors {
   		statusline	#999999
   		background	#252525
@@ -289,16 +297,18 @@ bindsym $mod+backslash exec 	--no-startup-id 	rofi -matching fuzzy -show window
 # }}}
 
 # launch {{{
-set $mode-launch "launch"
+set $mode-launch " launch"
 bindsym $mod+period mode $mode-launch
 mode $mode-launch {
     bindsym i mode "default", exec intellij-idea-ultimate-edition
     bindsym t mode "default", exec telegram-desktop
     bindsym f mode "default", exec firefox
+    bindsym m mode "default", exec thunderbird
     bindsym y mode "default", exec yandex-browser-beta
     bindsym s mode "default", exec stardict
     bindsym z mode "default", exec zathura
     bindsym p mode "default", exec pcmanfm
+    bindsym o mode "default", exec postman
     bindsym v mode "default", exec vlc
     bindsym shift+t mode "default", exec tomighty
     bindsym Return mode "default"
@@ -342,7 +352,7 @@ bindsym $mod+Shift+plus exec amixer -c 0 set Master 4-
 # locker
 bindsym Control+Mod1+l exec slock
 
-bindsym Print exec scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
+bindsym Print exec scrot '%F_%H-%M-%S_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/'
 
 # mpd hotkeys {{{
 

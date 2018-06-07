@@ -8,7 +8,10 @@ eval `dircolors ~/.dircolors/dircolors.ansi-light`
 # time that oh-my-zsh is loaded.
 #
 
-ZSH_THEME="blinks"
+# ZSH_THEME="af-magic"
+ZSH_THEME="afowler"
+# ZSH_THEME="adben"
+# ZSH_THEME="blinks"
 # ZSH_THEME="cloud"
 
 ENABLE_CORRECTION="false"
@@ -52,6 +55,8 @@ plugins=(
 	jump
 	tmux
 	mvn
+        themes
+        gradle-completion
 	last-working-dir
 	zsh_reload
 	gnu-utils
@@ -124,6 +129,7 @@ alias tlc="tmux list-commands"
 alias ,ru="trans -e yandex en:ru"
 alias ,en="trans -e yandex ru:en"
 alias oj="open-javadoc"
+alias mu="mpc update"
 
 alias mvn='grc -c conf.mvn mvn'
 
@@ -153,6 +159,7 @@ alias mis="mvn install source:jar -Dmaven.test.skip=true"
 alias mci="mvn clean install -Dmaven.test.skip=true "
 alias mcis="mvn clean source:jar install -Dmaven.test.skip=true "
 
+alias gradle="gradle --console=verbose"
 
 function lc  { logcat-color    wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }
 function lct { logcat-color  -v threadtime  wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }  

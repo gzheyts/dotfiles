@@ -305,7 +305,8 @@ mode $mode-launch {
     bindsym f mode "default", exec firefox
     bindsym m mode "default", exec thunderbird
     bindsym y mode "default", exec yandex-browser-beta
-    bindsym s mode "default", exec stardict
+    bindsym s mode "default", exec skypeforlinux
+    bindsym shift+s mode "default", exec stardict
     bindsym z mode "default", exec zathura
     bindsym p mode "default", exec pcmanfm
     bindsym o mode "default", exec postman

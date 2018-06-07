@@ -122,9 +122,15 @@ nnoremap <c-i> 		:action Forward<cr>
 nnoremap g<c-o> 	<c-o>
 nnoremap g<c-i> 	<c-i>
 
+nnoremap g<c-t>         <c-t>
+
 nnoremap [] 		:action MethodUp<cr>
 nnoremap ][ 		:action MethodDown<cr>
 "}}}
+
+" VCS {{{
+nnoremap <leader>vpu     :action Vcs.UpdateProject<cr>
+" }}}
 
 " Miscellaneous {{{
 " Clear the search buffer when hitting return

@@ -89,13 +89,14 @@ let g:quickrun_config = {}
 let g:quickrun_config.java =  {
     \ 'hook/output_encode/encoding': '&termencoding',
     \ 'exec': [
-    \           'javac %o -d %s:p:h %s',
-    \           '%c    %o %s:t:r %a'
+    \           'javac %o -d %S:p:h *.java',
+    \           '%c    %o %a %s:t:r'
     \  ],
     \ 'hook/sweep/files': '%S:p:r.class',
-    \ 'cmdopt': '-cp /tmp/deps.jar:.'
+    \ 'cmdopt': '-cp /tmp/java-lib/jar/\*:.'
     \ }
-let g:syntastic_java_javac_classpath="/tmp/deps.jar:."
+let g:syntastic_java_javac_classpath="/tmp/java-lib/jar/*:."
+let g:JavaComplete_LibsPath="/tmp/java-lib/jar/*"
 autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 
 set directory=~/tmp
@@ -153,6 +154,7 @@ noremap <leader>nl 	:NERDTreeFind<cr>
 
 noremap <leader>M 	:w \| make<cr><cr>
 noremap <leader>R 	:exe "! java %< -cp $PWD"<cr>
+noremap <silent><leader>t :QuickRun -args org.junit.runner.JUnitCore<cr>
 
 noremap <silent> <F8> :TagbarToggle<CR>
 

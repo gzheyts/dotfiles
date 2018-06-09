@@ -189,3 +189,6 @@ export PATH="$PATH:$HOME/bin:$HOME/.bin"
 # aspectj
 export PATH=$PATH:$HOME/.local/share/aspectj1.8/bin 
 export CLASSPATH=$CLASSPATH:$HOME/.local/share/aspectj1.8/lib/aspectjrt.jar
+#nodejs
+PATH="$HOME/.node_modules/bin:$PATH"
+export npm_config_prefix=~/.node_modules

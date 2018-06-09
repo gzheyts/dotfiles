@@ -62,6 +62,8 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 " Wiki
 Plugin 'vimwiki/vimwiki'
 
@@ -135,9 +137,6 @@ let g:vimwiki_list = [{},
           \ {'path': '/storage/files/notes', 'ext': '.notes'}]
 
 silent! colorscheme  gruvbox
-
-noremap <s-j> 5j
-noremap <s-k> 5k
 
 inoremap jk <esc>
 inoremap ол <esc>

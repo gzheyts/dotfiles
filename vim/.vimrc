@@ -18,6 +18,9 @@ Plugin '1995parham/vim-zimpl'
 Plugin 'AnsiEsc.vim'
 "Color picker
 Plugin 'KabbAmine/vCoolor.vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'ternjs/tern_for_vim'
 Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'PotatoesMaster/i3-vim-syntax'
@@ -99,6 +102,7 @@ let g:quickrun_config.java =  {
     \ }
 let g:syntastic_java_javac_classpath="/tmp/java-lib/jar/*:."
 let g:JavaComplete_LibsPath="/tmp/java-lib/jar/*"
+let g:JavaComplete_ServerAutoShutdownTime=10
 autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 
 set directory=~/tmp
@@ -220,6 +224,9 @@ let g:airline#extensions#tabline#left_alt_sep 	= '|'
 
 " rest console 
 let g:vrc_auto_format_uhex = 1
+
+" session management
+let g:session_autosave = 'yes'
 
 if has('persistent_undo')
 	set undofile

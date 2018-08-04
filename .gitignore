@@ -20,3 +20,5 @@ gtk/.config/gtk-2.0/gtkfilechooser.ini
 gtk/.config/gtk-3.0/bookmarks
 bin/bin/idea-wrapper
 fontconfig/.fonts/.uuid
+pgcli/.config/pgcli/history
+pgcli/.config/pgcli/log

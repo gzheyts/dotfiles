@@ -21,20 +21,20 @@ inoremap ол 		<esc>
 "}}}
 
 " Breakpoints && bookmarks {{{
-nnoremap <a-s-b> 	:action ToggleLineBreakpoint<cr>
-nnoremap <space>e 	:action ToggleBreakpointEnabled<cr>
-nnoremap <space>s 	:action ViewBreakpoints<cr>
+nnoremap <leader>b 	:action ToggleLineBreakpoint<cr>
+nnoremap <leader>e 	:action ToggleBreakpointEnabled<cr>
+nnoremap <leader>s 	:action ViewBreakpoints<cr>
 
-nnoremap <a-b>  	:action ToggleBookmark<cr>
-nnoremap <space>M 	:action ToggleBookmarkWithMnemonic<cr>
-nnoremap <space>S 	:action ShowBookmarks<cr>
+nnoremap <leader>B  	:action ToggleBookmark<cr>
+nnoremap <leader>M 	:action ToggleBookmarkWithMnemonic<cr>
+nnoremap <leader>S 	:action ShowBookmarks<cr>
 "}}}
 
 " System clipboard copy/paste {{{
-noremap 		<space>y "*y
-noremap 		<space>Y "*Y
-noremap 		<space>p "*p
-noremap 		<space>P "*P
+noremap 		<leader>y "*y
+noremap 		<leader>Y "*Y
+noremap 		<leader>p "*p
+noremap 		<leader>P "*P
 "}}}
 
 " Windows {{{
@@ -71,13 +71,13 @@ nnoremap \c 		:action CallHierarchy<cr>
 " Code navigation {{{
 nnoremap <leader>gt  	:action GotoTest<cr>
 nnoremap ga 		:action GotoAction<cr>
-nnoremap gs 		:action GotoSymbol<cr>
+nnoremap gS 		:action GotoSymbol<cr>
 nnoremap gf 		:action GotoFile<cr>
 nnoremap gr 		:action RecentFiles<cr>
 nnoremap gc 		:action GotoClass<cr>
 nnoremap gi 		:action GotoImplementation<cr>
 nnoremap gsm 		:action GotoSuperMethod<cr>
-nnoremap gtd 		:action GotoTypeDeclaration<cr>
+nnoremap <leader>gtd 	:action GotoTypeDeclaration<cr>
 "}}}
 
 " Run/debug  invoking {{{
@@ -117,6 +117,9 @@ nnoremap ][ 		:action MethodDown<cr>
 
 " VCS {{{
 nnoremap <leader>vpu     :action Vcs.UpdateProject<cr>
+nnoremap ]c              :action VcsShowNextChangeMarker<cr>
+nnoremap [c              :action VcsShowPrevChangeMarker<cr>
+nnoremap <leader>c       :action VcsShowCurrentChangeMarker<cr>
 " }}}
 
 " Miscellaneous {{{
@@ -127,6 +130,8 @@ nnoremap ZZ 		:action Exit<cr>
 noremap <c-q>  		:action QuickJavaDoc<cr>
 noremap ss     		:source ~/.ideavimrc<cr>
 nnoremap <space>oe 	:action FileEditor.OpenDataEditor<cr>
+nnoremap <leader>nl     :action SelectInProjectView<cr>
+nnoremap <leader>z      :action CloseContent<cr>
 "}}}
 
 " vim:ft=vim:fdm=marker

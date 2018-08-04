@@ -8,11 +8,9 @@ eval `dircolors ~/.dircolors/dircolors.ansi-light`
 # time that oh-my-zsh is loaded.
 #
 
-# ZSH_THEME="af-magic"
-ZSH_THEME="afowler"
-# ZSH_THEME="adben"
+ZSH_THEME="af-magic"
+# ZSH_THEME="wezm"
 # ZSH_THEME="blinks"
-# ZSH_THEME="cloud"
 
 ENABLE_CORRECTION="false"
 
@@ -104,8 +102,8 @@ export TERM=xterm-256color
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
 #bookmark aliases
-alias lb="marks"
-alias s="mark"
+alias lm="marks"
+alias sm="mark"
 alias g="jump"
 alias dm="unmark"
 
@@ -131,8 +129,6 @@ alias ,en="trans -e yandex ru:en"
 alias oj="open-javadoc"
 alias mu="mpc update"
 
-alias mvn='grc -c conf.mvn mvn'
-
 alias sz='source ~/.zshrc'
 
 alias -g BG=" >/dev/null 2>&1 &"
@@ -142,6 +138,20 @@ alias -g LI=" | less -i "
 alias grepc="grep --color=always"
 
 alias lh='ls -a | grep "^\."'
+alias ld='l -d */'
+alias lf='l -p | grep -v /'
+
+alias ff='find -type f -name '
+alias fd='find -type d -name '
+
+alias gRem="gss | awk '{print \$2}' | xargs rm -rf"
+
+function jh {
+    jhipster $@ --experimental
+}
+
+alias idiff="idea diff"
+alias imerge="idea merge"
 
 alias lsdev="lsblk -o NAME,MOUNTPOINT,SIZE,FSTYPE,LABEL,UUID,PARTTYPE,PARTLABEL,OWNER,GROUP,MODE,TYPE -p "
 alias lsmnt="findmnt -o TARGET,SOURCE,FSTYPE,LABEL,UUID,SIZE,AVAIL,USED,USE%,OPTIONS"
@@ -159,6 +169,7 @@ alias mis="mvn install source:jar -Dmaven.test.skip=true"
 alias mci="mvn clean install -Dmaven.test.skip=true "
 alias mcis="mvn clean source:jar install -Dmaven.test.skip=true "
 
+alias mvngen="mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.3"
 alias gradle="gradle --console=verbose"
 
 function lc  { logcat-color    wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }

@@ -66,7 +66,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'othree/yajs'
+Plugin 'mattn/emmet-vim'
 Plugin 'mxw/vim-jsx'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'leafgarland/typescript-vim'
 " Wiki
 Plugin 'vimwiki/vimwiki'
 
@@ -130,6 +135,13 @@ set foldmethod=indent
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set showbreak=↪
+set scrolljump=5
+set hidden
+set viminfo='0,:0,<0,@0,f0
+set synmaxcol=80
+set colorcolumn=80
+highlight OverLength ctermfg=white ctermbg=darkred guibg=#FFD9D9
+match OverLength /\%81v.\+/
 
 " setup bookmarks plugin
 highlight BookmarkSign ctermbg=NONE ctermfg=160
@@ -185,6 +197,13 @@ let g:ctrlp_max_history = 1000
 
 " vCooler mappings
 noremap <localleader>c  :VCoolor<CR>
+
+" System clipboard copy/paste {{{
+noremap 		<leader>y "*y
+noremap 		<leader>Y "*Y
+noremap 		<leader>p "*p
+noremap 		<leader>P "*P
+"}}}
 
 " mappings
 nnoremap <Leader>fl	:CtrlPLine<CR>

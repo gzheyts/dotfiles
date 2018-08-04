@@ -103,10 +103,12 @@ bindsym y [class="Yandex-browser-beta"] focus; mode "default"
 bindsym t [class="TelegramDesktop"] focus; mode "default"
 bindsym s [class="Skype"] focus; mode "default"
 bindsym m [class="Thunderbird"] focus; mode "default"
-bindsym i [class="jetbrains-idea"] focus; mode "default"
+bindsym i [class="idea"] focus; mode "default"
 bindsym z [class="Zathura"] focus; mode "default"
+bindsym d [class="Zeal"] focus; mode "default"
 bindsym c [instance="urxvt"] focus; mode "default"
 bindsym p [instance="pcmanfm"] focus; mode "default"
+bindsym v [instance="vlc"] focus; mode "default"
 bindsym o [instance="postman"] focus; mode "default"
 
 bindsym l       workspace next_on_output; mode "default"
@@ -280,7 +282,8 @@ default_orientation horizontal
 no_focus [window_role="pop-up"]
 
 # Focus follows mouse
-focus_follows_mouse yes #default no
+focus_follows_mouse no
+force_focus_wrapping yes
 show_marks yes
 
 # Mouse warping
@@ -300,7 +303,7 @@ bindsym $mod+backslash exec 	--no-startup-id 	rofi -matching fuzzy -show window
 set $mode-launch " launch"
 bindsym $mod+period mode $mode-launch
 mode $mode-launch {
-    bindsym i mode "default", exec intellij-idea-ultimate-edition
+    bindsym i mode "default", exec idea
     bindsym t mode "default", exec telegram-desktop
     bindsym f mode "default", exec firefox
     bindsym m mode "default", exec thunderbird
@@ -308,6 +311,7 @@ mode $mode-launch {
     bindsym s mode "default", exec skypeforlinux
     bindsym shift+s mode "default", exec stardict
     bindsym z mode "default", exec zathura
+    bindsym d mode "default", exec zeal
     bindsym p mode "default", exec pcmanfm
     bindsym o mode "default", exec postman
     bindsym v mode "default", exec vlc
@@ -323,7 +327,7 @@ ipc-socket ~/.i3/i3-ipc.sock
 #automatic back-and-forth when switching to the current workspace
 workspace_auto_back_and_forth yes
 
-force_display_urgency_hint 200 ms
+force_display_urgency_hint 600 ms
 
 # poweroff {{{
 set $mode-poweroff "[r]reboot [s]hutdown [e]xit"
@@ -375,6 +379,9 @@ bindsym $mod+i exec --no-startup-id ~/bin/mpc-open-directory
 for_window [class="Firefox" instance="SessionManager"]  floating enable
 for_window [class="Firefox" instance="Places"]          floating enable
 for_window [class="Firefox" instance="Library"]         floating enable
+for_window [window_role="pop-up"]                       floating enable
+for_window [class="jetbrains-idea"]                     floating enable
+
 
 for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_size, move absolute position 0 0
 

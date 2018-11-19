@@ -138,7 +138,7 @@ set showbreak=↪
 set scrolljump=5
 set hidden
 set viminfo='0,:0,<0,@0,f0
-set synmaxcol=80
+set synmaxcol=120
 set colorcolumn=80
 highlight OverLength ctermfg=white ctermbg=darkred guibg=#FFD9D9
 match OverLength /\%81v.\+/
@@ -149,13 +149,11 @@ let g:bookmark_sign = '♥'
 
 " setup vimwiki plugin
 let g:vimwiki_folding = 'list'
-let g:vimwiki_list = [{},
-          \ {'path': '/storage/files/notes', 'ext': '.notes'}]
+let g:vimwiki_list = [{}, {'path': '~/Yandex.Disk/notes', 'ext': '.notes'}]
 
 silent! colorscheme  gruvbox
 
 inoremap jk <esc>
-inoremap ол <esc>
 
 nnoremap <leader>ev :vsp $MYVIMRC<cr>
 nnoremap <leader>sv :so $MYVIMRC<cr>

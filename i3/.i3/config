@@ -102,6 +102,7 @@ bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
 bindsym t [class="TelegramDesktop"] focus; mode "default"
 bindsym s [class="Skype"] focus; mode "default"
+bindsym Mod1+s [class="Slack"] focus; mode "default"
 bindsym m [class="Thunderbird"] focus; mode "default"
 bindsym i [class="idea"] focus; mode "default"
 bindsym z [class="Zathura"] focus; mode "default"
@@ -309,6 +310,7 @@ mode $mode-launch {
     bindsym m mode "default", exec thunderbird
     bindsym y mode "default", exec yandex-browser-beta
     bindsym s mode "default", exec skypeforlinux
+    bindsym Mod1+s mode "default", exec slack
     bindsym shift+s mode "default", exec stardict
     bindsym z mode "default", exec zathura
     bindsym d mode "default", exec zeal

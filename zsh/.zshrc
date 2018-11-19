@@ -170,7 +170,8 @@ alias mci="mvn clean install -Dmaven.test.skip=true "
 alias mcis="mvn clean source:jar install -Dmaven.test.skip=true "
 
 alias mvngen="mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.3"
-alias gradle="gradle --console=verbose"
+
+alias gw="./gradlew --console=rich --warning-mode=all "
 
 function lc  { logcat-color    wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }
 function lct { logcat-color  -v threadtime  wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }  

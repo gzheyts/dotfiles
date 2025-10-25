@@ -14,40 +14,29 @@ endif
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin '1995parham/vim-zimpl'
-Plugin 'AnsiEsc.vim'
 "Color picker
 Plugin 'KabbAmine/vCoolor.vim'
+Plugin 'unblevable/quick-scope'   
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'PotatoesMaster/i3-vim-syntax'
-Plugin 'Shougo/unite-outline'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/vimshell.vim'
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
+Plugin 'copypath.vim'
 Plugin 'VisIncr'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bling/vim-airline'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'dbext.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'diepm/vim-rest-console'
-Plugin 'docunext/closetag.vim'
 Plugin 'elzr/vim-json'
-Plugin 'godlygeek/tabular'
-Plugin 'guns/xterm-color-table.vim'
+Plugin 'dense-analysis/ale'
+Plugin 'pedrohdz/vim-yaml-folds'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kabbamine/zeavim.vim'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kien/ctrlp.vim'
-Plugin 'lervag/vimtex'
 Plugin 'lilydjwg/colorizer'
 Plugin 'majutsushi/tagbar'
 Plugin 'morhetz/gruvbox'
@@ -58,20 +47,12 @@ Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'sudo.vim'
-Plugin 'thinca/vim-quickrun'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/yajs'
-Plugin 'mattn/emmet-vim'
-Plugin 'mxw/vim-jsx'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'leafgarland/typescript-vim'
 " Wiki
 Plugin 'vimwiki/vimwiki'
 
@@ -89,31 +70,31 @@ let g:instant_markdown_autostart = 0
 
 set grepprg=ack\ -k
 
-set tags+=/tmp/jdk8-sources/java.util.tags,/tmp/jdk8-sources/java.lang.tags,/tmp/jdk8-sources/java.math.tags,/tmp/jdk8-sources/java.io.tags
+
+" Quick Scopes
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Trigger a highlight only when pressing f and F.
+let g:qs_highlight_on_keys = ['f', 'F']
 
 let mapleader = ","
 let maplocalleader = " "
 
 
-let g:quickrun_config = {}
-let g:quickrun_config.java =  {
-    \ 'hook/output_encode/encoding': '&termencoding',
-    \ 'exec': [
-    \           'javac %o -d %S:p:h *.java',
-    \           '%c    %o %a %s:t:r'
-    \  ],
-    \ 'hook/sweep/files': '%S:p:r.class',
-    \ 'cmdopt': '-cp /tmp/java-lib/jar/\*:.'
-    \ }
-let g:syntastic_java_javac_classpath="/tmp/java-lib/jar/*:."
-let g:JavaComplete_LibsPath="/tmp/java-lib/jar/*"
-let g:JavaComplete_ServerAutoShutdownTime=10
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+" yaml config
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml set foldlevelstart=20
+
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_text_changed = 'never'
 
 set directory=~/tmp
 set encoding=utf-8
 set t_Co=256
-set term=rxvt-256color
+" set term=rxvt-256color
 set cursorline
 set cursorcolumn
 set autoindent
@@ -131,7 +112,7 @@ set smartcase
 set incsearch
 set laststatus=2
 set showfulltag
-set foldmethod=indent
+set foldmethod=syntax
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set showbreak=↪
@@ -139,7 +120,7 @@ set scrolljump=5
 set hidden
 set viminfo='0,:0,<0,@0,f0
 set synmaxcol=120
-set colorcolumn=80
+set colorcolumn=120
 highlight OverLength ctermfg=white ctermbg=darkred guibg=#FFD9D9
 match OverLength /\%81v.\+/
 
@@ -153,7 +134,6 @@ let g:vimwiki_list = [{}, {'path': '~/Yandex.Disk/notes', 'ext': '.notes'}]
 
 silent! colorscheme  gruvbox
 
-inoremap jk <esc>
 
 nnoremap <leader>ev :vsp $MYVIMRC<cr>
 nnoremap <leader>sv :so $MYVIMRC<cr>
@@ -166,8 +146,6 @@ noremap <silent> <F4> 	:NERDTreeToggle<cr>
 noremap <leader>nl 	:NERDTreeFind<cr>
 
 noremap <leader>M 	:w \| make<cr><cr>
-noremap <leader>R 	:exe "! java %< -cp $PWD"<cr>
-noremap <silent><leader>t :QuickRun -args org.junit.runner.JUnitCore<cr>
 
 noremap <silent> <F8> :TagbarToggle<CR>
 
@@ -220,30 +198,31 @@ nnoremap <Leader>gs 	:shell <CR>
 
 " Ultisnips setup {{{
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-inoremap <C-\> <C-R>=UltiSnips#ListSnippets()<cr>
-
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" inoremap <C-\> <C-R>=UltiSnips#ListSnippets()<cr>
+"
+" let g:UltiSnipsEditSplit="vertical"
 " }}}
 
 nnoremap <Leader>w 	:update <CR>
 
 " airlinea setup {{{
 
-let g:airline_powerline_fonts 	=  1
-let g:airline#extensions#tabline#enabled 	=  1
-let g:airline#extensions#tabline#left_sep 	= ' '
-let g:airline#extensions#tabline#left_alt_sep 	= '|'
+ let g:airline_powerline_fonts 	=  1
+ let g:airline#extensions#tabline#enabled 	=  1
+ let g:airline#extensions#tabline#left_sep 	= ' '
+ let g:airline#extensions#tabline#left_alt_sep 	= '|'
 
-" }}}
+"  }}}
 
 " rest console 
 let g:vrc_auto_format_uhex = 1
 
 " session management
 let g:session_autosave = 'yes'
+let g:session_autoload = 'no'
 
 if has('persistent_undo')
 	set undofile
@@ -254,6 +233,8 @@ if has('gui_running')
 	set go=*
         set background=dark
 endif 
+
+set background=dark
 
 " russian mappings {{{
 map ё `

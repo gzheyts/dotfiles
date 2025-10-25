@@ -1,18 +1,12 @@
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh 
-eval `dircolors ~/.dircolors/dircolors.ansi-light` 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#
+eval `dircolors ~/.dircolors/dircolors.mine` 
 
-ZSH_THEME="af-magic"
+# ZSH_THEME="af-magic"
 # ZSH_THEME="wezm"
-# ZSH_THEME="blinks"
+ZSH_THEME="nicoulaj"
 
-ENABLE_CORRECTION="false"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -27,6 +21,21 @@ ENABLE_CORRECTION="false"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
+
+# Using different arguments after HISTTIMEFORMAT allows you to customize the level of detail in the timestamp:
+#  
+#   %d: Day
+#   %m: Month
+#   %y: Year
+#   %H: Hour
+#   %M: Minutes
+#   %S: Seconds
+#   %F: Full date (Y-M-D format)
+#   %T: Time (H:M:S format)
+#   %c: Complete date and timestamp (Day-D-M-Y H:M:S format)
+#
+export HISTTIMEFORMAT="%c "
+
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -37,29 +46,43 @@ ENABLE_CORRECTION="false"
 #
 
 plugins=(
-	rsync
-	bgnotify
+	command-not-found
 	cp
-        web-search
 	docker
 	docker-compose
 	extract
-	vundle
-	autojump
-	command-not-found
-	vi-mode
-	archlinux
 	git
-	jump
-	tmux
-	mvn
-        themes
-        gradle-completion
-	last-working-dir
-	zsh_reload
-	gnu-utils
-	systemd
 	httpie
+	jump
+	last-working-dir
+	mvn
+	rsync
+	systemd
+	tmux
+	vi-mode
+	vundle
+        colored-man-pages
+        compleat
+        fzf
+        gitignore
+        grc
+        helm
+        history
+        httpie
+        kubectl
+        minikube
+        sdk
+        snap
+        spring
+        svn
+        svn-fast-info
+        taskwarrior
+        timer
+        tmuxinator
+        ubuntu
+        vault
+        web-search
+        zoxide
 )
 
 # User configuration
@@ -72,25 +95,14 @@ source $ZSH/oh-my-zsh.sh
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#
+# ZSHZ setings
+export ZSHZ_CASE=smart
 
 # share history between terminals
 setopt inc_append_history
 setopt share_history
+
+setopt no_nomatch
 
 # Get color support for 'less'
 export LESS="--RAW-CONTROL-CHARS"
@@ -101,12 +113,19 @@ export TERM=xterm-256color
 # Use colors for less, man, etc.
 [[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
 
-#bookmark aliases
+# Local aliases
+[[ -f ~/.aliases.local ]] && . ~/.aliases.local
+
+#bookmark aliases 
 alias lm="marks"
 alias sm="mark"
 alias g="jump"
 alias dm="unmark"
 
+#ls 
+alias ls="ls --color"
+
+# config
 alias zsh-config="vim ~/.zshrc"
 alias xresources-config="vim ~/.Xresources"
 alias tmux-config="vim ~/.tmux.conf"
@@ -118,22 +137,30 @@ alias i3-config="vim ~/.i3/config"
 alias xinit-config="vim ~/.xinitrc"
 alias psql-config="vim ~/.psqlrc"
 
+
+
+alias vimf='vim $(fzf)'
+
 alias :h="man"
-alias t="tree"
+alias :t="tree"
+
+alias t="trans :ru  "
+alias T="trans :en  "
+
+
 alias pactree='pactree -c'
 alias pacman='pacman --color always '
 alias r="ranger"
 alias tlc="tmux list-commands"
 alias ,ru="trans -e yandex en:ru"
 alias ,en="trans -e yandex ru:en"
-alias oj="open-javadoc"
-alias mu="mpc update"
 
 alias sz='source ~/.zshrc'
 
 alias -g BG=" >/dev/null 2>&1 &"
 alias -g ERR=" 2>/dev/null "
 alias -g LI=" | less -i "
+
 
 alias grepc="grep --color=always"
 
@@ -146,61 +173,52 @@ alias fd='find -type d -name '
 
 alias gRem="gss | awk '{print \$2}' | xargs rm -rf"
 
-function jh {
-    jhipster $@ --experimental
-}
-
 alias idiff="idea diff"
 alias imerge="idea merge"
 
 alias lsdev="lsblk -o NAME,MOUNTPOINT,SIZE,FSTYPE,LABEL,UUID,PARTTYPE,PARTLABEL,OWNER,GROUP,MODE,TYPE -p "
 alias lsmnt="findmnt -o TARGET,SOURCE,FSTYPE,LABEL,UUID,SIZE,AVAIL,USED,USE%,OPTIONS"
-
-function ffo { ffj $1 | sed 's/\ /\\ /gi' | vipe; }
-
 alias  vfatmount="sudo mount -t vfat -o rw,uid=1000,gid=100,utf8,shortname=mixed "
 
 alias showimg="feh --force-aliasing --geometry 800x60 --zoom 200 --stretch  -f -"
 
-function ffo { fj $1 | sed 's/\ /\\ /gi' | vipe; } 
+alias -g C=" | xsel -b " 
+alias -g ML=" --settings ~/.m2/settings-local.xml "
 
-alias mi="mvn install -Dmaven.test.skip=true"
+# Maven
+alias mvn="mvnd"
+export MAVEN_OPTS="-Daether.dependencyCollector.impl=bf -Dmaven.artifact.threads=10"
+export MAVEN_ARGS="-T 1C -V -e"
+alias mct="mvn -T 1C clean test"
+alias mi="mvn install"
+alias mist="mvn install -DskipTests=true"
+alias mcist="mvn clean install -DskipTests=true"
+alias mits="mvn install -Dmaven.test.skip=true"
+alias mp="mvn package"
+alias mpts="mvn package -Dmaven.test.skip=true"
+alias mpst="mvn package -DskipTests=true"
+alias mver="mvn verify"
+alias mcp="mvn clean package"
 alias mis="mvn install source:jar -Dmaven.test.skip=true"
-alias mci="mvn clean install -Dmaven.test.skip=true "
-alias mcis="mvn clean source:jar install -Dmaven.test.skip=true "
-
+alias mci="mvn clean install"
+alias mddu='mvn versions:display-dependency-updates'
+alias mdt='mvn dependency:tree'
+alias mdtf='mvn dependency:tree -Dfull'
 alias mvngen="mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.3"
 
-alias gw="./gradlew --console=rich --warning-mode=all "
-
-function lc  { logcat-color    wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }
-function lct { logcat-color  -v threadtime  wpa_supplicant:E StateMachine:E SignalStrength:E WifiStateMachine:E ThrottleService:E; }  
-function st  { pgrep -fa org.apache.catalina.startup.Bootstrap; }
-function lsl { ls -la $1 --color=always | less -Fi; }
 function cls { printf "\ec"; } 
-
-function tstart { ~/tmp/apache-tomcat-8.0.30/bin/startup.sh ; }
-function tstop  { ~/tmp/apache-tomcat-8.0.30/bin/shutdown.sh; }
-function trestart  { echo "stop tomcat .... "; tstop;  echo "start tomcat ...."; tstart; }
-
-
-function  tail-logs {
-    grc -c conf.log  ssh $1 tail -F /var/log/tomcat8/catalina.out
-}
-
-function  fetch-logs {
-    scp $1:/var/log/tomcat8/catalina.out /storage/catalina-$1.out && vim /storage/catalina-$1.out
-}
-
-
-export CATALINA_HOME=/work/server/tomcat-8.0.30
-export CATALINA_BASE=/work/server/tomcat-8.0.30
 
 export PATH="$PATH:$HOME/bin:$HOME/.bin"
 
-# aspectj
-export PATH=$PATH:$HOME/.local/share/aspectj1.8/bin 
-export CLASSPATH=$CLASSPATH:$HOME/.local/share/aspectj1.8/lib/aspectjrt.jar
-#nodejs
-PATH="$HOME/.node_modules/bin:$PATH"
-export npm_config_prefix=~/.node_modules
+# sqlcl
+export SQLPATH=~/.sqlcl
+
+
+autoload -U +X bashcompinit && bashcompinit
+
+complete -o nospace -C /snap/vault/2399/bin/vault vault
+source ~/.zsh-plugins/kafka.plugin.zsh
+
+# sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

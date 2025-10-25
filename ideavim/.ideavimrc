@@ -1,40 +1,76 @@
-
 " Init {{{
 set hlsearch
-set scrolloff=3
+set scrolloff=8
 set relativenumber
 set number
 set ignorecase smartcase
 set showmode
-set nocompatible
+set showcmd
+set visualbell
 set history=1000
 set incsearch
-" Emulate vim-surround plugin
-set surround
 let mapleader= ","
+set wrapscan                      " searches wrap around the end of the file
+set gdefault                      " substitute all occurrences in line per default
+set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
+set functiontextobj
 "}}}
 
-" Disable keys {{{
-inoremap <esc> 		<nop>
-inoremap jk 		<esc>
-inoremap ол 		<esc>
+"Plugins  {{{
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'vim-surround'
+Plug 'easymotion/vim-easymotion'
+set ideajoin
+set ideamarks
+set quickscope
+set exchange
+set commentary
 "}}}
+
+" NERDTree {{{
+Plug 'preservim/nerdtree'
+map <leader>N   :NERDTree<CR>
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
+"}}}
+
+" Easy motions {{{
+map <Leader>w <Plug>(easymotion-bd-w)
+map <Leader>L <Plug>(easymotion-bd-jk)
+map <Leader>f <Plug>(easymotion-bd-f)
+map <leader>F <Plug>(easymotion-f)
+"}}}
+
+" Use ctrl-c as an ide shortcut in normal and visual modes
+sethandler <C-C> n-v:ide i:vim
+sethandler <C-D> n-v:vim i:ide
+sethandler <C-U> n-v:vim i:ide
+sethandler <C-J> n:ide
+
+"Quick scopes {{{
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_primary_color = '#ff0000'
+let g:qs_secondary_color = '#ff00ff'
+""}}}
+
 
 " Breakpoints && bookmarks {{{
-nnoremap <leader>b 	:action ToggleLineBreakpoint<cr>
-nnoremap <leader>e 	:action ToggleBreakpointEnabled<cr>
-nnoremap <leader>s 	:action ViewBreakpoints<cr>
+nnoremap <Leader>bt     :action ToggleLineBreakpoint<CR>
+nnoremap <Leader>bv     :action ViewBreakpoints<CR>
 
-nnoremap <leader>B  	:action ToggleBookmark<cr>
-nnoremap <leader>M 	:action ToggleBookmarkWithMnemonic<cr>
-nnoremap <leader>S 	:action ShowBookmarks<cr>
+nnoremap <leader>BB     :action ToggleBookmark<cr>
+nnoremap <leader>BV 	:action ShowBookmarks<cr>
+nnoremap <leader>BT 	:action ToggleBookmarkWithMnemonic<cr>
 "}}}
 
 " System clipboard copy/paste {{{
-noremap 		<leader>y "*y
-noremap 		<leader>Y "*Y
-noremap 		<leader>p "*p
-noremap 		<leader>P "*P
+vmap <leader>y "+y
+nmap <leader>y "*yy
+nmap <leader>p "*p
+nmap <leader>P "*P
+vmap <leader>p "*p
+vmap <leader>P "*P
 "}}}
 
 " Windows {{{
@@ -52,67 +88,64 @@ nnoremap col 		:action EditorToggleShowWhitespaces<cr>
 " Find && usage actions {{{
 nnoremap <space>u   	:action FindUsages<cr>
 nnoremap <space>U   	:action ShowUsages<cr>
-nnoremap <space>f   	:action FindUsagesInFile<cr>
-nnoremap <space>m   	:action FindModal<cr>
+nnoremap <space><a-f>  	:action FindUsagesInFile<cr>
 nnoremap <space>h   	:action HighlightUsagesInFile<cr>
 "}}}
 
+" Method navigation {{{
+nnoremap [] 		:action MethodUp<cr>
+nnoremap ][ 		:action MethodDown<cr>
+"}}}
+"
 " View actions {{{
-nnoremap <space>j 	:action EditorJoinLines<cr>
-nnoremap <space>t 	:action FileStructurePopup<cr>
-nnoremap \p 		:action ParameterInfo<cr>
+nnoremap \f 	        :action FileStructurePopup<cr>
 nnoremap \a 		:action AddToFavoritesPopup<cr>
-nnoremap \spm 		:action ShowPopupMenu<cr>
 nnoremap \m 		:action MethodHierarchy<cr>
 nnoremap \t 		:action TypeHierarchy<cr>
 nnoremap \c 		:action CallHierarchy<cr>
+nnoremap \q 		:action QuickJavaDoc<cr>
 "}}}
 
 " Code navigation {{{
-nnoremap <leader>gt  	:action GotoTest<cr>
-nnoremap <leader>ga 	:action GotoAction<cr>
-nnoremap <leader>gS 	:action GotoSymbol<cr>
-nnoremap <leader>gf 	:action GotoFile<cr>
-nnoremap <leader>gr 	:action RecentFiles<cr>
-nnoremap <leader>gc 	:action GotoClass<cr>
-nnoremap <leader>gi 	:action GotoImplementation<cr>
-nnoremap <leader>gsm 	:action GotoSuperMethod<cr>
-nnoremap <leader>gtd 	:action GotoTypeDeclaration<cr>
+nnoremap ]td 	        :action GotoTypeDeclaration<cr>
+nnoremap ]sm 	        :action GotoSuperMethod<cr>
+nnoremap ]i 	        :action GotoImplementation<cr>
+nnoremap <space>a 	:action GotoAction<cr>
+nnoremap <space>c 	:action GotoClass<cr>
+nnoremap <space>e 	:action SearchEverywhere<cr>
+nnoremap <space>f 	:action GotoFile<cr>
+nnoremap <space>i 	:action GotoUrlAction<cr>
+nnoremap <space>l 	:action RecentLocations<cr>
+nnoremap <space>r 	:action RecentFiles<cr>
+nnoremap <space>s 	:action GotoSymbol<cr>
+nnoremap <space>t  	:action GotoTest<cr>
+
+nnoremap <space>d       :action ActivateDebugToolWindow<cr>
+nnoremap <space>m       :action ActivateMavenToolWindow<cr>
+nnoremap <space>F       :action ActivateFindToolWindow<cr>
+nnoremap <space>g       :action ActivateGitLabCICDToolWindow<cr>
+nnoremap <space>D       :action ActivateDatabaseToolWindow<cr>
+nnoremap <space>S       :action ActivateServicesToolWindow<cr>
+
+nnoremap <leader>t      :action ActivateTerminalToolWindow<cr>
+
+nnoremap [q :action PreviousOccurence<cr>
+nnoremap ]q :action NextOccurence<cr>
+
+" nnoremap <space>q  :action QuickJavaDoc<cr>
+
 "}}}
 
-" Code generation {{{
-nnoremap <leader>GM     :action Generate<cr>
-nnoremap <leader>GC     :action GenerateConstructor<cr>
-nnoremap <leader>GS     :action GenerateSetter<cr>
-nnoremap <leader>GG     :action GenerateGetter<cr>
-nnoremap <leader>GA     :action GenerateGetterAndSetter<cr>
-nnoremap <leader>GE     :action GenerateEquals<cr>
-nnoremap <leader>Gsmc   :action GenerateSuperMethodCall<cr>
-nnoremap <leader>Gtdm   :action GenerateTearDownMethod<cr>
-nnoremap <leader>Gsum   :action GenerateSetUpMethod<cr>
-nnoremap <leader>Gtm    :action GenerateTestMethod<cr>
-" }}}
-
-" Refactoring {{{
-nnoremap <space>ib      :action InvertBoolean<cr>
-" }}}
 
 " Run/debug  invoking {{{
 nnoremap <leader>r 		:action Run<cr>
 nnoremap <leader>R 		:action RunClass<cr>
 nnoremap <leader>d 		:action Debug<cr>
 nnoremap <leader>D 		:action DebugClass<cr>
-"}}}
 
-" Unimpaired mappings {{{
-nnoremap [<space> 	O<esc>j
-nnoremap ]<space> 	o<esc>k
-nnoremap [q 		:action PreviousOccurence<cr>
-nnoremap ]q 		:action NextOccurence<cr>
-nnoremap ]n   		:action FindNext<cr>
-nnoremap [n   		:action FindPrevious<cr>
-nnoremap ]p 		:action NextParameter<cr>
-nnoremap [p 		:action PrevParameter<cr>
+nnoremap <leader>cc             :action Compile<cr>
+nnoremap <leader>cd             :action CompileDirty<cr>
+
 "}}}
 
 " Compatibility {{{
@@ -125,30 +158,83 @@ nnoremap <c-i> 		:action Forward<cr>
 " But preserve ideavim defaults
 nnoremap g<c-o> 	<c-o>
 nnoremap g<c-i> 	<c-i>
-
 nnoremap g<c-t>         <c-t>
-
-nnoremap [] 		:action MethodUp<cr>
-nnoremap ][ 		:action MethodDown<cr>
 "}}}
 
 " VCS {{{
-nnoremap <leader>vpu     :action Vcs.UpdateProject<cr>
 nnoremap ]c              :action VcsShowNextChangeMarker<cr>
 nnoremap [c              :action VcsShowPrevChangeMarker<cr>
-nnoremap <leader>c       :action VcsShowCurrentChangeMarker<cr>
+nnoremap <leader>C       :action VcsShowCurrentChangeMarker<cr>
 " }}}
 
 " Miscellaneous {{{
 " Clear the search buffer when hitting return
+nnoremap z,al :actionlist 
+
+nmap <leader>x <Action>(HideAllWindows)
+" move lines
+nmap <C-k> <Action>(MoveLineUp)
+nmap <C-j> <Action>(MoveLineDown)
+
+nnoremap <Leader>ic :action InspectCode<CR>
+nnoremap <Leader>oi :action OptimizeImports<CR>
+
 nnoremap <space><cr> 	:nohlsearch<cr>
-nnoremap \<c-r> 	:action Git.Revert<cr>
-nnoremap ZZ 		:action Exit<cr>
+nnoremap ZQ 		:action Exit<cr>
+nnoremap ZZ             :action CloseContent<cr>
 noremap <c-q>  		:action QuickJavaDoc<cr>
-noremap ss     		:source ~/.ideavimrc<cr>
+noremap \sc      	:source ~/.ideavimrc<cr>
+noremap \ec      	:e ~/.ideavimrc<cr>
 nnoremap <space>oe 	:action FileEditor.OpenDataEditor<cr>
 nnoremap <leader>nl     :action SelectInProjectView<cr>
-nnoremap <leader>z      :action CloseContent<cr>
+nnoremap <c-z>          :action ToggleDistractionFreeMode<cr>
+
+" Splitting Windows
+nmap <Leader>%      :vsplit<CR>
+nmap <Leader>"      :split<CR>
+" Quit normal mode
+nnoremap <Leader>q  :q<CR>
+nnoremap <Leader>Q  :qa!<CR>
+
+" Refactoring
+nmap \rt :action Refactorings.QuickListPopupAction<CR>
+nmap \ri :action Inline<CR>
+nmap \rn :action RenameElement<CR>
+nmap \rev :action IntroduceVariable<CR>
+nmap \ref :action IntroduceField<CR>
+nmap \reo :action IntroduceParameterObject<CR>
+nmap \rep :action IntroduceParameter<CR>
+vmap \rec :action IntroduceConstant<CR>
+nmap \rem :action ExtractMethod<CR>
+nmap \rm :action Move<CR>
+nmap \rG :action Generate<CR>
+nmap \rc :action ReformatCode<CR>
+nmap \rr :action Rerun<CR>
+
+nmap \g  :action Generate<CR>
+nmap \o  :action OverrideMethods<CR>
+
+nnoremap [e :action GotoPreviousError<CR>
+nnoremap ]e :action GotoNextError<CR>
+map gh <Action>(ShowErrorDescription)
+
+nnoremap g; :action JumpToLastChange<CR>
+nnoremap g, :action JumpToNextChange<CR>
+
+nmap <C-p> :action ParameterInfo<CR>
+imap <C-p> <C-o>:action ParameterInfo<CR>
+" Open recent project dialog box
+nmap <Leader><Leader>m :action ManageRecentProjects<CR>
+
+" change font size
+nmap + :action EditorIncreaseFontSize<CR>
+nmap - :action EditorDecreaseFontSize<CR>
+nmap <leader>= :action EditorResetFontSize<CR>
+
+
+# tests
+nnoremap !t       :action ShowRecentTests<CR>
+
 "}}}
 
 " russian mappings {{{

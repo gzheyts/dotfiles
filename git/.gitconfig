@@ -1,5 +1,6 @@
 [core]
 	editor = vim
+	autocrlf = input
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	co = checkout
@@ -10,6 +11,7 @@
 	last = log -1 HEAD
 [user]
 	name = Georgy Zheyts
+	# email = ZheitsGA@alfastrah.ru
 	email = gzheyts@gmail.com
 [color]
 	ui = auto
@@ -19,3 +21,9 @@
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
+[http]
+	sslVerify = false
+[pager]
+	log = false
+[init]
+	defaultBranch = develop

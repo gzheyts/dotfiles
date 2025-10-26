@@ -27,7 +27,7 @@ i3-wm.workspace.05.name: 5:  fm
 i3-wm.workspace.06.name: 6:  docs
 i3-wm.workspace.07.name: 7:  api
 i3-wm.workspace.08.name: 8:  media
-i3-wm.workspace.09.name: 9:  mail
+i3-wm.workspace.09.name: 9:  mail
 i3-wm.workspace.10.name: 10:  im
 
 ! date format, see https://regolith-desktop.com/docs/howtos/time-format

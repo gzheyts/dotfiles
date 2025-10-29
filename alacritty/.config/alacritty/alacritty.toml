@@ -1,0 +1,41 @@
+[env]
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[window]
+decorations_theme_variant = "Dark"
+
+[scrolling]
+history = 99999
+multiplier = 3
+
+[font]
+# normal = { family = "<string>", style = "<string>" }
+normal = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
+
+# bold = { family = "<string>", style = "<string>" }
+#
+#     If the family is not specified, it will fall back to the value specified for the normal font.
+#
+#     Default: { style = "Bold" }
+bold = { style = "Bold" }
+
+# italic = { family = "<string>", style = "<string>" }
+#
+#     If the family is not specified, it will fall back to the value specified for the normal font.
+#
+#     Default: { style = "Italic" }
+italic = { style = "Italic" }
+
+# bold_italic = { family = "<string>", style = "<string>" }
+#
+#     If the family is not specified, it will fall back to the value specified for the normal font.
+#
+#     Default: { style = "Bold Italic" }
+bold_italic = { style = "Bold Italic" }
+
+
+# size = <float>
+#     Font size in points.
+#
+#     Default: 11.25
+size = 10

@@ -9,6 +9,8 @@ history = 99999
 multiplier = 3
 
 [font]
+# list available values:
+#       fc-list -f "%{family[0]}: %{style[0]}\n"
 # normal = { family = "<string>", style = "<string>" }
 normal = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
 

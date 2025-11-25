@@ -1,0 +1,39 @@
+rofi.theme: /usr/share/rofi/themes/Arc-Dark.rasi
+
+regolith.wallpaper.file: ~/Pictures/wallpaper/w1.jpg
+! look
+
+! fonts
+gtk.monospace_font_name:        mononoki Nerd Font 11
+gtk.font_name:                  SauceCodePro Nerd Font 11
+gtk.document_font_name:         Sans 12
+rofi.font:                      DejaVu Sans 9
+i3xrocks.value.font:            SauceCodePro Nerd Font 11
+wm.bar.font:                 SauceCodePro Nerd Font 11
+
+! themes
+rofi.theme:                     /usr/share/rofi/themes/Arc-Dark.rasi
+gtk.theme_name:                 Adwaita-dark
+gtk.icon_theme_name:            Moka
+gtk.icon_theme_name:            Moka
+Xcursor.theme:                  Adwaita
+
+! workspace names
+wm.workspace.01.name: 1:  www
+wm.workspace.02.name: 2:  ide
+wm.workspace.03.name: 3:  code
+wm.workspace.04.name: 4:  ds
+wm.workspace.05.name: 5:  fm
+wm.workspace.06.name: 6:  docs
+wm.workspace.07.name: 7:  api
+wm.workspace.08.name: 8:  media
+wm.workspace.09.name: 9:  mail
+wm.workspace.10.name: 10:  im
+
+! wm config
+! wm.binding.scratchpad: o
+
+! date format, see https://regolith-desktop.com/docs/howtos/time-format
+i3xrocks.date.format2: %H:%M %d-%m-%Y
+!regolith.look.path: /usr/share/regolith-look/nord
+regolith.look.path: /usr/share/regolith-look/gruvbox

@@ -1,10 +1,10 @@
 [Default Applications]
-text/html=yandex-browser-beta.desktop
-x-scheme-handler/http=yandex-browser-beta.desktop
-x-scheme-handler/https=yandex-browser-beta.desktop
-x-scheme-handler/about=yandex-browser-beta.desktop
-x-scheme-handler/unknown=yandex-browser-beta.desktop
-application/xhtml+xml=yandex-browser-beta.desktop;
+text/html=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+application/xhtml+xml=firefox.desktop;
 
 x-scheme-handler/tg=telegramdesktop.desktop
 application/pdf=zathura-pdf-mupdf.desktop
@@ -164,7 +164,7 @@ application/x-jar=xarchiver.desktop;
 
 text/comma-separated-values=gvim.desktop;
 text/csv=gvim.desktop;
-text/plain=gvim.desktop;
+text/plain=vim.desktop
 text/spreadsheet=gvim.desktop;
 text/tab-separated-values=gvim.desktop;
 text/x-c=gvim.desktop;
@@ -185,6 +185,17 @@ text/xml=gvim.desktop;
 
 application/x-bittorrent=qbittorrent.desktop;
 x-scheme-handler/magnet=qbittorrent.desktop;
+x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/tonsite=telegram-desktop_telegram-desktop.desktop
+x-scheme-handler/rdp=org.remmina.Remmina.desktop
+x-scheme-handler/spice=org.remmina.Remmina.desktop
+x-scheme-handler/vnc=org.remmina.Remmina.desktop
+x-scheme-handler/remmina=org.remmina.Remmina.desktop
+application/x-remmina=org.remmina.Remmina.desktop
+application/sql=vim.desktop
+text/x-patch=vim.desktop
+application/xml=vim.desktop
+application/x-shellscript=vim.desktop
 
 [Added Associations]
 text/html=firefox.desktop
@@ -193,3 +204,23 @@ x-scheme-handler/https=firefox.desktop
 x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
 application/xhtml+xml=firefox.desktop;
+text/plain=vim.desktop;org.gnome.gedit.desktop;
+application/octet-stream=vim.desktop;
+text/x-java=vim.desktop;
+x-scheme-handler/rdp=org.remmina.Remmina.desktop;
+x-scheme-handler/spice=org.remmina.Remmina.desktop;
+x-scheme-handler/vnc=org.remmina.Remmina.desktop;
+x-scheme-handler/remmina=org.remmina.Remmina.desktop;
+application/x-remmina=org.remmina.Remmina.desktop;
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice-startcenter.desktop;
+application/vnd.ms-excel=libreoffice-startcenter.desktop;
+inode/directory=vlc.desktop;
+application/json=intellij-idea-ultimate_intellij-idea-ultimate.desktop;gvim.desktop;org.gnome.gedit.desktop;
+text/markdown=org.gnome.gedit.desktop;
+application/sql=vim.desktop;
+text/x-patch=vim.desktop;
+application/x-shellscript=vim.desktop;
+text/csv=intellij-idea-ultimate_intellij-idea-ultimate.desktop;
+
+[Removed Associations]
+text/x-java=gvim.desktop;

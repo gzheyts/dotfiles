@@ -175,10 +175,10 @@ let g:ctrlp_max_history = 1000
 noremap <localleader>c  :VCoolor<CR>
 
 " System clipboard copy/paste {{{
-noremap 		<leader>y "*y
-noremap 		<leader>Y "*Y
-noremap 		<leader>p "*p
-noremap 		<leader>P "*P
+noremap 		<leader>y "+y
+noremap 		<leader>Y "+Y
+noremap 		<leader>p "+p
+noremap 		<leader>P "+P
 "}}}
 
 " mappings

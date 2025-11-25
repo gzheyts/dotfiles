@@ -47,6 +47,7 @@ export HISTTIMEFORMAT="%c "
 
 plugins=(
 	command-not-found
+        zsh-autosuggestions
 	cp
 	docker
 	docker-compose
@@ -98,9 +99,20 @@ export EDITOR='vim'
 # ZSHZ setings
 export ZSHZ_CASE=smart
 
-# share history between terminals
-setopt inc_append_history
-setopt share_history
+# history setings
+HISTSIZE=1000000       # Set the amount of lines you want saved
+SAVEHIST=1000000       # This is required to actually save them, needs to match with HISTSIZE
+
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don\'t record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don\'t record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don\'t write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 
 setopt no_nomatch
 
@@ -208,7 +220,10 @@ alias mvngen="mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archety
 
 function cls { printf "\ec"; } 
 
-export PATH="$PATH:$HOME/bin:$HOME/.bin"
+export PATH="$PATH:$HOME/bin:$HOME/.bin:$HOME/.local/bin"
+
+# zsh autosuggestions
+bindkey '^ ' autosuggest-accept
 
 # sqlcl
 export SQLPATH=~/.sqlcl

@@ -13,7 +13,6 @@ let mapleader= ","
 set wrapscan                      " searches wrap around the end of the file
 set gdefault                      " substitute all occurrences in line per default
 set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
-set functiontextobj
 "}}}
 
 "Plugins  {{{
@@ -22,11 +21,17 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-surround'
 Plug 'easymotion/vim-easymotion'
 set ideajoin
-set ideamarks
-set quickscope
 set exchange
 set commentary
+set anyobject
+
+set which-key
+set notimeout
+
 "}}}
+
+# which key config
+let g:WhichKey_ShowVimActions = "true"
 
 " NERDTree {{{
 Plug 'preservim/nerdtree'
@@ -47,13 +52,7 @@ sethandler <C-C> n-v:ide i:vim
 sethandler <C-D> n-v:vim i:ide
 sethandler <C-U> n-v:vim i:ide
 sethandler <C-J> n:ide
-
-"Quick scopes {{{
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_primary_color = '#ff0000'
-let g:qs_secondary_color = '#ff00ff'
-""}}}
-
+sethandler <C-W> i:vim n-v:ide
 
 " Breakpoints && bookmarks {{{
 nnoremap <Leader>bt     :action ToggleLineBreakpoint<CR>
@@ -65,12 +64,11 @@ nnoremap <leader>BT 	:action ToggleBookmarkWithMnemonic<cr>
 "}}}
 
 " System clipboard copy/paste {{{
-vmap <leader>y "+y
-nmap <leader>y "*yy
-nmap <leader>p "*p
-nmap <leader>P "*P
-vmap <leader>p "*p
-vmap <leader>P "*P
+noremap <leader>y "+y
+noremap <leader>Y "+Y
+noremap <leader>p "+p
+noremap <leader>P "+P
+"
 "}}}
 
 " Windows {{{
@@ -92,11 +90,6 @@ nnoremap <space><a-f>  	:action FindUsagesInFile<cr>
 nnoremap <space>h   	:action HighlightUsagesInFile<cr>
 "}}}
 
-" Method navigation {{{
-nnoremap [] 		:action MethodUp<cr>
-nnoremap ][ 		:action MethodDown<cr>
-"}}}
-"
 " View actions {{{
 nnoremap \f 	        :action FileStructurePopup<cr>
 nnoremap \a 		:action AddToFavoritesPopup<cr>

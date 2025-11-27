@@ -180,7 +180,7 @@ noremap \sc      	:source ~/.ideavimrc<cr>
 noremap \ec      	:e ~/.ideavimrc<cr>
 nnoremap <space>oe 	:action FileEditor.OpenDataEditor<cr>
 nnoremap <leader>nl     :action SelectInProjectView<cr>
-nnoremap <c-z>          :action ToggleDistractionFreeMode<cr>
+nnoremap <c-z>          :action ToggleZenMode<cr>
 
 " Splitting Windows
 nmap <Leader>%      :vsplit<CR>
@@ -225,7 +225,7 @@ nmap - :action EditorDecreaseFontSize<CR>
 nmap <leader>= :action EditorResetFontSize<CR>
 
 
-# tests
+" tests
 nnoremap !t       :action ShowRecentTests<CR>
 
 "}}}

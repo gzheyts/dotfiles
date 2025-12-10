@@ -155,7 +155,7 @@ nnoremap <silent> <leader>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <leader>j :TmuxNavigateDown<cr>
 nnoremap <silent> <leader>k :TmuxNavigateUp<cr>
 nnoremap <silent> <leader>l :TmuxNavigateRight<cr>
-nnoremap <silent> <leader>p :TmuxNavigatePrevious<cr>
+nnoremap <silent> <leader>\ :TmuxNavigatePrevious<cr>
 " }}}
 
 " ctrlp setup  {{{

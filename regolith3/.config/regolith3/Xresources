@@ -30,10 +30,13 @@ wm.workspace.08.name: 8:  media
 wm.workspace.09.name: 9:  mail
 wm.workspace.10.name: 10:  im
 
+! i3xrocks
+i3xrocks.weather.location: Novosibirsk
+
 ! wm config
 ! wm.binding.scratchpad: o
 
 ! date format, see https://regolith-desktop.com/docs/howtos/time-format
 i3xrocks.date.format2: %H:%M %d-%m-%Y
-!regolith.look.path: /usr/share/regolith-look/nord
+!regolith.look.path: /usr/share/regolith-look/ayu-dark
 regolith.look.path: /usr/share/regolith-look/gruvbox

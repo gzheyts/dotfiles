@@ -49,10 +49,15 @@ map <leader>F <Plug>(easymotion-f)
 
 " Use ctrl-c as an ide shortcut in normal and visual modes
 sethandler <C-C> n-v:ide i:vim
-sethandler <C-D> n-v:vim i:ide
-sethandler <C-U> n-v:vim i:ide
-sethandler <C-J> n:ide
-sethandler <C-W> i:vim n-v:ide
+sethandler <C-D> a:vim
+sethandler <C-U> a:vim
+sethandler <C-J> n-v:vim i:ide
+sethandler <C-K> n-v:vim i:ide
+sethandler <C-W> a:vim
+sethandler <C-F> a:vim
+sethandler <C-B> a:vim
+sethandler <C-R> a:vim
+
 
 " Breakpoints && bookmarks {{{
 nnoremap <Leader>bt     :action ToggleLineBreakpoint<CR>

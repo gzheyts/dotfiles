@@ -237,3 +237,8 @@ source ~/.zsh-plugins/kafka.plugin.zsh
 # sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+if [[ "$TERM_PROGRAM" == "vscode" ||  -n "$CURSOR_CLI"  || -n "$CURSOR_AGENT" ]]; then
+    # disable shell history
+    fc -p
+fi

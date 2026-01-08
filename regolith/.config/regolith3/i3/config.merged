@@ -341,14 +341,14 @@ popup_during_fullscreen $wm.gaps.popup_during_fullscreen
 set_from_resource $wm.gaps.focus_follows_mouse wm.gaps.focus_follows_mouse no
 focus_follows_mouse $wm.gaps.focus_follows_mouse
 
-#no_focus [all]
+# no_focus [all]
 no_focus [tiling]
 # focus_on_window_activation smart|urgent|focus|none
-focus_on_window_activation none
+focus_on_window_activation urgent
 # focus_wrapping yes|no|force|workspace
 focus_wrapping no
 # focus_follows_mouse yes|no
-focus_follows_mouse yes
+focus_follows_mouse no
 
 # Hiding borders adjacent to the screen edges.
 # The "smart" setting hides borders on workspaces with only one window visible.

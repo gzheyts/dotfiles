@@ -1,5 +1,0 @@
-# Keyboard layout
-#
-# Displays current keyboard layout.
-[keyboard-layout]
-interval=1

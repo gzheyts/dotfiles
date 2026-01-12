@@ -1,0 +1,20 @@
+/**
+ *
+ * Author : Aditya Shakya (adi1090x)
+ * Github : @adi1090x
+ * 
+ * Rofi Theme File
+ * Rofi Version: 1.7.3
+ **/
+
+/*****----- Configuration -----*****/
+configuration {
+	modi:                       "window,combi";
+        show-icons:                 true;
+        display-combi:              "_";
+        display-window:             "";
+	window-format:              "{w} · {c} · {t}";
+	combi-format:               "{w} · {c} · {t}";
+}
+
+@import "base.rasi"

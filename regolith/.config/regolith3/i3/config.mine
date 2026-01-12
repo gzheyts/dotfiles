@@ -1,30 +1,13 @@
+# vim: set filetype=i3:
 
-# i3 config file for the Regolith Desktop Environment
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-#
+###############################################################################
+# wm config file for the Regolith Desktop Environment
 ###############################################################################
 #
 # In this config file many values are taken from Xresources with the directive
 # set_from_resource:
 #
-# set_from_resource <i3 variable name> <Xresources key> <default value>
-#
-# This configuration file utilizes Xresource variables to change configuration
-# without having to make a copy of this config file.
-# The benefit to not copying this file is easier upgrades in the future.
-# To update a value in this config without making a copy, update the Xresource
-# value in the file ~/.config/regolith2/Xresources.
-#
-# For example, to change the bar position to the top of the screen this is the
-# i3 config entry in this file:
-# set_from_resource $wm.bar.position wm.bar.position bottom
-#
-# So add this line to ~/.config/regolith2/Xresources to change it's value:
-# wm.bar.position: top
-#
-# Reload i3 after making Xresource changes.  Learn more at
-# https://regolith-linux.org/docs/howtos/override-xres/
+# set_from_resource <variable name> <Xresources key> <default value>
 #
 ###############################################################################
 #
@@ -44,7 +27,7 @@ set_from_resource $alt  wm.alt Mod1
 
 ###############################################################################
 # Workspace Names
-# These are the labels which define each i3 workspace.
+# These are the labels which define each workspace.
 ###############################################################################
 
 set_from_resource $ws1  wm.workspace.01.name "1"
@@ -82,12 +65,13 @@ set_from_resource $ws7_key  wm.workspace.07.key 7
 set_from_resource $ws8_key  wm.workspace.08.key 8
 set_from_resource $ws9_key  wm.workspace.09.key 9
 set_from_resource $ws10_key wm.workspace.10.key 0
+set_from_resource $ws_high_key wm.workspace.high.key Ctrl
 
 ###############################################################################
-# i3 Colors and Fonts
+# Colors and Fonts
 ###############################################################################
 
-# Create variables from Xresources for i3's look.
+# Create variables from Xresources for wm look
 set_from_resource $focused.color.border wm.client.focused.color.border "#002b36"
 set_from_resource $focused.color.background wm.client.focused.color.background "#586e75"
 set_from_resource $focused.color.text wm.client.focused.color.text "#fdf6e3"
@@ -120,7 +104,7 @@ client.focused_inactive $focused_inactive.color.border     $focused_inactive.col
 client.unfocused        $unfocused.color.border            $unfocused.color.background        $unfocused.color.text              $unfocused.color.indicator         $unfocused.color.child_border
 client.urgent           $urgent.color.border               $urgent.color.background           $urgent.color.text                 $urgent.color.indicator            $urgent.color.child_border
 
-# Create variables from Xresources for i3bars's look.
+# Create variables from Xresources for bar look
 set_from_resource $wm.bar.background.color wm.bar.background.color "#002b36"
 set_from_resource $wm.bar.statusline.color wm.bar.statusline.color "#93a1a1"
 set_from_resource $wm.bar.separator.color wm.bar.separator.color "#268bd2"
@@ -141,7 +125,7 @@ set_from_resource $wm.bar.workspace.urgent.border.color wm.bar.workspace.urgent.
 set_from_resource $wm.bar.workspace.urgent.background.color wm.bar.workspace.urgent.background.color "#dc322f"
 set_from_resource $wm.bar.workspace.urgent.text.color wm.bar.workspace.urgent.text.color "#fdf6e3"
 
-# Sets i3 font for dialogs
+# Sets wm font for dialogs
 set_from_resource $wm.font gtk.font_name Sans 13
 font pango:$wm.font
 
@@ -185,14 +169,14 @@ bindsym $mod+Shift+g border toggle
 set_from_resource $wm.binding.launcher.app wm.binding.launcher.app space
 set_from_resource $wm.program.launcher.app wm.program.launcher.app rofi -show drun -theme $rofiTheme
 #bindsym $mod+$wm.binding.launcher.app exec $wm.program.launcher.app
-bindsym $mod+F2 exec rofi -show run -theme $(xrescat rofi.theme)
+# bindsym $mod+F2 exec rofi -show run -theme $(xrescat rofi.theme)
+bindsym $mod+F2 exec --no-startup-id rofi -show drun -matching fuzzy -theme ~/.config/rofi/theme/launch.rasi
 
 ## navigate // window by name // <><ctrl> space ##
 set_from_resource $wm.binding.launcher.window wm.binding.launcher.window backslash
 set_from_resource $wm.program.launcher.window wm.program.launcher.window rofi -show window -theme $rofitheme
 
-bindsym $mod+backslash exec rofi -show window   -theme $(xrescat rofi.theme)
-bindsym $mod+Shift+backslash exec rofi -show combi   -theme $(xrescat rofi.theme)
+bindsym $mod+backslash exec --no-startup-id rofi -show window -matching fuzzy  -theme ~/.config/rofi/theme/window.rasi
 
 ## Launch // File Search // <><Alt> Space ##
 set_from_resource $wm.binding.file_search wm.binding.file_search space
@@ -303,6 +287,7 @@ smart_gaps $wm.gaps.smart
 # Provide window class to float above tiled windows
 floating_maximum_size -1 x -1
 for_window [class="floating_window"] floating enable
+for_window [class="gnome-control-center"] floating enable
 
 for_window [class="floating_window"] floating enable
 for_window [title="win.*"] floating enable
@@ -339,7 +324,15 @@ popup_during_fullscreen $wm.gaps.popup_during_fullscreen
 # window focus follows your mouse movements as the mouse crosses window borders
 set_from_resource $wm.gaps.focus_follows_mouse wm.gaps.focus_follows_mouse no
 focus_follows_mouse $wm.gaps.focus_follows_mouse
-#no_focus [all]
+
+# no_focus [all]
+no_focus [tiling]
+# focus_on_window_activation smart|urgent|focus|none
+focus_on_window_activation urgent
+# focus_wrapping yes|no|force|workspace
+focus_wrapping no
+# focus_follows_mouse yes|no
+focus_follows_mouse no
 
 # Hiding borders adjacent to the screen edges.
 # The "smart" setting hides borders on workspaces with only one window visible.
@@ -568,28 +561,22 @@ bindsym i [class="jetbrains-idea"] focus; mode "default"
 bindsym z [class="Zathura"] focus; mode "default"
 bindsym Shift+z [class="zoom"] focus; mode "default"
 bindsym Shift+s [class="Shutter"] focus; mode "default"
-bindsym b [class="VirtualBox Manager"] focus; mode "default"
-bindsym Shift+b [class="VirtualBox Machine"] focus; mode "default"
 bindsym d [class="Zeal"] focus; mode "default"
 bindsym Shift+t [class="Microsoft Teams - Preview"] focus; mode "default"
 bindsym c [instance="cursor"] focus; mode "default"
-bindsym p [instance="pcmanfm"] focus; mode "default"
-bindsym Shift+p [instance="gnome-pomodoro"] focus; mode "default"
+bindsym p [instance="gnome-pomodoro"] focus; mode "default"
 bindsym Shift+v [instance="vlc"] focus; mode "default"
 bindsym v [instance="code"] focus; mode "default"
 bindsym Shift+o [instance="postman"] focus; mode "default"
 bindsym o [title="Oracle SQL Developer.*"] focus; mode "default"
 bindsym n [instance="network"] focus; mode "default"
 bindsym w [instance="wifi"] focus; mode "default"
-bindsym Shift+b [instance="bluetooth"] focus; mode "default"
+bindsym b [instance="bluetooth"] focus; mode "default"
 
 bindsym r [class="org.remmina.Remmina"] focus; mode "default"
 
 bindsym l       workspace next_on_output; mode "default"
 bindsym h       workspace prev_on_output; mode "default"
-
-bindsym Shift+m exec i3-input -F 'mark %s' -P 'Mark name: '; mode "default"
-bindsym j       exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '; mode "default"
 
 bindsym Shift+1 mark mark1; mode "default"
 bindsym Shift+2 mark mark2; mode "default"
@@ -637,15 +624,13 @@ mode $mode-launch {
     bindsym Shift+s mode "default", exec skypeforlinux
     bindsym z mode "default", exec zathura
     bindsym Shift+z mode "default", exec zoom
-    bindsym b mode "default", exec virtualbox
     bindsym d mode "default", exec zeal
-    bindsym p mode "default", exec pcmanfm
-    bindsym Shift+p mode "default", exec gnome-pomodoro
+    bindsym p mode "default", exec gnome-pomodoro
     bindsym q mode "default", exec qbittorrent
     bindsym Shift+o mode "default", exec Postman
-    bindsym n mode "default", exec --no-startup-id gnome-control-center --class=floating_window --name=network network
-    bindsym w mode "default", exec --no-startup-id gnome-control-center --class=floating_window --name=wifi wifi
-    bindsym Shift+b mode "default", exec --no-startup-id gnome-control-center --class=floating_window --name=bluetooth bluetooth
+    bindsym n mode "default", exec --no-startup-id gnome-control-center network
+    bindsym w mode "default", exec --no-startup-id gnome-control-center wifi
+    bindsym b mode "default", exec --no-startup-id gnome-control-center bluetooth
 
     bindsym Shift+v mode "default", exec vlc
     bindsym v mode "default", exec code
@@ -658,6 +643,9 @@ bindsym $mod+period mode $mode-launch
 ###############################################################################
 # Session Management
 ###############################################################################
+
+bindsym $mod+m  exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 ## Session // Exit App // <><Shift> q ##
 set_from_resource $wm.binding.exit_app wm.binding.exit_app Shift+q
@@ -789,4 +777,27 @@ bindsym $mod+ctrl+n exec --no-startup-id dunstctl close
 # bindsym $mod+Shift+space exec --no-startup-id dunstctl close-all
 
 # post setup
-exec --no-startup-id ./post_init
+exec --no-startup-id  ~/.config/regolith3/i3/post_init
+
+# orig
+###############################################################################
+# WM Config Partials
+###############################################################################
+
+# # Include common partials
+# include /usr/share/regolith/common/config.d/*
+#
+# # Include any regolith i3 partials
+# include /usr/share/regolith/i3/config.d/*
+#
+# # Include any partials common between i3 and sway sessions
+# include $HOME/.config/regolith3/common-wm/config.d/*
+#
+# # Include any user i3 partials
+# include $HOME/.config/regolith3/i3/config.d/*
+#
+# # Start the systemd target manually is the session is not started by systemd
+# # Notify systemd about successful session start otherwise
+# exec --no-startup-id [ -z "${NOTIFY_SOCKET-}" ] \
+#   && systemctl --user start regolith-x11.target \
+#   || systemd-notify --ready

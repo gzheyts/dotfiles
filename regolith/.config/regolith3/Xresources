@@ -7,6 +7,7 @@ regolith.wallpaper.file: ~/Pictures/wallpaper/w1.jpg
 gtk.monospace_font_name:        mononoki Nerd Font 11
 gtk.font_name:                  SauceCodePro Nerd Font 11
 gtk.document_font_name:         Sans 12
+gnome.terminal.font:	        SauceCodePro Nerd Font 13
 rofi.font:                      DejaVu Sans 9
 i3xrocks.value.font:            SauceCodePro Nerd Font 11
 wm.bar.font:                 SauceCodePro Nerd Font 11

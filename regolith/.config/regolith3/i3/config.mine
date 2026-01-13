@@ -150,7 +150,6 @@ bindsym $mod+Shift+space sticky toggle
 # Launcher dialogs
 ###############################################################################
 
-
 ## Launch // Terminal // <> Enter ##
 set_from_resource $wm.binding.terminal wm.binding.terminal Return
 bindsym $mod+$wm.binding.terminal exec --no-startup-id /usr/bin/x-terminal-emulator
@@ -160,33 +159,8 @@ set_from_resource $wm.binding.browser wm.binding.browser Shift+Return
 bindsym $mod+$wm.binding.browser exec --no-startup-id gtk-launch $(xdg-settings get default-web-browser)
 
 
-set_from_resource $rofiTheme rofi.theme /usr/share/rofi/themes/Arc-Dark.rasi
-
-
 bindsym $mod+Shift+g border toggle
 
-## Launch // Application // <> Space ##
-set_from_resource $wm.binding.launcher.app wm.binding.launcher.app space
-set_from_resource $wm.program.launcher.app wm.program.launcher.app rofi -show drun -theme $rofiTheme
-#bindsym $mod+$wm.binding.launcher.app exec $wm.program.launcher.app
-# bindsym $mod+F2 exec rofi -show run -theme $(xrescat rofi.theme)
-bindsym $mod+F2 exec --no-startup-id rofi -show drun -matching fuzzy -theme ~/.config/rofi/theme/launch.rasi
-
-## navigate // window by name // <><ctrl> space ##
-set_from_resource $wm.binding.launcher.window wm.binding.launcher.window backslash
-set_from_resource $wm.program.launcher.window wm.program.launcher.window rofi -show window -theme $rofitheme
-
-bindsym $mod+backslash exec --no-startup-id rofi -show window -matching fuzzy  -theme ~/.config/rofi/theme/window.rasi
-
-## Launch // File Search // <><Alt> Space ##
-set_from_resource $wm.binding.file_search wm.binding.file_search space
-set_from_resource $wm.program.file_search wm.program.file_search rofi -show find -modi find:/usr/share/rofi/modi/finder.sh
-bindsym $mod+$alt+$wm.binding.file_search exec $wm.program.file_search
-
-## Launch // Look Selector // <><Alt> l ##
-set_from_resource $wm.binding.look_selector wm.binding.look_selector l
-set_from_resource $wm.program.look_selector wm.program.look_selector rofi -show look -modi look:/usr/share/rofi/modi/look-selector.sh
-bindsym $mod+$alt+$wm.binding.look_selector exec $wm.program.look_selector
 ###############################################################################
 # Window and Workspace Navigation
 ###############################################################################
@@ -303,6 +277,8 @@ for_window [instance="Places"]  floating enable
 # for_window [instance="vlc"]  floating enable 
 for_window [instance="stacer"]  floating enable 
 for_window [instance="gnome-tweaks"]  floating enable 
+
+for_window [class="regolith-control-center"] floating enable
 
 # Work-around for bug in 4.21, remove when fixed
 # See https://github.com/i3/i3/issues/5149
@@ -640,6 +616,40 @@ mode $mode-launch {
 }
 
 bindsym $mod+period mode $mode-launch
+
+###############################################################################
+# launcher config
+###############################################################################
+
+set_from_resource $rofiTheme rofi.theme /usr/share/rofi/themes/Arc-Dark.rasi
+bindsym $mod+backslash exec --no-startup-id rofi -show window -matching fuzzy  -theme ~/.config/rofi/theme/window.rasi
+
+bindsym $mod+Ctrl+Shift+p exec --no-startup-id ~/.config/rofi/scripts/powermenu.sh
+
+bindsym $mod+Shift+period exec --no-startup-id rofi -show drun -matching fuzzy -theme ~/.config/rofi/theme/launch.rasi
+# Load stylesheet if exists
+set_from_resource $ilia.stylesheet ilia.stylesheet
+
+## Launch // Command // <><Shift> Space ##
+set_from_resource $wm.program.launcher.cmd wm.program.launcher.cmd ilia -p terminal
+bindsym $mod+Ctrl+Shift+space exec --no-startup-id $wm.program.launcher.cmd -t $ilia.stylesheet
+
+## Launch // Keybinding Viewer // <><Shift> ? ##
+set_from_resource $wm.program.help wm.program.help ilia -p keybindings
+bindsym $mod+Shift+question exec --no-startup-id $wm.program.help -a -t $ilia.stylesheet
+
+## Navigate // Window by Name // <><Ctrl> Space ##
+set_from_resource $wm.program.launcher.window wm.program.launcher.window ilia -p windows
+bindsym $mod+Ctrl+space exec --no-startup-id $wm.program.launcher.window -t $ilia.stylesheet
+
+## Launch // File Search // <><Alt> Space ##
+set_from_resource $wm.program.file_search wm.program.file_search ilia -p tracker
+bindsym $mod+Shift+Ctrl+t exec --no-startup-id $wm.program.file_search -t $ilia.stylesheet
+
+## Launch // Look Selector // <><Alt> l ##
+set_from_resource $wm.program.look_selector wm.program.look_selector regolith-look-selector
+bindsym $mod+Ctrl+Shift+s exec --no-startup-id $wm.program.look_selector -t $ilia.stylesheet
+
 ###############################################################################
 # Session Management
 ###############################################################################
@@ -687,6 +697,11 @@ bindsym $mod+$wm.binding.shutdown exec $wm.program.shutdown
 set_from_resource $wm.binding.lock wm.binding.lock Escape
 set_from_resource $wm.program.lock wm.program.lock dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock
 bindsym $mod+$wm.binding.lock exec $wm.program.lock
+
+exec --no-startup-id systemctl --user import-environment XDG_CURRENT_DESKTOP DISPLAY I3SOCK
+exec --no-startup-id hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP DISPLAY I3SOCK
+
 
 ## Session // Sleep // <><Shift> s ##
 set_from_resource $wm.binding.sleep wm.binding.sleep Shift+s
@@ -776,6 +791,8 @@ exec --no-startup-id $wm.program.nm-applet
 bindsym $mod+ctrl+n exec --no-startup-id dunstctl close
 # bindsym $mod+Shift+space exec --no-startup-id dunstctl close-all
 
+set_from_resource $wm.program.media-keys wm.program.media-keys /usr/libexec/gnome-flashback-media-keys
+exec --no-startup-id $wm.program.media-keys
 # post setup
 exec --no-startup-id  ~/.config/regolith3/i3/post_init
 

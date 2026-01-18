@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# reopen scratchpad when closed
+while true; do
+  if pgrep '^i3$' > /dev/null 2>&1; then
+          alacritty  --class scratchpad,scratchpad -e /usr/bin/tmux
+sleep 1
+  else
+    break
+  fi
+done

@@ -16,6 +16,9 @@ set $right l
 # default is gnome-control-center
 set $control_center regolith-control-center
 
+# scratchpad
+set_from_resource $scratchpad_size i3wm.scratchpad_size 1920 1000
+
 ###############################################################################
 # Workspace Names
 # These are the labels which define each workspace.
@@ -283,8 +286,9 @@ for_window [instance="gnome-tweaks"]  floating enable
 for_window [class=".*-control-center$"] floating enable
 
 for_window [all] border pixel $wm.window.border.size
-for_window [all] title_window_icon on
+for_window [all] title_window_icon off
 
+for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_size, move absolute position 0 0
 
 # Set titlebar mode
 set_from_resource $wm.floatingwindow.border.size wm.floatingwindow.border.size 1
@@ -712,6 +716,7 @@ set_from_resource $wm.program.media-keys wm.program.media-keys /usr/libexec/gnom
 exec --no-startup-id $wm.program.media-keys
 # post setup
 exec --no-startup-id  ~/.config/regolith3/i3/post_init
+exec --no-startup-id  ~/.config/regolith3/i3/scratchpad
 
 # orig
 ###############################################################################

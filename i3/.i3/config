@@ -101,7 +101,6 @@ bindsym f [class="Firefox"] focus; mode "default"
 bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
 bindsym t [class="TelegramDesktop"] focus; mode "default"
-bindsym s [class="Skype"] focus; mode "default"
 bindsym Mod1+s [class="Slack"] focus; mode "default"
 bindsym m [class="Thunderbird"] focus; mode "default"
 bindsym i [class="idea"] focus; mode "default"
@@ -148,7 +147,6 @@ bindsym $mod+Shift+$right 	move right $move_inc px
 
 # split in horizontal orientation
 bindsym $mod+semicolon split h
-
 # split in vertical orientation
 bindsym $mod+v split v
 
@@ -284,7 +282,7 @@ no_focus [window_role="pop-up"]
 
 # Focus follows mouse
 focus_follows_mouse no
-force_focus_wrapping yes
+focus_wrapping force
 show_marks yes
 
 # Mouse warping
@@ -309,7 +307,6 @@ mode $mode-launch {
     bindsym f mode "default", exec firefox
     bindsym m mode "default", exec thunderbird
     bindsym y mode "default", exec yandex-browser-beta
-    bindsym s mode "default", exec skypeforlinux
     bindsym Mod1+s mode "default", exec slack
     bindsym shift+s mode "default", exec stardict
     bindsym z mode "default", exec zathura
@@ -390,10 +387,10 @@ for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_si
 # }}}
 
 #border style for new windows
-new_window pixel $border_size_window
-new_float  pixel $border_size_float
+default_border pixel $border_size_window
+default_floating_boarder  pixel $border_size_float
 
-hide_edge_borders none
+hide_edge_borders smart
 
 bindsym $mod+b border toggle
 
@@ -407,7 +404,6 @@ set_from_resource $gaps_default_outer i3wm.gaps_default_outer 0
 gaps inner $gaps_default_inner
 gaps outer $gaps_default_outer
 smart_gaps on
-smart_borders on
 
 set $mode_gaps gaps
 set $mode_gaps_outer outer gaps

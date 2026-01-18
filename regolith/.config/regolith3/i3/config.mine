@@ -1,71 +1,65 @@
 # vim: set filetype=i3:
 
 ###############################################################################
-# wm config file for the Regolith Desktop Environment
-###############################################################################
-#
-# In this config file many values are taken from Xresources with the directive
-# set_from_resource:
-#
-# set_from_resource <variable name> <Xresources key> <default value>
-#
-###############################################################################
-#
-# This file uses a machine-parsable format for comments. The schema is:
-# ## <Category> // <Action> // <Keybinding> ##
-# Learn more at https://github.com/regolith-linux/remontoire
-#
-###############################################################################
-
-###############################################################################
 # Meta Key Mappings
 ###############################################################################
 
 # Meta Key - Alt key is Mod1, and Windows key is Mod4
-set_from_resource $mod  wm.mod Mod4
-set_from_resource $alt  wm.alt Mod1
+set $mod Mod4
+set $alt Mod1
+
+set $up    k
+set $down  j
+set $left  h
+set $right l
+
+# default is gnome-control-center
+set $control_center regolith-control-center
 
 ###############################################################################
 # Workspace Names
 # These are the labels which define each workspace.
 ###############################################################################
 
-set_from_resource $ws1  wm.workspace.01.name "1"
-set_from_resource $ws2  wm.workspace.02.name "2"
-set_from_resource $ws3  wm.workspace.03.name "3"
-set_from_resource $ws4  wm.workspace.04.name "4"
-set_from_resource $ws5  wm.workspace.05.name "5"
-set_from_resource $ws6  wm.workspace.06.name "6"
-set_from_resource $ws7  wm.workspace.07.name "7"
-set_from_resource $ws8  wm.workspace.08.name "8"
-set_from_resource $ws9  wm.workspace.09.name "9"
-set_from_resource $ws10 wm.workspace.10.name "10"
-set_from_resource $ws11 wm.workspace.11.name "11"
-set_from_resource $ws12 wm.workspace.12.name "12"
-set_from_resource $ws13 wm.workspace.13.name "13"
-set_from_resource $ws14 wm.workspace.14.name "14"
-set_from_resource $ws15 wm.workspace.15.name "15"
-set_from_resource $ws16 wm.workspace.16.name "16"
-set_from_resource $ws17 wm.workspace.17.name "17"
-set_from_resource $ws18 wm.workspace.18.name "18"
-set_from_resource $ws19 wm.workspace.19.name "19"
+set_from_resource $tag1  wm.workspace.01.name "1"
+set_from_resource $tag2  wm.workspace.02.name "2"
+set_from_resource $tag3  wm.workspace.03.name "3"
+set_from_resource $tag4  wm.workspace.04.name "4"
+set_from_resource $tag5  wm.workspace.05.name "5"
+set_from_resource $tag6  wm.workspace.06.name "6"
+set_from_resource $tag7  wm.workspace.07.name "7"
+set_from_resource $tag8  wm.workspace.08.name "8"
+set_from_resource $tag9  wm.workspace.09.name "9"
+set_from_resource $tag10 wm.workspace.10.name "10"
+set $tagD	"d"
+set $tagU 	""
+set $tagY	"y"
+set_from_resource $tag11 wm.workspace.11.name "11"
+set_from_resource $tag12 wm.workspace.12.name "12"
+set_from_resource $tag13 wm.workspace.13.name "13"
+set_from_resource $tag14 wm.workspace.14.name "14"
+set_from_resource $tag15 wm.workspace.15.name "15"
+set_from_resource $tag16 wm.workspace.16.name "16"
+set_from_resource $tag17 wm.workspace.17.name "17"
+set_from_resource $tag18 wm.workspace.18.name "18"
+set_from_resource $tag19 wm.workspace.19.name "19"
 
 ###############################################################################
 # Workspace Keys
 # These are the keys which will be used while binding workspace switching
 ###############################################################################
 
-set_from_resource $ws1_key  wm.workspace.01.key 1
-set_from_resource $ws2_key  wm.workspace.02.key 2
-set_from_resource $ws3_key  wm.workspace.03.key 3
-set_from_resource $ws4_key  wm.workspace.04.key 4
-set_from_resource $ws5_key  wm.workspace.05.key 5
-set_from_resource $ws6_key  wm.workspace.06.key 6
-set_from_resource $ws7_key  wm.workspace.07.key 7
-set_from_resource $ws8_key  wm.workspace.08.key 8
-set_from_resource $ws9_key  wm.workspace.09.key 9
-set_from_resource $ws10_key wm.workspace.10.key 0
-set_from_resource $ws_high_key wm.workspace.high.key Ctrl
+set_from_resource $tag1_key  wm.workspace.01.key 1
+set_from_resource $tag2_key  wm.workspace.02.key 2
+set_from_resource $tag3_key  wm.workspace.03.key 3
+set_from_resource $tag4_key  wm.workspace.04.key 4
+set_from_resource $tag5_key  wm.workspace.05.key 5
+set_from_resource $tag6_key  wm.workspace.06.key 6
+set_from_resource $tag7_key  wm.workspace.07.key 7
+set_from_resource $tag8_key  wm.workspace.08.key 8
+set_from_resource $tag9_key  wm.workspace.09.key 9
+set_from_resource $tag10_key wm.workspace.10.key 0
+set_from_resource $tag_high_key wm.workspace.high.key Ctrl
 
 ###############################################################################
 # Colors and Fonts
@@ -99,10 +93,20 @@ set_from_resource $urgent.color.child_border wm.client.urgent.color.child_border
 
 # Window Border color
 # class                 border                             background                         text                               indicator                          child_border
-client.focused          $focused.color.border              $focused.color.background          $focused.color.text                $focused.color.indicator           $focused.color.child_border
-client.focused_inactive $focused_inactive.color.border     $focused_inactive.color.background $focused_inactive.color.text       $focused_inactive.color.indicator  $focused_inactive.color.child_border
-client.unfocused        $unfocused.color.border            $unfocused.color.background        $unfocused.color.text              $unfocused.color.indicator         $unfocused.color.child_border
-client.urgent           $urgent.color.border               $urgent.color.background           $urgent.color.text                 $urgent.color.indicator            $urgent.color.child_border
+# client.focused          $focused.color.border              $focused.color.background          $focused.color.text                $focused.color.indicator           $focused.color.child_border
+# client.focused_inactive $focused_inactive.color.border     $focused_inactive.color.background $focused_inactive.color.text       $focused_inactive.color.indicator  $focused_inactive.color.child_border
+# client.unfocused        $unfocused.color.border            $unfocused.color.background        $unfocused.color.text              $unfocused.color.indicator         $unfocused.color.child_border
+# client.urgent           $urgent.color.border               $urgent.color.background           $urgent.color.text                 $urgent.color.indicator            $urgent.color.child_border
+
+# color setup {{{
+# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
+client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
+client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
+client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
+client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
+client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
+client.background 	    	#E7D3E7
+#}}}
 
 # Create variables from Xresources for bar look
 set_from_resource $wm.bar.background.color wm.bar.background.color "#002b36"
@@ -135,113 +139,66 @@ font pango:$wm.font
 
 # Lock screen
 
-bindsym $mod+Ctrl+l exec --no-startup-id xdg-screensaver lock
+bindsym $mod+Ctrl+$right exec --no-startup-id xdg-screensaver lock
 # Touchpad
-bindsym $mod+bracketleft exec --no-startup-id /usr/bin/touchpad-indicator -c
+bindsym $mod+comma exec --no-startup-id /usr/bin/touchpad-indicator -c
 
 bindsym $mod+space 	focus mode_toggle
 bindsym $mod+Shift+space sticky toggle
-# Include any regolith i3 partials
-# include /usr/share/regolith/i3/config.d/*
 
-# Include any user i3 partials
-# include $HOME/.config/regolith2/i3/config.d/*
 ###############################################################################
 # Launcher dialogs
 ###############################################################################
 
-## Launch // Terminal // <> Enter ##
-set_from_resource $wm.binding.terminal wm.binding.terminal Return
-bindsym $mod+$wm.binding.terminal exec --no-startup-id /usr/bin/x-terminal-emulator
+bindsym $mod+Return exec --no-startup-id /usr/bin/x-terminal-emulator
 
-## Launch // Browser // <><Shift> Enter ##
-set_from_resource $wm.binding.browser wm.binding.browser Shift+Return
-bindsym $mod+$wm.binding.browser exec --no-startup-id gtk-launch $(xdg-settings get default-web-browser)
+bindsym $mod+Shift+Return exec --no-startup-id gtk-launch $(xdg-settings get default-web-browser)
 
-
-bindsym $mod+Shift+g border toggle
 
 ###############################################################################
 # Window and Workspace Navigation
 ###############################################################################
 
-## Navigate // Relative Parent // <> a ##/
-set_from_resource $wm.binding.focus_parent wm.binding.focus_parent a
-bindsym $mod+$wm.binding.focus_parent focus parent
+bindsym $mod+a          focus parent
+bindsym $mod+Shift+a 	focus child
 
-## Navigate // Relative Child // <> z ##/
-set_from_resource $wm.binding.focus_child wm.binding.focus_child z
-bindsym $mod+$wm.binding.focus_child focus child
+bindsym $mod+bracketright focus next
+bindsym $mod+bracketleft  focus prev
 
-## Navigate // Relative Window // <> ↑ ↓ ← → ##
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-## Navigate // Relative Window // <> k j h l ##
-set_from_resource $wm.binding.left wm.binding.left h
-set_from_resource $wm.binding.right wm.binding.right l
-set_from_resource $wm.binding.up wm.binding.up k
-set_from_resource $wm.binding.down wm.binding.down j
-bindsym $mod+$wm.binding.left focus left
-bindsym $mod+$wm.binding.down focus down
-bindsym $mod+$wm.binding.up focus up
-bindsym $mod+$wm.binding.right focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
 ## Navigate // Workspaces 1-10 // <> 0..9 ##
-bindsym $mod+$ws1_key workspace number $ws1
-bindsym $mod+$ws2_key workspace number $ws2
-bindsym $mod+$ws3_key workspace number $ws3
-bindsym $mod+$ws4_key workspace number $ws4
-bindsym $mod+$ws5_key workspace number $ws5
-bindsym $mod+$ws6_key workspace number $ws6
-bindsym $mod+$ws7_key workspace number $ws7
-bindsym $mod+$ws8_key workspace number $ws8
-bindsym $mod+$ws9_key workspace number $ws9
-bindsym $mod+$ws10_key workspace number $ws10
+bindsym $mod+1 workspace number $tag1
+bindsym $mod+2 workspace number $tag2
+bindsym $mod+3 workspace number $tag3
+bindsym $mod+4 workspace number $tag4
+bindsym $mod+5 workspace number $tag5
+bindsym $mod+6 workspace number $tag6
+bindsym $mod+7 workspace number $tag7
+bindsym $mod+8 workspace number $tag8
+bindsym $mod+9 workspace number $tag9
+bindsym $mod+0 workspace number $tag10
+bindsym $mod+y workspace $tagY
+bindsym $mod+d workspace $tagD
+bindsym $mod+u workspace $tagU
 ## Navigate // Workspace 11 - 19 // <><Ctrl> 1..9 ##
-bindsym $mod+Ctrl+$ws1_key workspace number $ws11
-bindsym $mod+Ctrl+$ws2_key workspace number $ws12
-bindsym $mod+Ctrl+$ws3_key workspace number $ws13
-bindsym $mod+Ctrl+$ws4_key workspace number $ws14
-bindsym $mod+Ctrl+$ws5_key workspace number $ws15
-bindsym $mod+Ctrl+$ws6_key workspace number $ws16
-bindsym $mod+Ctrl+$ws7_key workspace number $ws17
-bindsym $mod+Ctrl+$ws8_key workspace number $ws18
-bindsym $mod+Ctrl+$ws9_key workspace number $ws19
-
-## Navigate // Next Workspace // <> Tab ##
-#set_from_resource $wm.binding.ws_next wm.binding.ws_next Tab
-#bindsym $mod+$wm.binding.ws_next workspace next
-
-## Navigate // Next Workspace // <><Alt> → ##
-#set_from_resource $wm.binding.ws_next2 wm.binding.ws_next2 Right
-#bindsym $mod+$alt+$wm.binding.ws_next2 workspace next
-
-## Navigate // Next Workspace on Output // <><Ctrl> Tab ##
-#set_from_resource $wm.binding.ws_next_on_output wm.binding.ws_next_on_output Ctrl+Tab
-#bindsym $mod+$wm.binding.ws_next_on_output workspace next_on_output
-
-## Navigate // Next Workspace on Output // <><Ctrl> l ##
-#set_from_resource $wm.binding.ws_next_on_output2 wm.binding.ws_next_on_output2 Ctrl+l
-#bindsym $mod+$wm.binding.ws_next_on_output2 workspace next_on_output
-
-## Navigate // Previous Workspace // <><Shift> Tab ##
-#set_from_resource $wm.binding.ws_prev wm.binding.ws_prev Shift+Tab
-#bindsym $mod+$wm.binding.ws_prev workspace prev
-
-## Navigate // Previous Workspace // <><Alt> ← ##
-#set_from_resource $wm.binding.ws_prev2 wm.binding.ws_prev2 Left
-#bindsym $mod+$alt+$wm.binding.ws_prev2 workspace prev
-
-## Navigate // Previous Workspace on Output // <><Ctrl><Shift> Tab ##
-#set_from_resource $wm.binding.ws_prev_on_output wm.binding.ws_prev_on_output Ctrl+Shift+Tab
-#bindsym $mod+$wm.binding.ws_prev_on_output workspace prev_on_output
-
-## Navigate // Previous Workspace on Output // <><Ctrl> h ##
-#set_from_resource $wm.binding.ws_prev_on_output2 wm.binding.ws_prev_on_output2 Ctrl+h
-#bindsym $mod+$wm.binding.ws_prev_on_output2 workspace prev_on_output
+bindsym $mod+Ctrl+1 workspace number $tag11
+bindsym $mod+Ctrl+2 workspace number $tag12
+bindsym $mod+Ctrl+3 workspace number $tag13
+bindsym $mod+Ctrl+4 workspace number $tag14
+bindsym $mod+Ctrl+5 workspace number $tag15
+bindsym $mod+Ctrl+6 workspace number $tag16
+bindsym $mod+Ctrl+7 workspace number $tag17
+bindsym $mod+Ctrl+8 workspace number $tag18
+bindsym $mod+Ctrl+9 workspace number $tag19
 
 ###############################################################################
 # i3-gaps Window Resize
@@ -249,21 +206,66 @@ bindsym $mod+Ctrl+$ws9_key workspace number $ws19
 
 
 # Specify the distance between windows in pixels. (i3-gaps)
-set_from_resource $wm.gaps.inner.size wm.gaps.inner.size 5
-set_from_resource $wm.gaps.outer.size wm.gaps.outer.size 0
-gaps inner $wm.gaps.inner.size
-gaps outer $wm.gaps.outer.size
+set_from_resource $gaps_default_inner wm.gaps.inner.size 10
+set_from_resource $gaps_default_outer wm.gaps.outer.size 5
+
+gaps inner $gaps_default_inner
+gaps outer $gaps_default_outer
 
 
 # Only enable gaps on a workspace when there is at least one container
-set_from_resource $wm.gaps.smart wm.gaps.smart on
-smart_gaps $wm.gaps.smart
+smart_gaps on
+
+set $mode_gaps gaps
+set $mode_gaps_outer outer gaps
+set $mode_gaps_inner inner gaps
+bindsym $mod+Shift+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+    bindsym i      mode "$mode_gaps_inner"
+
+    bindsym 0      mode "default", exec --no-startup-id i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
+    bindsym d      mode "default", exec --no-startup-id i3-msg "gaps inner current set $gaps_default_inner" && i3-msg "gaps outer current set $gaps_default_outer"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     mode "default", gaps inner current set 0
+    bindsym d     mode "default", gaps inner current set $gaps_default_inner
+
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     mode "default", gaps inner all set 0
+    bindsym Shift+d     mode "default", gaps inner all set $gaps_default_inner
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0     mode "default", gaps outer current set 0
+    bindsym d     mode "default", gaps outer current set $gaps_default_outer
+
+    bindsym Shift+plus  gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0     mode "default", gaps outer all set 0
+    bindsym Shift+d     mode "default", gaps outer all set $gaps_default_outer
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 # Provide window class to float above tiled windows
 floating_maximum_size -1 x -1
 for_window [class="floating_window"] floating enable
 for_window [class="gnome-control-center"] floating enable
 
-for_window [class="floating_window"] floating enable
 for_window [title="win.*"] floating enable
 for_window [instance="telegram-desktop"] floating enable
 for_window [class="Gnome-pomodoro"]  floating enable 
@@ -278,237 +280,184 @@ for_window [instance="Places"]  floating enable
 for_window [instance="stacer"]  floating enable 
 for_window [instance="gnome-tweaks"]  floating enable 
 
-for_window [class="regolith-control-center"] floating enable
+for_window [class=".*-control-center$"] floating enable
 
-# Work-around for bug in 4.21, remove when fixed
-# See https://github.com/i3/i3/issues/5149
 for_window [all] border pixel $wm.window.border.size
+for_window [all] title_window_icon on
+
 
 # Set titlebar mode
-set_from_resource $wm.floatingwindow.border.style wm.floatingwindow.border.style pixel
 set_from_resource $wm.floatingwindow.border.size wm.floatingwindow.border.size 1
-default_floating_border $wm.floatingwindow.border.style $wm.floatingwindow.border.size
-# default_floating_border none 
-set_from_resource $wm.window.border.style wm.window.border.style pixel
+default_floating_border normal $wm.floatingwindow.border.size
+
 set_from_resource $wm.window.border.size wm.window.border.size 1
-default_border $wm.window.border.style $wm.window.border.size
-# default_border none
+default_border pixel $wm.window.border.size
+
+bindsym $mod+b border toggle
+
 # Enable popup during fullscreen
-set_from_resource $wm.gaps.popup_during_fullscreen wm.gaps.popup_during_fullscreen smart
-popup_during_fullscreen $wm.gaps.popup_during_fullscreen
+popup_during_fullscreen smart
 
-# window focus follows your mouse movements as the mouse crosses window borders
-set_from_resource $wm.gaps.focus_follows_mouse wm.gaps.focus_follows_mouse no
-focus_follows_mouse $wm.gaps.focus_follows_mouse
+# Don't focus window upon opening
+no_focus [window_role="pop-up"]
+for_window [window_role=PictureInPicture] sticky enable
 
-# no_focus [all]
-no_focus [tiling]
-# focus_on_window_activation smart|urgent|focus|none
+# The window will always be marked urgent, but the focus will not be stolen
 focus_on_window_activation urgent
-# focus_wrapping yes|no|force|workspace
-focus_wrapping no
+
+focus_wrapping force
+
+show_marks yes
+
+mouse_warping output
 # focus_follows_mouse yes|no
 focus_follows_mouse no
 
 # Hiding borders adjacent to the screen edges.
-# The "smart" setting hides borders on workspaces with only one window visible.
-set_from_resource $wm.hide.edge.borders wm.hide.edge.borders smart
-hide_edge_borders $wm.hide.edge.borders
-# hide_edge_borders smart
-# hide_edge_borders none
+hide_edge_borders smart
 ## Navigate // Next Free Workspace // <> ` ##
-set_from_resource $wm.binding.next_free wm.binding.next_free grave
-bindsym $mod+$wm.binding.next_free exec --no-startup-id /usr/bin/i3-next-workspace
+bindsym $mod+grave exec --no-startup-id /usr/bin/i3-next-workspace
 
 ## Modify // Move Window to Next Free Workspace // <><Shift> ` ##
-set_from_resource $wm.binding.move_next_free wm.binding.move_next_free Shift+grave
-bindsym $mod+$wm.binding.move_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window
+bindsym $mod+Shift+grave exec --no-startup-id /usr/bin/i3-next-workspace --move-window
 
 ## Modify // Carry Window to Next Free Workspace // <><Alt> ` ##
-set_from_resource $wm.binding.take_next_free wm.binding.take_next_free grave
-bindsym $mod+$alt+$wm.binding.take_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window-and-follow
+bindsym $mod+$alt+grave exec --no-startup-id /usr/bin/i3-next-workspace --move-window-and-follow
 ###############################################################################
 # Window and Workspace Configuration
 ###############################################################################
 
-## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-## Modify // Window Position // <><Shift> k j h l ##
-set_from_resource $wm.binding.move_left wm.binding.move_left Shift+h
-set_from_resource $wm.binding.move_right wm.binding.move_right Shift+l
-set_from_resource $wm.binding.move_up wm.binding.move_up Shift+k
-set_from_resource $wm.binding.move_down wm.binding.move_down Shift+j
-bindsym $mod+$wm.binding.move_left move left
-bindsym $mod+$wm.binding.move_down move down
-bindsym $mod+$wm.binding.move_up move up
-bindsym $mod+$wm.binding.move_right move right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
-## Modify // Containing Workspace // <><Ctrl><Shift> ↑ ↓ ← → ##
-set_from_resource $wm.binding.move_workspace_output_left wm.binding.move_workspace_output_left Ctrl+Shift+Left
-set_from_resource $wm.binding.move_workspace_output_right wm.binding.move_workspace_output_right Ctrl+Shift+Right
-set_from_resource $wm.binding.move_workspace_output_up wm.binding.move_workspace_output_up Ctrl+Shift+Up
-set_from_resource $wm.binding.move_workspace_output_down wm.binding.move_workspace_output_down Ctrl+Shift+Down
-bindsym $mod+$wm.binding.move_workspace_output_left move workspace to output left
-bindsym $mod+$wm.binding.move_workspace_output_right move workspace to output right
-bindsym $mod+$wm.binding.move_workspace_output_up move workspace to output up
-bindsym $mod+$wm.binding.move_workspace_output_down move workspace to output down
+bindsym $mod+Ctrl+Shift+Left move workspace to output left
+bindsym $mod+Ctrl+Shift+Right move workspace to output right
+bindsym $mod+Ctrl+Shift+Up move workspace to output up
+bindsym $mod+Ctrl+Shift+Down move workspace to output down
 
-## Modify // Containing Workspace // <><Ctrl><Shift> k j h l ##
-set_from_resource $wm.binding.take_left wm.binding.take_left Ctrl+Shift+h
-set_from_resource $wm.binding.take_right wm.binding.take_right Ctrl+Shift+l
-set_from_resource $wm.binding.take_up wm.binding.take_up Ctrl+Shift+k
-set_from_resource $wm.binding.take_down wm.binding.take_down Ctrl+Shift+j
-bindsym $mod+$wm.binding.take_left move workspace to output left
-bindsym $mod+$wm.binding.take_down move workspace to output down
-bindsym $mod+$wm.binding.take_up move workspace to output up
-bindsym $mod+$wm.binding.take_right move workspace to output right
-
-## Modify // Vertical Window Orientation // <> v ##
-set_from_resource $wm.binding.split_v wm.binding.split_v v
-bindsym $mod+$wm.binding.split_v split vertical
-
-## Modify // Horizontal Window Orientation // <> g ##
-set_from_resource $wm.binding.split_h wm.binding.split_h g
-bindsym $mod+$wm.binding.split_h split horizontal
-
-## Modify // Toggle Window Orientation // <> Backspace ##
-set_from_resource $wm.binding.orientation_toggle wm.binding.orientation_toggle BackSpace
-bindsym $mod+$wm.binding.orientation_toggle split toggle
-
-## Modify // Window Fullscreen Toggle // <> f ##
-set_from_resource $wm.binding.fullscreen_toggle wm.binding.fullscreen_toggle f
-bindsym $mod+$wm.binding.fullscreen_toggle fullscreen toggle
-
-## Modify // Window Floating Toggle // <><Shift> f ##
-set_from_resource $wm.binding.float_toggle wm.binding.float_toggle Shift+f
-bindsym $mod+Shift+$wm.binding.float_toggle floating toggle
+bindsym $mod+Ctrl+Shift+$left move workspace to output left
+bindsym $mod+Ctrl+Shift+$down move workspace to output down
+bindsym $mod+Ctrl+Shift+$up move workspace to output up
+bindsym $mod+Ctrl+Shift+$right move workspace to output right
 
 
-## Navigate // Scratchpad // <><Ctrl> a ##
-set_from_resource $wm.binding.scratchpad wm.binding.scratchpad Ctrl+a
-# bindsym $mod+$wm.binding.scratchpad scratchpad show
-#bindsym $mod+minus scratchpad show
+# split in horizontal orientation
+bindsym $mod+semicolon split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+bindsym $mod+BackSpace split toggle
+
+bindsym $mod+f fullscreen toggle
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+t layout toggle tabbed splith splitv stacking
+
+
+## Scratchpad
 bindsym $mod+o scratchpad show
-
-## Modify // Move to Scratchpad // <><Ctrl> m ##
-set_from_resource $i4-wm.binding.move_scratchpad wm.binding.move_scratchpad Ctrl+m
-# bindsym $mod+$wm.binding.move_scratchpad move to scratchpad
 bindsym $mod+Shift+o move to scratchpad
 
-## Modify // Tile/Float Focus Toggle // <><Shift> t ##
-set_from_resource $wm.binding.focus_toggle wm.binding.focus_toggle Shift+t
-bindsym $mod+$wm.binding.focus_toggle focus mode_toggle
-
-## Modify // Window Layout Mode // <> t ##
-set_from_resource $wm.binding.layout_mode wm.binding.layout_mode t
-bindsym $mod+$wm.binding.layout_mode layout toggle tabbed splith splitv stacking
 
 ## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
-bindsym $mod+Shift+$ws1_key move container to workspace number $ws1
-bindsym $mod+Shift+$ws2_key move container to workspace number $ws2
-bindsym $mod+Shift+$ws3_key move container to workspace number $ws3
-bindsym $mod+Shift+$ws4_key move container to workspace number $ws4
-bindsym $mod+Shift+$ws5_key move container to workspace number $ws5
-bindsym $mod+Shift+$ws6_key move container to workspace number $ws6
-bindsym $mod+Shift+$ws7_key move container to workspace number $ws7
-bindsym $mod+Shift+$ws8_key move container to workspace number $ws8
-bindsym $mod+Shift+$ws9_key move container to workspace number $ws9
-bindsym $mod+Shift+$ws10_key move container to workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace number $tag1
+bindsym $mod+Shift+2 move container to workspace number $tag2
+bindsym $mod+Shift+3 move container to workspace number $tag3
+bindsym $mod+Shift+4 move container to workspace number $tag4
+bindsym $mod+Shift+5 move container to workspace number $tag5
+bindsym $mod+Shift+6 move container to workspace number $tag6
+bindsym $mod+Shift+7 move container to workspace number $tag7
+bindsym $mod+Shift+8 move container to workspace number $tag8
+bindsym $mod+Shift+9 move container to workspace number $tag9
+bindsym $mod+Shift+0 move container to workspace number $tag10
+bindsym $mod+Shift+y move container to workspace $tagY
+bindsym $mod+Shift+d move container to workspace $tagD
+bindsym $mod+Shift+u move container to workspace $tagU
 ## Modify // Move Window to Workspace 11 - 19// <><Ctrl><Shift> 1..9 ##
-bindsym $mod+Shift+Ctrl+$ws1_key move container to workspace number $ws11
-bindsym $mod+Shift+Ctrl+$ws2_key move container to workspace number $ws12
-bindsym $mod+Shift+Ctrl+$ws3_key move container to workspace number $ws13
-bindsym $mod+Shift+Ctrl+$ws4_key move container to workspace number $ws14
-bindsym $mod+Shift+Ctrl+$ws5_key move container to workspace number $ws15
-bindsym $mod+Shift+Ctrl+$ws6_key move container to workspace number $ws16
-bindsym $mod+Shift+Ctrl+$ws7_key move container to workspace number $ws17
-bindsym $mod+Shift+Ctrl+$ws8_key move container to workspace number $ws18
-bindsym $mod+Shift+Ctrl+$ws9_key move container to workspace number $ws19
+bindsym $mod+Shift+Ctrl+1 move container to workspace number $tag11
+bindsym $mod+Shift+Ctrl+2 move container to workspace number $tag12
+bindsym $mod+Shift+Ctrl+3 move container to workspace number $tag13
+bindsym $mod+Shift+Ctrl+4 move container to workspace number $tag14
+bindsym $mod+Shift+Ctrl+5 move container to workspace number $tag15
+bindsym $mod+Shift+Ctrl+6 move container to workspace number $tag16
+bindsym $mod+Shift+Ctrl+7 move container to workspace number $tag17
+bindsym $mod+Shift+Ctrl+8 move container to workspace number $tag18
+bindsym $mod+Shift+Ctrl+9 move container to workspace number $tag19
 
 # move focused container to workspace, move to workspace
 ## Modify // Carry Window to Workspace 1 - 10// <><Alt> 0..9 ##
-bindsym $mod+$alt+$ws1_key move container to workspace number $ws1; workspace number $ws1
-bindsym $mod+$alt+$ws2_key move container to workspace number $ws2; workspace number $ws2
-bindsym $mod+$alt+$ws3_key move container to workspace number $ws3; workspace number $ws3
-bindsym $mod+$alt+$ws4_key move container to workspace number $ws4; workspace number $ws4
-bindsym $mod+$alt+$ws5_key move container to workspace number $ws5; workspace number $ws5
-bindsym $mod+$alt+$ws6_key move container to workspace number $ws6; workspace number $ws6
-bindsym $mod+$alt+$ws7_key move container to workspace number $ws7; workspace number $ws7
-bindsym $mod+$alt+$ws8_key move container to workspace number $ws8; workspace number $ws8
-bindsym $mod+$alt+$ws9_key move container to workspace number $ws9; workspace number $ws9
-bindsym $mod+$alt+$ws10_key move container to workspace number $ws10; workspace number $ws10
+bindsym $mod+$alt+1 move container to workspace number $tag1; workspace number $tag1
+bindsym $mod+$alt+2 move container to workspace number $tag2; workspace number $tag2
+bindsym $mod+$alt+3 move container to workspace number $tag3; workspace number $tag3
+bindsym $mod+$alt+4 move container to workspace number $tag4; workspace number $tag4
+bindsym $mod+$alt+5 move container to workspace number $tag5; workspace number $tag5
+bindsym $mod+$alt+6 move container to workspace number $tag6; workspace number $tag6
+bindsym $mod+$alt+7 move container to workspace number $tag7; workspace number $tag7
+bindsym $mod+$alt+8 move container to workspace number $tag8; workspace number $tag8
+bindsym $mod+$alt+9 move container to workspace number $tag9; workspace number $tag9
+bindsym $mod+$alt+0 move container to workspace number $tag10; workspace number $tag10
 ## Modify // Carry Window to Workspace 11 - 19 // <><Alt><Ctrl> 1..9 ##
-bindsym $mod+$alt+Ctrl+$ws1_key move container to workspace number $ws11; workspace number $ws11
-bindsym $mod+$alt+Ctrl+$ws2_key move container to workspace number $ws12; workspace number $ws12
-bindsym $mod+$alt+Ctrl+$ws3_key move container to workspace number $ws13; workspace number $ws13
-bindsym $mod+$alt+Ctrl+$ws4_key move container to workspace number $ws14; workspace number $ws14
-bindsym $mod+$alt+Ctrl+$ws5_key move container to workspace number $ws15; workspace number $ws15
-bindsym $mod+$alt+Ctrl+$ws6_key move container to workspace number $ws16; workspace number $ws16
-bindsym $mod+$alt+Ctrl+$ws7_key move container to workspace number $ws17; workspace number $ws17
-bindsym $mod+$alt+Ctrl+$ws8_key move container to workspace number $ws18; workspace number $ws18
-bindsym $mod+$alt+Ctrl+$ws9_key move container to workspace number $ws19; workspace number $ws19
+bindsym $mod+$alt+Ctrl+1 move container to workspace number $tag11; workspace number $tag11
+bindsym $mod+$alt+Ctrl+2 move container to workspace number $tag12; workspace number $tag12
+bindsym $mod+$alt+Ctrl+3 move container to workspace number $tag13; workspace number $tag13
+bindsym $mod+$alt+Ctrl+4 move container to workspace number $tag14; workspace number $tag14
+bindsym $mod+$alt+Ctrl+5 move container to workspace number $tag15; workspace number $tag15
+bindsym $mod+$alt+Ctrl+6 move container to workspace number $tag16; workspace number $tag16
+bindsym $mod+$alt+Ctrl+7 move container to workspace number $tag17; workspace number $tag17
+bindsym $mod+$alt+Ctrl+8 move container to workspace number $tag18; workspace number $tag18
+bindsym $mod+$alt+Ctrl+9 move container to workspace number $tag19; workspace number $tag19
 
-set_from_resource $wm.workspace.auto_back_and_forth wm.workspace.auto_back_and_forth no
-#workspace_auto_back_and_forth $wm.workspace.auto_back_and_forth
+# automatic back-and-forth when switching to the current workspace
 workspace_auto_back_and_forth yes
 bindsym $mod+Tab workspace back_and_forth
 
+force_display_urgency_hint 600 ms
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 ###############################################################################
-# Window Resize and Gaps
+# Window Resize 
 ###############################################################################
 
-set_from_resource $wm.binding.inc_gaps wm.binding.inc_gaps plus
-set_from_resource $wm.binding.dec_gaps wm.binding.dec_gaps minus
+# resizing {{{
+# resize window (you can also use the mouse for that)
+set $resize_inc 6
+set $resize_inc_big 12
 
-set_from_resource $wm.binding.inc_gaps_big wm.binding.inc_gaps_big Shift+plus
-set_from_resource $wm.binding.dec_gaps_big wm.binding.dec_gaps_big Shift+minus
-
-## Resize // Enter Resize Mode // <> r ##
-mode "Resize Mode" {
+set $mode-resize " resize"
+mode $mode-resize {
         # These bindings trigger as soon as you enter the resize mode
+        bindsym $left 	resize shrink 	width 	$resize_inc px or $resize_inc ppt
+        bindsym $down 	resize grow 	height 	$resize_inc px or $resize_inc ppt
+        bindsym $up 	resize shrink 	height 	$resize_inc px or $resize_inc ppt
+        bindsym $right 	resize grow 	width 	$resize_inc px or $resize_inc ppt
 
-        ## Resize // Resize Window // ↑ ↓ ← → ##
-        bindsym Left resize shrink width 6 px or 6 ppt
-        bindsym Down resize grow height 6 px or 6 ppt
-        bindsym Up resize shrink height 6 px or 6 ppt
-        bindsym Right resize grow width 6 px or 6 ppt
+        bindsym Shift+$left 	resize shrink 	width 	$resize_inc_big px or $resize_inc_big ppt
+        bindsym Shift+$down 	resize grow 	height 	$resize_inc_big px or $resize_inc_big ppt
+        bindsym Shift+$up 	resize shrink 	height 	$resize_inc_big px or $resize_inc_big ppt
+        bindsym Shift+$right 	resize grow 	width 	$resize_inc_big px or $resize_inc_big ppt
 
-        bindsym Shift+Left resize shrink width 12 px or 12 ppt
-        bindsym Shift+Down resize grow height 12 px or 12 ppt
-        bindsym Shift+Up resize shrink height 12 px or 12 ppt
-        bindsym Shift+Right resize grow width 12 px or 12 ppt
-
-        ## Resize // Resize Window // k j h l ##
-        bindsym $wm.binding.left resize shrink width 6 px or 6 ppt
-        bindsym $wm.binding.up resize grow height 6 px or 6 ppt
-        bindsym $wm.binding.down resize shrink height 6 px or 6 ppt
-        bindsym $wm.binding.right resize grow width 6 px or 6 ppt
-
-        bindsym $wm.binding.move_left resize shrink width 12 px or 12 ppt
-        bindsym $wm.binding.move_up resize grow height 12 px or 12 ppt
-        bindsym $wm.binding.move_down resize shrink height 12 px or 12 ppt
-        bindsym $wm.binding.move_right resize grow width 12 px or 12 ppt
-
-        ## Resize // Window Gaps // + - ##
-        bindsym $wm.binding.dec_gaps gaps inner current minus 6
-        bindsym $wm.binding.inc_gaps gaps inner current plus 6
-        bindsym $wm.binding.dec_gaps_big gaps inner current minus 12
-        bindsym $wm.binding.inc_gaps_big gaps inner current plus 12
-
-        ## Resize // Exit Resize Mode // Escape or Enter ##
+        # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
 }
-bindsym $mod+r mode "Resize Mode"
+bindsym $mod+r mode $mode-resize
+# }}}
 
 set $mode-jump " jump"
 
@@ -516,7 +465,6 @@ mode $mode-jump {
 # hardcoded focus keybindings
 bindsym f [class="firefox"] focus; mode "default"
 bindsym j [class="Joplin"] focus; mode "default"
-bindsym Shift+f [class="FortiClient"] focus; mode "default"
 bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym e [class="Evince"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
@@ -527,7 +475,6 @@ bindsym s [class="Mattermost"] focus; mode "default"
 bindsym z [class="zoom"] focus; mode "default"
 bindsym Shift+s [class="install4j-com-eviware-soapui-SoapUI"] focus; mode "default"
 bindsym Shift+t [instance="gnome-tweaks"] focus; mode "default"
-bindsym Shift+s [class="Skype"] focus; mode "default"
 # bindsym s [class="Slack"] focus; mode "default"
 bindsym Shift+m [class="thunderbird"] focus; mode "default"
 bindsym Shift+d [class="draw.io"] focus; mode "default"
@@ -538,21 +485,19 @@ bindsym z [class="Zathura"] focus; mode "default"
 bindsym Shift+z [class="zoom"] focus; mode "default"
 bindsym Shift+s [class="Shutter"] focus; mode "default"
 bindsym d [class="Zeal"] focus; mode "default"
-bindsym Shift+t [class="Microsoft Teams - Preview"] focus; mode "default"
 bindsym c [instance="cursor"] focus; mode "default"
 bindsym p [instance="gnome-pomodoro"] focus; mode "default"
 bindsym Shift+v [instance="vlc"] focus; mode "default"
 bindsym v [instance="code"] focus; mode "default"
 bindsym Shift+o [instance="postman"] focus; mode "default"
 bindsym o [title="Oracle SQL Developer.*"] focus; mode "default"
-bindsym n [instance="network"] focus; mode "default"
-bindsym w [instance="wifi"] focus; mode "default"
-bindsym b [instance="bluetooth"] focus; mode "default"
 
 bindsym r [class="org.remmina.Remmina"] focus; mode "default"
 
-bindsym l       workspace next_on_output; mode "default"
-bindsym h       workspace prev_on_output; mode "default"
+bindsym l      workspace next_on_output; mode "default"
+bindsym Ctrl+i workspace next; mode "default"
+bindsym Ctrl+o workspace prev; mode "default"
+bindsym h      workspace prev_on_output; mode "default"
 
 bindsym Shift+1 mark mark1; mode "default"
 bindsym Shift+2 mark mark2; mode "default"
@@ -577,40 +522,43 @@ bindsym $mod+n mode $mode-jump
 # launch {{{
 set $mode-launch " launch"
 mode $mode-launch {
-    bindsym i mode "default", exec idea
-    bindsym t mode "default", exec telegram-desktop
-    bindsym j mode "default", exec joplin-desktop
-    bindsym Shift+t mode "default", exec gnome-tweaks
+    bindsym i mode "default", exec --no-startup-id idea
+    bindsym t mode "default", exec --no-startup-id telegram-desktop
+    bindsym j mode "default", exec --no-startup-id joplin-desktop
+    bindsym Shift+t mode "default", exec --no-startup-id gnome-tweaks
     bindsym Shift+a mode "default", exec Archi
-    bindsym d mode "default", exec dbeaver-ce
+    bindsym d mode "default", exec --no-startup-id dbeaver-ce
     bindsym Shift+d mode "default", exec drawio
-    bindsym e mode "default", exec evince
-    bindsym a mode "default", exec apacheds
-    bindsym o mode "default", exec sqldeveloper
-    bindsym s mode "default", exec mattermost-desktop
-    bindsym z mode "default", exec zoom
+    bindsym e mode "default", exec --no-startup-id evince
+    bindsym a mode "default", exec --no-startup-id apacheds
+    bindsym o mode "default", exec --no-startup-id sqldeveloper
+    bindsym s mode "default", exec --no-startup-id mattermost-desktop
+    bindsym z mode "default", exec --no-startup-id zoom
     bindsym Shift+s mode "default", exec SoapUI-5.7.0
     bindsym Shift+t mode "default", exec gnome-tweaks
-    bindsym f mode "default", exec firefox
+    bindsym f mode "default", exec --no-startup-id firefox
     bindsym Shift+c mode "default", exec gnome-calendar
-    bindsym c mode "default", exec cursor editor
+    bindsym c mode "default", exec --no-startup-id cursor editor
     bindsym Shift+m mode "default", exec thunderbiro
-    bindsym y mode "default", exec yandex-browser-beta
-    bindsym r mode "default", exec remmina
-    bindsym Shift+s mode "default", exec skypeforlinux
-    bindsym z mode "default", exec zathura
-    bindsym Shift+z mode "default", exec zoom
-    bindsym d mode "default", exec zeal
-    bindsym p mode "default", exec gnome-pomodoro
-    bindsym q mode "default", exec qbittorrent
-    bindsym Shift+o mode "default", exec Postman
-    bindsym n mode "default", exec --no-startup-id gnome-control-center network
-    bindsym w mode "default", exec --no-startup-id gnome-control-center wifi
-    bindsym b mode "default", exec --no-startup-id gnome-control-center bluetooth
+    bindsym y mode "default", exec --no-startup-id yandex-browser-beta
+    bindsym r mode "default", exec --no-startup-id remmina
+    bindsym z mode "default", exec --no-startup-id zathura
+    bindsym Shift+z mode "default", exec --no-startup-id zoom
+    bindsym d mode "default", exec --no-startup-id zeal
+    bindsym p mode "default", exec --no-startup-id gnome-pomodoro
+    bindsym q mode "default", exec --no-startup-id qbittorrent
+    bindsym Shift+o mode "default", exec --no-startup-id Postman
 
-    bindsym Shift+v mode "default", exec vlc
-    bindsym v mode "default", exec code
-    bindsym shift+t mode "default", exec tomighty
+    bindsym $alt+c mode "default", exec --no-startup-id $control_center
+    bindsym $alt+d mode "default", exec --no-startup-id $control_center display
+    bindsym $alt+n mode "default", exec --no-startup-id $control_center network
+    bindsym $alt+w mode "default", exec --no-startup-id $control_center wifi
+    bindsym $alt+b mode "default", exec --no-startup-id $control_center bluetooth
+    bindsym $alt+s mode "default", exec --no-startup-id $control_center sound
+
+    bindsym Shift+v mode "default", exec --no-startup-id vlc
+    bindsym v mode "default",       exec --no-startup-id code
+    bindsym shift+t mode "default", exec --no-startup-id tomighty
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -630,23 +578,23 @@ bindsym $mod+Shift+period exec --no-startup-id rofi -show drun -matching fuzzy -
 # Load stylesheet if exists
 set_from_resource $ilia.stylesheet ilia.stylesheet
 
-## Launch // Command // <><Shift> Space ##
+## Command
 set_from_resource $wm.program.launcher.cmd wm.program.launcher.cmd ilia -p terminal
 bindsym $mod+Ctrl+Shift+space exec --no-startup-id $wm.program.launcher.cmd -t $ilia.stylesheet
 
-## Launch // Keybinding Viewer // <><Shift> ? ##
+## Keybinding Viewer
 set_from_resource $wm.program.help wm.program.help ilia -p keybindings
 bindsym $mod+Shift+question exec --no-startup-id $wm.program.help -a -t $ilia.stylesheet
 
-## Navigate // Window by Name // <><Ctrl> Space ##
+## Window by Name
 set_from_resource $wm.program.launcher.window wm.program.launcher.window ilia -p windows
 bindsym $mod+Ctrl+space exec --no-startup-id $wm.program.launcher.window -t $ilia.stylesheet
 
-## Launch // File Search // <><Alt> Space ##
+## File Search
 set_from_resource $wm.program.file_search wm.program.file_search ilia -p tracker
 bindsym $mod+Shift+Ctrl+t exec --no-startup-id $wm.program.file_search -t $ilia.stylesheet
 
-## Launch // Look Selector // <><Alt> l ##
+## Look Selector
 set_from_resource $wm.program.look_selector wm.program.look_selector regolith-look-selector
 bindsym $mod+Ctrl+Shift+s exec --no-startup-id $wm.program.look_selector -t $ilia.stylesheet
 
@@ -658,98 +606,54 @@ bindsym $mod+m  exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 ## Session // Exit App // <><Shift> q ##
-set_from_resource $wm.binding.exit_app wm.binding.exit_app Shift+q
-bindsym $mod+$wm.binding.exit_app [con_id="__focused__"] kill
+bindsym $mod+Shift+q [con_id="__focused__"] kill
 
 ## Session // Terminate App // <><Alt> q ##
-set_from_resource $wm.binding.kill_app wm.binding.kill_app q
-bindsym $mod+$alt+$wm.binding.kill_app [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
+bindsym $mod+$alt+q [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
 
-## Session // Reload i3 Config // <><Shift> c ##
-set_from_resource $wm.binding.reload wm.binding.reload Shift+c
-bindsym $mod+$wm.binding.reload reload
+bindsym $mod+Shift+c reload
 
-## Session // Refresh Session // <><Shift> r ##
-set_from_resource $wm.binding.refresh wm.binding.refresh Shift+r
 set_from_resource $wm.program.refresh_ui wm.program.refresh_ui /usr/bin/regolith-look refresh
-bindsym $mod+$wm.binding.refresh exec --no-startup-id $wm.program.refresh_ui
+bindsym $mod+Shift+r exec --no-startup-id $wm.program.refresh_ui
 
-## Session // Restart i3 // <><Ctrl> r ##
-set_from_resource $wm.binding.restart wm.binding.restart Ctrl+r
-bindsym $mod+$wm.binding.restart restart
+bindsym $mod+Ctrl+r restart
 
-## Session // Logout // <><Shift> e ##
-set_from_resource $wm.binding.logout wm.binding.logout Shift+e
 set_from_resource $wm.program.logout wm.program.logout /usr/bin/gnome-session-quit --logout
-bindsym $mod+$wm.binding.logout exec $wm.program.logout
+bindsym $mod+Shift+e exec $wm.program.logout
 
-## Session // Reboot // <><Shift> b ##
-set_from_resource $wm.binding.reboot wm.binding.reboot Shift+b
 set_from_resource $wm.program.reboot wm.program.reboot /usr/bin/gnome-session-quit --reboot
-bindsym $mod+$wm.binding.reboot exec $wm.program.reboot
+bindsym $mod+Shift+b exec $wm.program.reboot
 
-## Session // Power Down // <><Shift> p ##
-set_from_resource $wm.binding.shutdown wm.binding.shutdown Shift+p
 set_from_resource $wm.program.shutdown wm.program.shutdown /usr/bin/gnome-session-quit --power-off
-bindsym $mod+$wm.binding.shutdown exec $wm.program.shutdown
+bindsym $mod+Shift+p exec $wm.program.shutdown
 
-## Session // Lock Screen // <> Escape ##
-set_from_resource $wm.binding.lock wm.binding.lock Escape
 set_from_resource $wm.program.lock wm.program.lock dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock
-bindsym $mod+$wm.binding.lock exec $wm.program.lock
+bindsym $mod+Escape exec $wm.program.lock
 
 exec --no-startup-id systemctl --user import-environment XDG_CURRENT_DESKTOP DISPLAY I3SOCK
 exec --no-startup-id hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP DISPLAY I3SOCK
 
 
-## Session // Sleep // <><Shift> s ##
-set_from_resource $wm.binding.sleep wm.binding.sleep Shift+s
-set_from_resource $wm.program.sleep wm.program.sleep systemctl suspend
-bindsym $mod+$wm.binding.sleep exec $wm.program.sleep
-###############################################################################
-# System Management
-###############################################################################
+bindsym $mod+Shift+s exec systemctl suspend
 
-## Modify // Settings // <> c ##
-set_from_resource $wm.binding.settings wm.binding.settings c
-set_from_resource $wm.program.settings wm.program.settings regolith-control-center --class=floating_window
-bindsym $mod+$wm.binding.settings exec --no-startup-id $wm.program.settings
 
-## Modify // Display Settings // <> d ##
-set_from_resource $wm.binding.display wm.binding.display d
-set_from_resource $wm.program.display wm.program.display regolith-control-center --class=floating_window display
-bindsym $mod+$wm.binding.display exec --no-startup-id $wm.program.display
-
-## Modify // Wifi Settings // <> w ##
-set_from_resource $wm.binding.wifi wm.binding.wifi w
-set_from_resource $wm.program.wifi wm.program.wifi regolith-control-center --class=floating_window wifi
-bindsym $mod+$wm.binding.wifi exec --no-startup-id $wm.program.wifi
-
-## Modify // Bluetooth Settings // <> b ##
-set_from_resource $wm.binding.bluetooth wm.binding.bluetooth b
-set_from_resource $wm.program.bluetooth wm.program.bluetooth regolith-control-center --class=floating_window bluetooth
-bindsym $mod+$wm.binding.bluetooth exec --no-startup-id $wm.program.bluetooth
-
-## Launch // File Browser // <><Shift> n ##
-set_from_resource $wm.binding.files wm.binding.files Shift+n
 set_from_resource $wm.program.files wm.program.files /usr/bin/nautilus --new-window
-bindsym $mod+$wm.binding.files exec --no-startup-id $wm.program.files
+bindsym $mod+Shift+n exec --no-startup-id $wm.program.files
 ###############################################################################
 # i3 Bar
 ###############################################################################
 
 # Toggle bar visibility
-## Modify // Toggle Bar // <> i ##
-set_from_resource $wm.binding.bar_toggle wm.binding.bar_toggle i
-bindsym $mod+$wm.binding.bar_toggle bar mode toggle
+bindsym $mod+i bar mode toggle
 
 set_from_resource $wm.bar.position wm.bar.position bottom
 set_from_resource $wm.bar.font gtk.monospace_font_name monospace
-set_from_resource $wm.bar.separatorchar wm.bar.separatorchar " "
+set_from_resource $wm.bar.separatorchar wm.bar.separatorchar "("
 set_from_resource $wm.bar.trayoutput wm.bar.trayoutput primary
-set_from_resource $wm.bar.stripworkspacenumbers wm.bar.stripworkspacenumbers yes
 set_from_resource $wm.bar.mode wm.bar.mode dock
+set_from_resource $wm.bar.stripworkspacenumbers wm.bar.stripworkspacenumbers yes
+set_from_resource $wm.bar.workspace_min_width wm.bar.workspace_min_width 36
 
 # i3xrocks config file. Override this for a custom status bar generator.
 set_from_resource $wm.bar.status_command wm.bar.status_command i3xrocks -u ~/.config/regolith2/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d
@@ -763,18 +667,30 @@ bar {
   separator_symbol $wm.bar.separatorchar
   status_command $wm.bar.status_command
   tray_output $wm.bar.trayoutput
+  workspace_buttons yes
   strip_workspace_numbers $wm.bar.stripworkspacenumbers
+  binding_mode_indicator yes
+  workspace_min_width $wm.bar.workspace_min_width
 
   colors {
-      background $wm.bar.background.color
-      statusline $wm.bar.statusline.color
-      separator  $wm.bar.separator.color
+#       background $wm.bar.background.color
+#       statusline $wm.bar.statusline.color
+#       separator  $wm.bar.separator.color
+#
+# #                        BORDER  BACKGROUND TEXT
+#       focused_workspace  $wm.bar.workspace.focused.border.color      $wm.bar.workspace.focused.background.color   $wm.bar.workspace.focused.text.color
+#       active_workspace   $wm.bar.workspace.active.border.color       $wm.bar.workspace.active.background.color    $wm.bar.workspace.active.text.color
+#       inactive_workspace $wm.bar.workspace.inactive.border.color     $wm.bar.workspace.inactive.background.color  $wm.bar.workspace.inactive.text.color
+#       urgent_workspace   $wm.bar.workspace.urgent.border.color       $wm.bar.workspace.urgent.background.color    $wm.bar.workspace.urgent.text.color
 
-#                        BORDER  BACKGROUND TEXT
-      focused_workspace  $wm.bar.workspace.focused.border.color      $wm.bar.workspace.focused.background.color   $wm.bar.workspace.focused.text.color
-      active_workspace   $wm.bar.workspace.active.border.color       $wm.bar.workspace.active.background.color    $wm.bar.workspace.active.text.color
-      inactive_workspace $wm.bar.workspace.inactive.border.color     $wm.bar.workspace.inactive.background.color  $wm.bar.workspace.inactive.text.color
-      urgent_workspace   $wm.bar.workspace.urgent.border.color       $wm.bar.workspace.urgent.background.color    $wm.bar.workspace.urgent.text.color
+
+        statusline	#999999
+        background	#252525
+        #class             border 		backgrd 	text
+        focused_workspace  #292929 		#292929 	#cccccc
+        active_workspace   #252525 		#252525 	#696f89
+        inactive_workspace #252525 		#252525     	#6b6b6b
+        urgent_workspace   #252525 		#252525 	#c7a551
   }
 }
 # Start the installed regolith-compositor
@@ -783,9 +699,10 @@ exec_always --no-startup-id $wm.program.compositor
 # Hide the mouse pointer if unused for a duration
 set_from_resource $wm.program.unclutter wm.program.unclutter /usr/bin/unclutter -b
 exec --no-startup-id $wm.program.unclutter
-# Load nm-applet to provide auth dialogs for network access
-set_from_resource $wm.program.nm-applet wm.program.nm-applet /usr/bin/nm-applet
-exec --no-startup-id $wm.program.nm-applet
+exec --no-startup-id /usr/bin/nm-applet
+
+workspace_layout default
+default_orientation horizontal
 
 # dunst
 bindsym $mod+ctrl+n exec --no-startup-id dunstctl close

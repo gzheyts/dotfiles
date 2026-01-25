@@ -1,0 +1,274 @@
+{
+    "sqldeveloper.sqlHistory.historyLimit": 500,
+    "chat.commandCenter.enabled": false,
+    "sqldeveloper.plsqlDebugger.lowerPortNumber": 49159,
+    "sqldeveloper.plsqlDebugger.upperPortNumber": 49160,
+    "sqldeveloper.telemetry.enabled": true,
+    "[oraclesql]": {
+        "editor.suggest.showSnippets": true,
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        }
+    },
+    "[oracle]": {
+        "files.autoSaveWorkspaceFilesOnly": true,
+        "files.autoSaveWhenNoErrors": true
+    },
+    "files.associations": {
+        "*.typ": "oracle-sql",
+        "*.prc": "oracle-sql",
+        "*.sql": "oracle-sql",
+        "*.pck": "oracle-sql"
+    },
+    "[oracle-sql]": {
+        "files.encoding": "windows1251"
+
+    },
+    //"oracledevtools.connectionConfiguration.walletFileFolder": "/home/gzheyts/Oracle/network/admin",
+    //"oracledevtools.bookmarkFileFolder": "/home/gzheyts/Oracle/oracle.oracledevtools",
+    //"oracledevtools.download.otherFolder": "/home/gzheyts/downloads",
+    "oracledevtools.connections": [
+        {
+            "authenticationType": 1,
+            "dBAPrivilege": "SYSDBA",
+            "userID": "SYS",
+            "passwordSaved": true,
+            "dataSource": "localhost:1523/xe",
+            "connectionType": 2,
+            "databaseHostName": "localhost",
+            "databasePortNumber": "1523",
+            "databaseServiceName": "xe",
+            "name": "sys@local-21-debug",
+            "color": "none",
+            "currentSchema": "",
+            "addSettingsScopeToConnectionName": false,
+            "addCurrentSchemaToConnectionName": false,
+            "filters": [],
+            "useCompatibleNamesDirectoryPath": true,
+            "passwordStore": "Secret Storage"
+        }
+    ],
+    "editor.minimap.enabled": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "window.zoomLevel": 1.0455173977264463,
+    "files.autoSave": "afterDelay",
+    "java.completion.filteredTypes": [
+        "java.awt.*",
+        "com.sun.*",
+        "sun.*",
+        "jdk.*",
+        "org.graalvm.*",
+        "io.micrometer.shaded.*"
+    ],
+    "editor.lineNumbers": "relative",
+    // workbench settings
+    "workbench.editor.preferHistoryBasedLanguageDetection": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "terminal.integrated.stickyScroll.enabled": true,
+    // cursor && window
+    "window.commandCenter": true,
+    "window.customTitleBarVisibility": "auto",
+    "workbench.editor.closeOnFileDelete": true,
+    "workbench.productIconTheme": "jetbrans",
+    "workbench.iconTheme": "pcode-icon-theme-jetbrains",
+    "telemetry.feedback.enabled": false,
+    "update.releaseTrack": "prerelease",
+    "[shellscript]": {
+        "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
+    },
+    "window.autoDetectColorScheme": true,
+    "chat.editor.fontSize": 18,
+    "files.autoSaveWhenNoErrors": true,
+    "editor.fontSize": 15,
+    "explorer.confirmDelete": false,
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "explorer.confirmDragAndDrop": false,
+    "docker.extension.enableComposeLanguageServer": false,
+    // vim configuration
+    "vim.easymotion": true,
+    "vim.leader": ",",
+    "vim.hlsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.handleKeys": {
+        "<C-f>": true,
+        "<C-b>": true,
+        "<C-d>": true,
+        "<C-v>": true,
+        "<C-u>": true,
+        "<C-w>": true,
+        "<C-z>": false
+    },
+    "vim.normalModeKeyBindingsNonRecursive": [
+
+        // splits
+        {
+            "before": [ "leader", "v" ],
+            "commands": [ ":vsplit" ]
+        },
+        {
+            "before": [ "leader", "s" ],
+            "commands": [ ":split" ],
+        },
+        // panes
+        {
+            "before": [ "leader", "h" ],
+            "commands": [ "workbench.action.focusLeftGroup" ]
+        },
+        {
+            "before": [ "leader", "j" ],
+            "commands": [ "workbench.action.focusBelowGroup" ]
+        },
+        {
+            "before": [ "leader", "k" ],
+            "commands": [ "workbench.action.focusAboveGroup" ]
+        },
+        {
+            "before": [ "leader", "l" ],
+            "commands": [ "workbench.action.focusRightGroup" ]
+        },
+        // NICE TO HAVE
+        {
+            "before": [ "leader", "w" ],
+            "commands": [ "workbench.action.moveEditorGroupToNewWindow" ]
+        },
+        {
+            "before": [ "leader", "q" ],
+            "commands": [ ":q!" ]
+        },
+        {
+            "before": [ "leader", "x" ],
+            "commands": [ ":x!" ]
+        },
+        {
+            "before": [ "[", "d" ],
+            "commands": [ "editor.action.marker.prev" ]
+        },
+        {
+            "before": [ "]", "d" ],
+            "commands": [ "editor.action.marker.next" ]
+        },
+        {
+            "before": [ "]", "c" ],
+            "commands": [ "editor.action.dirtydiff.next" ]
+        },
+        {
+            "before": [ "leader", "n", "l" ],
+            "commands": [ "workbench.files.action.showActiveFileInExplorer" ]
+        },
+        {
+            "before": [ "[", "c" ],
+            "commands": [ "editor.action.dirtydiff.previous" ]
+        },
+        {
+            "before": [ "leader", "f" ],
+            "commands": [ "workbench.action.quickOpen" ]
+        },
+        {
+            "before": [ "g", "h"],
+            "commands": [
+                "editor.action.showDefinitionPreviewHover"
+            ]
+        },
+        {
+            "before": [ "]", "t", "d"],
+            "commands": [ "editor.action.goToTypeDefinition" ]
+        },
+        {
+            "before": [ "]", "s", "m"],
+            "commands": [ "java.action.navigateToSuperImplementation" ]
+        },
+        {
+            "before": [ "]", "i"],
+            "commands": [ "editor.action.goToImplementation" ]
+        },
+        {
+            "before": [ "g", ";"],
+            "commands": [ "workbench.action.navigateBackInEditLocations" ]
+        },
+        {
+            "before": [ "g", ","],
+            "commands": [ "workbench.action.navigateForwardInEditLocations" ]
+        },
+        { "before": ["ё"], "after": ["`"] },
+        { "before": ["й"], "after": ["q"] },
+        { "before": ["ц"], "after": ["w"] },
+        { "before": ["у"], "after": ["e"] },
+        { "before": ["к"], "after": ["r"] },
+        { "before": ["е"], "after": ["t"] },
+        { "before": ["н"], "after": ["y"] },
+        { "before": ["г"], "after": ["u"] },
+        { "before": ["ш"], "after": ["i"] },
+        { "before": ["щ"], "after": ["o"] },
+        { "before": ["з"], "after": ["p"] },
+        { "before": ["х"], "after": ["["] },
+        { "before": ["ъ"], "after": ["]"] },
+        { "before": ["ф"], "after": ["a"] },
+        { "before": ["ы"], "after": ["s"] },
+        { "before": ["в"], "after": ["d"] },
+        { "before": ["а"], "after": ["f"] },
+        { "before": ["п"], "after": ["g"] },
+        { "before": ["р"], "after": ["h"] },
+        { "before": ["о"], "after": ["j"] },
+        { "before": ["л"], "after": ["k"] },
+        { "before": ["д"], "after": ["l"] },
+        { "before": ["ж"], "after": [";"] },
+        { "before": ["э"], "after": ["'"] },
+        { "before": ["я"], "after": ["z"] },
+        { "before": ["ч"], "after": ["x"] },
+        { "before": ["с"], "after": ["c"] },
+        { "before": ["м"], "after": ["v"] },
+        { "before": ["и"], "after": ["b"] },
+        { "before": ["т"], "after": ["n"] },
+        { "before": ["ь"], "after": ["m"] },
+        { "before": ["б"], "after": [","] },
+        { "before": ["ю"], "after": ["."] },
+        { "before": ["Ё"], "after": ["~"] },
+        { "before": ["Й"], "after": ["Q"] },
+        { "before": ["Ц"], "after": ["W"] },
+        { "before": ["У"], "after": ["E"] },
+        { "before": ["К"], "after": ["R"] },
+        { "before": ["Е"], "after": ["T"] },
+        { "before": ["Н"], "after": ["Y"] },
+        { "before": ["Г"], "after": ["U"] },
+        { "before": ["Ш"], "after": ["I"] },
+        { "before": ["Щ"], "after": ["O"] },
+        { "before": ["З"], "after": ["P"] },
+        { "before": ["Х"], "after": ["{"] },
+        { "before": ["Ъ"], "after": ["}"] },
+        { "before": ["Ф"], "after": ["A"] },
+        { "before": ["Ы"], "after": ["S"] },
+        { "before": ["В"], "after": ["D"] },
+        { "before": ["А"], "after": ["F"] },
+        { "before": ["П"], "after": ["G"] },
+        { "before": ["Р"], "after": ["H"] },
+        { "before": ["О"], "after": ["J"] },
+        { "before": ["Л"], "after": ["K"] },
+        { "before": ["Д"], "after": ["L"] },
+        { "before": ["Ж"], "after": [":"] },
+        { "before": ["Э"], "after": ["\""] },
+        { "before": ["Я"], "after": ["Z"] },
+        { "before": ["Ч"], "after": ["X"] },
+        { "before": ["С"], "after": ["C"] },
+        { "before": ["М"], "after": ["V"] },
+        { "before": ["И"], "after": ["B"] },
+        { "before": ["Т"], "after": ["N"] },
+        { "before": ["Ь"], "after": ["M"] },
+        { "before": ["Б"], "after": ["<"] },
+        { "before": ["Ю"], "after": [">"] },
+    ],
+    "vim.visualModeKeyBindings": [
+    ],
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.accessibilitySupport": "off",
+    "git.blame.editorDecoration.enabled": false,
+    "git.blame.statusBarItem.enabled": true,
+    "cursor.cpp.enablePartialAccepts": true,
+    "workbench.preferredDarkColorTheme": "GitHub Dark",
+    "window.newWindowProfile": "Default",
+    "cursor.composer.usageSummaryDisplay": "always",
+    "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace"
+}

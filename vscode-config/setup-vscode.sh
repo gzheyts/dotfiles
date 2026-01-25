@@ -6,5 +6,5 @@ ln -sf `realpath User/keybindings.json` ~/.config/Code/User/keybindings.json
 ln -sf `realpath User/settings.json` ~/.config/Code/User/settings.json
 
 
-ls --color=always -la ~/.config/Cursor/User 
+ls --color=always -la ~/.config/Code/User 
 

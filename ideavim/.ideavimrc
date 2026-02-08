@@ -35,9 +35,7 @@ let g:WhichKey_ShowVimActions = "true"
 
 " NERDTree {{{
 Plug 'preservim/nerdtree'
-map <leader>N   :NERDTree<CR>
-let g:NERDTreeMapActivateNode='o'
-let g:NERDTreeMapJumpParent='h'
+map <leader>e   :NERDTree<CR>
 "}}}
 
 " Easy motions {{{

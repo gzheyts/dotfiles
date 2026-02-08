@@ -12,12 +12,20 @@
     "terminal.integrated.tabs.enabled": false,
     "terminal.integrated.stickyScroll.enabled": true,
 
+    //Explorer
+    "explorer.confirmDelete": false,
+    "explorer.compactFolders": false,
+    "explorer.confirmDragAndDrop": false,
+
+    // telemetry
+    "telemetry.telemetryLevel": "off",
+
     //Editor
     "editor.tabSize": 2,
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "editor.fontLigatures": true,
-    "editor.fontFamily": "SauceCodePro Nerd Font",
+    "editor.fontFamily": "SauceCodePro Nerd FontHHH",
     "editor.wordWrap": "bounded",
     "editor.wrappingIndent": "same",
     "editor.lineNumbers": "relative",
@@ -145,8 +153,10 @@
     "vim.highlightedyank.enable": true,
     "vim.highlightedyank.color": "#a9dc7660",
     "vim.highlightedyank.duration": 250,
-    "vim.leader": ",",
+    "vim.incsearch": true,
+    "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
+    "vim.leader": ",",
     "vim.useSystemClipboard": true,
     "vim.handleKeys": {
         "<C-f>": true,
@@ -158,6 +168,71 @@
         "<C-z>": false
     },
     "vim.normalModeKeyBindings": [
+        {
+            "before": ["<leader>", "s", "a"],
+            "commands": ["editor.action.selectAll"]
+        },
+        {
+            "before": ["<leader>", "w"],
+            "commands": ["workbench.action.files.save"]
+        },
+        {
+            "before": ["<leader>", "e"],
+            "commands": ["workbench.action.toggleSidebarVisibility"]
+        },
+        {
+            "before": ["<leader>", "q"],
+            "commands": ["workbench.action.closeActiveEditor"]
+        },
+        {
+            "before": ["<space>", "enter"],
+            "commands": [":nohl"]
+        },
+        {
+            "before": ["<leader>", "t", "o"],
+            "commands": [":tabnew"]
+        },
+        {
+            "before": ["<leader>", "t", "x"],
+            "commands": [":tabclose"]
+        },
+        {
+            "before": ["<leader>", "f", "f"],
+            "commands": ["workbench.action.quickOpen"]
+        },
+        {
+            "before": ["<leader>", "f", "b"],
+            "commands": ["workbench.action.showAllEditors"]
+        },
+        {
+            "before": ["<leader>", "f", "s"],
+            "commands": ["workbench.action.findInFiles"]
+        },
+        {
+            "before": ["<leader>", "r", "n"],
+            "commands": ["editor.action.rename"]
+        },
+        {
+            "before": ["<leader>", "a", "f"],
+            "commands": ["editor.action.autoFix"]
+        },
+        {
+            "before": ["<leader>", "r", "a"],
+            "commands": ["editor.action.rename"]
+        },
+        {
+            "before": ["<leader>", "f", "m"],
+            "commands": ["editor.action.format"]
+        },
+        {
+            "before": ["<leader>", "c", "a"],
+            "commands": ["editor.action.quickFix"]
+        },
+        {
+            "before": ["<S-k>"],
+            "commands": ["editor.action.showHover"]
+        },
+        // mine
         {
             "before": ["g", "p", "d"],
             "commands": ["editor.action.peekDefinition"]
@@ -173,10 +248,6 @@
         {
             "before": ["g", "p", "i"],
             "commands": ["editor.action.peekImplementation"]
-        },
-        {
-            "before": ["g", "q"],
-            "commands": ["editor.action.quickFix"]
         },
         {
             "before": ["g", "r"],
@@ -256,10 +327,6 @@
         {
             "before": [ "[", "c" ],
             "commands": [ "editor.action.dirtydiff.previous" ]
-        },
-        {
-            "before": [ "leader", "f" ],
-            "commands": [ "workbench.action.quickOpen" ]
         },
         {
             "before": [ "]", "s", "m"],

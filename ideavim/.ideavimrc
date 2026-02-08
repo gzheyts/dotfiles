@@ -23,6 +23,7 @@ Plug 'easymotion/vim-easymotion'
 set ideajoin
 set exchange
 set commentary
+" see https://github.com/magidc/ideavim-anyobject
 set anyobject
 
 set nowhich-key
@@ -34,6 +35,7 @@ set notimeout
 let g:WhichKey_ShowVimActions = "true"
 
 " NERDTree {{{
+" see https://github.com/JetBrains/ideavim/wiki/NERDTree-support
 Plug 'preservim/nerdtree'
 map <leader>e   :NERDTree<CR>
 "}}}

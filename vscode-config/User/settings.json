@@ -264,6 +264,14 @@
         {
             "before": ["<leader>", "e"],
             "commands": ["workbench.view.explorer"]
+        },
+        {
+            "before": ["<leader>", "%"], // Split tab vertically
+            "after": ["<C-w>", "v"]
+        },
+        {
+            "before": ["<leader>", "\""], // Split tab horizontally
+            "after": ["<C-w>", "s"]
         }
 
     ],

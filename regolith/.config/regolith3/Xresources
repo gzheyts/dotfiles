@@ -10,7 +10,7 @@ gtk.document_font_name:         Sans 12
 gnome.terminal.font:	        SauceCodePro Nerd Font 13
 rofi.font:                      DejaVu Sans 9
 i3xrocks.value.font:            SauceCodePro Nerd Font 11
-wm.bar.font:                 SauceCodePro Nerd Font 11
+wm.bar.font:                    SauceCodePro Nerd Font 11
 
 ! themes
 rofi.theme:                     /usr/share/rofi/themes/Arc-Dark.rasi
@@ -31,6 +31,10 @@ wm.workspace.08.name: 8:  media
 wm.workspace.09.name: 9:  mail
 wm.workspace.10.name: 10:  im
 
+
+wm.floatingwindow.border.size: 3
+wm.window.border.size: 3
+
 ! i3xrocks
 i3xrocks.weather.location: Novosibirsk
 
@@ -39,5 +43,5 @@ i3xrocks.weather.location: Novosibirsk
 
 ! date format, see https://regolith-desktop.com/docs/howtos/time-format
 i3xrocks.date.format2: %H:%M %d-%m-%Y
-!regolith.look.path: /usr/share/regolith-look/ayu-dark
-regolith.look.path: /usr/share/regolith-look/gruvbox
+!regolith.look.path: /usr/share/regolith-look/nord
+regolith.look.path: /usr/share/regolith-look/solarized-dark

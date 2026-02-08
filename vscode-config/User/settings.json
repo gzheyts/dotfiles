@@ -6,16 +6,22 @@
     "window.menuBarVisibility": "toggle",
     "window.density.editorTabHeight": "compact",
 
+    // Terminal
+    "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
+    "terminal.integrated.fontSize": 11,
+    "terminal.integrated.tabs.enabled": false,
+    "terminal.integrated.stickyScroll.enabled": true,
+
     //Editor
     "editor.tabSize": 2,
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "editor.fontLigatures": true,
-    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace",
+    "editor.fontFamily": "SauceCodePro Nerd Font",
     "editor.wordWrap": "bounded",
     "editor.wrappingIndent": "same",
     "editor.lineNumbers": "relative",
-    "editor.wordWrapColumn": 60,
+    "editor.wordWrapColumn": 120,
     "editor.folding": false,
     "editor.insertSpaces": false,
     "editor.smoothScrolling": false,
@@ -116,7 +122,6 @@
 
     // workbench settings
     "workbench.editor.preferHistoryBasedLanguageDetection": true,
-    "terminal.integrated.stickyScroll.enabled": true,
     // cursor && window
     "window.commandCenter": true,
     "window.customTitleBarVisibility": "auto",

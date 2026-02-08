@@ -11,6 +11,7 @@
 	last = log -1 HEAD
 [user]
 	name = Georgy Zheyts
+	# email = zheitsga@alfastrah.ru
 	email = gzheyts@gmail.com
 [color]
 	ui = auto

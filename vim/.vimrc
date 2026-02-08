@@ -55,6 +55,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 " Wiki
 Plugin 'vimwiki/vimwiki'
+Plugin 'easymotion/vim-easymotion'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -80,6 +81,9 @@ let g:qs_highlight_on_keys = ['f', 'F']
 
 let mapleader = ","
 let maplocalleader = " "
+
+" easy motion
+map <Leader><Leader> <Plug>(easymotion-prefix)
 
 
 " yaml config

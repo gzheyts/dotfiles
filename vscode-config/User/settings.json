@@ -1,9 +1,57 @@
 {
+    // window
+    "window.zoomLevel": 1,
+
+    // Menubar Visibility
+    "window.menuBarVisibility": "toggle",
+    "window.density.editorTabHeight": "compact",
+
+    //Editor
+    "editor.tabSize": 2,
+    "editor.fontSize": 14,
+    "editor.lineHeight": 24,
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace",
+    "editor.wordWrap": "bounded",
+    "editor.wrappingIndent": "same",
+    "editor.lineNumbers": "relative",
+    "editor.wordWrapColumn": 60,
+    "editor.folding": false,
+    "editor.insertSpaces": false,
+    "editor.smoothScrolling": false,
+    "editor.minimap.enabled": false,
+    "editor.detectIndentation": true,
+    "editor.suggestSelection": "first",
+    "editor.scrollBeyondLastLine": false,
+    "editor.renderControlCharacters": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.quickSuggestionsDelay": 0,
+    "editor.cursorBlinking": "solid",
+    "editor.glyphMargin": false,
+    "editor.bracketPairColorization.enabled": false,
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.scrollbar.vertical": "hidden",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.cursorSurroundingLines": 8,
+    "editor.accessibilitySupport": "off",
+    "editor.hideCursorInOverviewRuler": true,
+    "editor.unicodeHighlight.allowedCharacters": {
+        "а": true,
+        "с": true,
+        "Т": true,
+        "б": true,
+        "е": true
+    },
+
+    //Editor settings for formatting
+    "editor.formatOnSave": false,
+
+    // sql devloper
     "sqldeveloper.sqlHistory.historyLimit": 500,
-    "chat.commandCenter.enabled": false,
     "sqldeveloper.plsqlDebugger.lowerPortNumber": 49159,
     "sqldeveloper.plsqlDebugger.upperPortNumber": 49160,
-    "sqldeveloper.telemetry.enabled": true,
+    "sqldeveloper.telemetry.enabled": false,
+    "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace",
     "[oraclesql]": {
         "editor.suggest.showSnippets": true,
         "editor.quickSuggestions": {
@@ -16,19 +64,10 @@
         "files.autoSaveWorkspaceFilesOnly": true,
         "files.autoSaveWhenNoErrors": true
     },
-    "files.associations": {
-        "*.typ": "oracle-sql",
-        "*.prc": "oracle-sql",
-        "*.sql": "oracle-sql",
-        "*.pck": "oracle-sql"
-    },
     "[oracle-sql]": {
         "files.encoding": "windows1251"
 
     },
-    //"oracledevtools.connectionConfiguration.walletFileFolder": "/home/gzheyts/Oracle/network/admin",
-    //"oracledevtools.bookmarkFileFolder": "/home/gzheyts/Oracle/oracle.oracledevtools",
-    //"oracledevtools.download.otherFolder": "/home/gzheyts/downloads",
     "oracledevtools.connections": [
         {
             "authenticationType": 1,
@@ -50,10 +89,22 @@
             "passwordStore": "Secret Storage"
         }
     ],
-    "editor.minimap.enabled": false,
-    "editor.unicodeHighlight.ambiguousCharacters": false,
-    "window.zoomLevel": 1.0455173977264463,
+
+    // files 
+    "files.associations": {
+        "*.typ": "oracle-sql",
+        "*.prc": "oracle-sql",
+        "*.sql": "oracle-sql",
+        "*.pck": "oracle-sql"
+    },
     "files.autoSave": "afterDelay",
+    "files.autoSaveWhenNoErrors": true,
+
+    // chat
+    "chat.commandCenter.enabled": false,
+    "chat.editor.fontSize": 18,
+
+    // java
     "java.completion.filteredTypes": [
         "java.awt.*",
         "com.sun.*",
@@ -62,10 +113,9 @@
         "org.graalvm.*",
         "io.micrometer.shaded.*"
     ],
-    "editor.lineNumbers": "relative",
+
     // workbench settings
     "workbench.editor.preferHistoryBasedLanguageDetection": true,
-    "editor.multiCursorModifier": "ctrlCmd",
     "terminal.integrated.stickyScroll.enabled": true,
     // cursor && window
     "window.commandCenter": true,
@@ -79,20 +129,17 @@
         "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
     },
     "window.autoDetectColorScheme": true,
-    "chat.editor.fontSize": 18,
-    "files.autoSaveWhenNoErrors": true,
-    "editor.fontSize": 15,
     "explorer.confirmDelete": false,
     "cursor.composer.shouldChimeAfterChatFinishes": true,
     "explorer.confirmDragAndDrop": false,
     "docker.extension.enableComposeLanguageServer": false,
+
     // vim configuration
     "vim.easymotion": true,
     "vim.smartRelativeLine": true,
     "vim.highlightedyank.enable": true,
     "vim.highlightedyank.color": "#a9dc7660",
     "vim.highlightedyank.duration": 250,
-    "editor.cursorSurroundingLines": 8,
     "vim.leader": ",",
     "vim.hlsearch": true,
     "vim.useSystemClipboard": true,
@@ -286,21 +333,19 @@
         { "before": ["Т"], "after": ["N"] },
         { "before": ["Ь"], "after": ["M"] },
         { "before": ["Б"], "after": ["<"] },
-        { "before": ["Ю"], "after": [">"] },
+        { "before": ["Ю"], "after": [">"] }
     ],
     "vim.visualModeKeyBindings": [
     ],
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "editor.accessibilitySupport": "off",
     "git.blame.editorDecoration.enabled": false,
     "git.blame.statusBarItem.enabled": true,
     "cursor.cpp.enablePartialAccepts": true,
     "workbench.preferredDarkColorTheme": "GitHub Dark",
     "window.newWindowProfile": "Default",
     "cursor.composer.usageSummaryDisplay": "always",
-    "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace",
     "claudeCode.preferredLocation": "panel",
     "sourcecraft-code-assist.allowedCommands": [
         "npm test",
@@ -311,5 +356,6 @@
         "git show"
     ],
     "sourcecraft-code-assist.deniedCommands": [],
-    "jdk.telemetry.enabled": true
+    "jdk.telemetry.enabled": false,
+    "workbench.statusBar.visible": false
 }

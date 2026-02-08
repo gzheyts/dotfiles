@@ -36,15 +36,32 @@ let g:WhichKey_ShowVimActions = "true"
 " NERDTree {{{
 Plug 'preservim/nerdtree'
 map <leader>N   :NERDTree<CR>
-let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapActivateNode='o'
 let g:NERDTreeMapJumpParent='h'
 "}}}
 
 " Easy motions {{{
-map <Leader>w <Plug>(easymotion-bd-w)
-map <Leader>L <Plug>(easymotion-bd-jk)
-map <Leader>f <Plug>(easymotion-bd-f)
-map <leader>F <Plug>(easymotion-f)
+" <ll> means that you have to prefix the command with <leader><leader>
+   " Default Mapping |  <Plug> command       |
+   " -----------------------------------------------------------------
+   "  <ll>f{char}    |  <Plug>(easymotion-f) |  mapped to fn
+   "  <ll>F{char}    |  <Plug>(easymotion-F) |  mapped to Fn
+   "  <ll>t{char}    |  <Plug>(easymotion-t) |  mapped to tn
+   "  <ll>T{char}    |  <Plug>(easymotion-T) |  mapped to Tn
+   "
+   "  <ll>w          |  <Plug>(easymotion-w) |
+   "  <ll>W          |  <Plug>(easymotion-W) |
+   "  <ll>b          |  <Plug>(easymotion-b) |
+   "  <ll>B          |  <Plug>(easymotion-B) |
+   "  <ll>e          |  <Plug>(easymotion-e) |
+   "  <ll>E          |  <Plug>(easymotion-E) |
+   "  <ll>ge         |  <Plug>(easymotion-ge |
+   "  <ll>gE         |  <Plug>(easymotion-gE |
+   "  <ll>j          |  <Plug>(easymotion-j) |
+   "  <ll>k          |  <Plug>(easymotion-k) |
+   "  <ll>n          |  <Plug>(easymotion-n) |
+   "  <ll>N          |  <Plug>(easymotion-N) |
+   "  <ll>s          |  <Plug>(easymotion-s) |  mapped to sn
 "}}}
 
 " Use ctrl-c as an ide shortcut in normal and visual modes
@@ -166,7 +183,8 @@ nnoremap g<c-t>         <c-t>
 " VCS {{{
 nnoremap ]c              :action VcsShowNextChangeMarker<cr>
 nnoremap [c              :action VcsShowPrevChangeMarker<cr>
-nnoremap <leader>C       :action VcsShowCurrentChangeMarker<cr>
+nnoremap <leader>Hp      :action Vcs.ShowDiffChangedLines<cr>
+nnoremap <leader>Hu      :action Vcs.RollbackChangedLines<cr>
 " }}}
 
 " Miscellaneous {{{

@@ -88,6 +88,11 @@
     "docker.extension.enableComposeLanguageServer": false,
     // vim configuration
     "vim.easymotion": true,
+    "vim.smartRelativeLine": true,
+    "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.color": "#a9dc7660",
+    "vim.highlightedyank.duration": 250,
+    "editor.cursorSurroundingLines": 8,
     "vim.leader": ",",
     "vim.hlsearch": true,
     "vim.useSystemClipboard": true,
@@ -100,6 +105,45 @@
         "<C-w>": true,
         "<C-z>": false
     },
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["g", "p", "d"],
+            "commands": ["editor.action.peekDefinition"]
+        },
+        {
+            "before": ["g", "h"],
+            "commands": ["editor.action.showDefinitionPreviewHover"]
+        },
+        {
+            "before": [ "]", "i"],
+            "commands": ["editor.action.goToImplementation"]
+        },
+        {
+            "before": ["g", "p", "i"],
+            "commands": ["editor.action.peekImplementation"]
+        },
+        {
+            "before": ["g", "q"],
+            "commands": ["editor.action.quickFix"]
+        },
+        {
+            "before": ["g", "r"],
+            "commands": ["editor.action.referenceSearch.trigger"]
+        },
+        {
+            "before": [ "]", "t", "d"],
+            "commands": ["editor.action.goToTypeDefinition"]
+        },
+        {
+            "before": ["g", "p", "t"],
+            "commands": ["editor.action.peekTypeDefinition"]
+        },
+        {
+            "before": ["<leader>", "e"],
+            "commands": ["workbench.view.explorer"]
+        }
+
+    ],
     "vim.normalModeKeyBindingsNonRecursive": [
 
         // splits
@@ -109,7 +153,7 @@
         },
         {
             "before": [ "leader", "s" ],
-            "commands": [ ":split" ],
+            "commands": [ ":split" ]
         },
         // panes
         {
@@ -166,22 +210,8 @@
             "commands": [ "workbench.action.quickOpen" ]
         },
         {
-            "before": [ "g", "h"],
-            "commands": [
-                "editor.action.showDefinitionPreviewHover"
-            ]
-        },
-        {
-            "before": [ "]", "t", "d"],
-            "commands": [ "editor.action.goToTypeDefinition" ]
-        },
-        {
             "before": [ "]", "s", "m"],
             "commands": [ "java.action.navigateToSuperImplementation" ]
-        },
-        {
-            "before": [ "]", "i"],
-            "commands": [ "editor.action.goToImplementation" ]
         },
         {
             "before": [ "g", ";"],
@@ -270,5 +300,16 @@
     "workbench.preferredDarkColorTheme": "GitHub Dark",
     "window.newWindowProfile": "Default",
     "cursor.composer.usageSummaryDisplay": "always",
-    "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace"
+    "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace",
+    "claudeCode.preferredLocation": "panel",
+    "sourcecraft-code-assist.allowedCommands": [
+        "npm test",
+        "npm install",
+        "tsc",
+        "git log",
+        "git diff",
+        "git show"
+    ],
+    "sourcecraft-code-assist.deniedCommands": [],
+    "jdk.telemetry.enabled": true
 }

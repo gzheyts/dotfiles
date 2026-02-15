@@ -182,8 +182,8 @@ nnoremap g<c-t>         <c-t>
 "}}}
 
 " VCS {{{
-nnoremap ]c              :action VcsShowNextChangeMarker<cr>
-nnoremap [c              :action VcsShowPrevChangeMarker<cr>
+nnoremap ]C              :action VcsShowNextChangeMarker<cr>
+nnoremap [C              :action VcsShowPrevChangeMarker<cr>
 nnoremap <leader>Hp      :action Vcs.ShowDiffChangedLines<cr>
 nnoremap <leader>Hu      :action Vcs.RollbackChangedLines<cr>
 " }}}

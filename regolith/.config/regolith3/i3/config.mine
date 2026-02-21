@@ -64,73 +64,6 @@ set_from_resource $tag9_key  wm.workspace.09.key 9
 set_from_resource $tag10_key wm.workspace.10.key 0
 set_from_resource $tag_high_key wm.workspace.high.key Ctrl
 
-###############################################################################
-# Colors and Fonts
-###############################################################################
-
-# Create variables from Xresources for wm look
-set_from_resource $focused.color.border wm.client.focused.color.border "#002b36"
-set_from_resource $focused.color.background wm.client.focused.color.background "#586e75"
-set_from_resource $focused.color.text wm.client.focused.color.text "#fdf6e3"
-set_from_resource $focused.color.indicator wm.client.focused.color.indicator "#268bd2"
-set_from_resource $focused.color.child_border wm.client.focused.color.child_border
-
-set_from_resource $focused_inactive.color.border wm.client.focused_inactive.color.border "#002b36"
-set_from_resource $focused_inactive.color.background wm.client.focused_inactive.color.background "#073642"
-set_from_resource $focused_inactive.color.text wm.client.focused_inactive.color.text "#839496"
-set_from_resource $focused_inactive.color.indicator wm.client.focused_inactive.color.indicator "#073642"
-set_from_resource $focused_inactive.color.child_border wm.client.focused_inactive.color.child_border
-
-set_from_resource $unfocused.color.border wm.client.unfocused.color.border "#002b36"
-set_from_resource $unfocused.color.background wm.client.unfocused.color.background "#073642"
-set_from_resource $unfocused.color.text wm.client.unfocused.color.text "#839496"
-set_from_resource $unfocused.color.indicator wm.client.unfocused.color.indicator "#073642"
-set_from_resource $unfocused.color.child_border wm.client.unfocused.color.child_border
-
-set_from_resource $urgent.color.border wm.client.urgent.color.border "#002b36"
-set_from_resource $urgent.color.background wm.client.urgent.color.background "#dc322f"
-set_from_resource $urgent.color.text wm.client.urgent.color.text "#fdf6e3"
-set_from_resource $urgent.color.indicator wm.client.urgent.color.indicator "#002b36"
-set_from_resource $urgent.color.child_border wm.client.urgent.color.child_border
-
-
-# Window Border color
-# class                 border                             background                         text                               indicator                          child_border
-# client.focused          $focused.color.border              $focused.color.background          $focused.color.text                $focused.color.indicator           $focused.color.child_border
-# client.focused_inactive $focused_inactive.color.border     $focused_inactive.color.background $focused_inactive.color.text       $focused_inactive.color.indicator  $focused_inactive.color.child_border
-# client.unfocused        $unfocused.color.border            $unfocused.color.background        $unfocused.color.text              $unfocused.color.indicator         $unfocused.color.child_border
-# client.urgent           $urgent.color.border               $urgent.color.background           $urgent.color.text                 $urgent.color.indicator            $urgent.color.child_border
-
-# color setup {{{
-# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
-client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
-client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
-client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
-client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
-client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
-client.background 	    	#E7D3E7
-#}}}
-
-# Create variables from Xresources for bar look
-set_from_resource $wm.bar.background.color wm.bar.background.color "#002b36"
-set_from_resource $wm.bar.statusline.color wm.bar.statusline.color "#93a1a1"
-set_from_resource $wm.bar.separator.color wm.bar.separator.color "#268bd2"
-
-set_from_resource $wm.bar.workspace.focused.border.color wm.bar.workspace.focused.border.color "#073642"
-set_from_resource $wm.bar.workspace.focused.background.color wm.bar.workspace.focused.background.color "#073642"
-set_from_resource $wm.bar.workspace.focused.text.color wm.bar.workspace.focused.text.color "#eee8d5"
-
-set_from_resource $wm.bar.workspace.active.border.color wm.bar.workspace.active.border.color "#073642"
-set_from_resource $wm.bar.workspace.active.background.color wm.bar.workspace.active.background.color "#073642"
-set_from_resource $wm.bar.workspace.active.text.color wm.bar.workspace.active.text.color "#586e75"
-
-set_from_resource $wm.bar.workspace.inactive.border.color wm.bar.workspace.inactive.border.color "#002b36"
-set_from_resource $wm.bar.workspace.inactive.background.color wm.bar.workspace.inactive.background.color "#002b36"
-set_from_resource $wm.bar.workspace.inactive.text.color wm.bar.workspace.inactive.text.color "#586e75"
-
-set_from_resource $wm.bar.workspace.urgent.border.color wm.bar.workspace.urgent.border.color "#dc322f"
-set_from_resource $wm.bar.workspace.urgent.background.color wm.bar.workspace.urgent.background.color "#dc322f"
-set_from_resource $wm.bar.workspace.urgent.text.color wm.bar.workspace.urgent.text.color "#fdf6e3"
 
 # Sets wm font for dialogs
 set_from_resource $wm.font gtk.font_name Sans 13
@@ -677,26 +610,29 @@ bar {
   workspace_min_width $wm.bar.workspace_min_width
 
   colors {
-#       background $wm.bar.background.color
-#       statusline $wm.bar.statusline.color
-#       separator  $wm.bar.separator.color
-#
-# #                        BORDER  BACKGROUND TEXT
-#       focused_workspace  $wm.bar.workspace.focused.border.color      $wm.bar.workspace.focused.background.color   $wm.bar.workspace.focused.text.color
-#       active_workspace   $wm.bar.workspace.active.border.color       $wm.bar.workspace.active.background.color    $wm.bar.workspace.active.text.color
-#       inactive_workspace $wm.bar.workspace.inactive.border.color     $wm.bar.workspace.inactive.background.color  $wm.bar.workspace.inactive.text.color
-#       urgent_workspace   $wm.bar.workspace.urgent.border.color       $wm.bar.workspace.urgent.background.color    $wm.bar.workspace.urgent.text.color
-
-
         statusline	#999999
         background	#252525
+        separator       grey
         #class             border 		backgrd 	text
         focused_workspace  #292929 		#292929 	#cccccc
+        # workspace
         active_workspace   #252525 		#252525 	#696f89
         inactive_workspace #252525 		#252525     	#6b6b6b
         urgent_workspace   #252525 		#252525 	#c7a551
+        binding_mode       #2f343a              #900000         #ffffff
   }
 }
+
+# color setup {{{
+# <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
+client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
+client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
+client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
+client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
+client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
+client.background 	    	#E7D3E7
+#}}}
+
 # Start the installed regolith-compositor
 set_from_resource $wm.program.compositor wm.program.compositor /usr/share/regolith-compositor/init
 exec_always --no-startup-id $wm.program.compositor

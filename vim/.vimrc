@@ -62,6 +62,8 @@ filetype plugin indent on    " required
 
 " }}}
 
+set autochdir
+
 " instant markdown plugin setup {{{
 let g:instant_markdown_slow = 1
 " use :InstantMarkdownPreivew to manually show preview

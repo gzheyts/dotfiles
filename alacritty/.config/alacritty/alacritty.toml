@@ -8,6 +8,11 @@ decorations_theme_variant = "Dark"
 history = 99999
 multiplier = 3
 
+[cursor]
+style = { shape = "Block", blinking = "On" }
+thickness = 1.2
+
+
 [font]
 # list available values:
 #       fc-list -f "%{family[0]}: %{style[0]}\n"
@@ -40,4 +45,4 @@ bold_italic = { style = "Bold Italic" }
 #     Font size in points.
 #
 #     Default: 11.25
-size = 10
+size = 14

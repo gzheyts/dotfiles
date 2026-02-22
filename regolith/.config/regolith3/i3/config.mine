@@ -626,11 +626,11 @@ bar {
 # color setup {{{
 # <colorclass> 			<border> 	<background> 	<text> 		<indicator> 	<child_border>
 client.focused			#426c82 	#428277	 	#f7f7f7   	#00ff7f
-client.unfocused		#000000 	#000000  	#8C8C8C    	#292d2e
-client.focused_inactive         #444443 	#010000  	#8C8C8C    	#484e50
-client.urgent			#383a3b 	#383a3b  	#ee0000    	#00ffff
-client.placeholder		#079C00 	#444444  	#2DCA12    	#42CA17
-client.background 	    	#E7D3E7
+client.unfocused		#426c82 	#000000  	#8C8C8C    	#292d2e
+client.focused_inactive         #426c82 	#010000  	#8C8C8C    	#484e50
+client.urgent			#426c82 	#383a3b  	#ee0000    	#00ffff
+client.placeholder		#426c82 	#444444  	#2DCA12    	#42CA17
+client.background 	    	#426c82
 #}}}
 
 # Start the installed regolith-compositor

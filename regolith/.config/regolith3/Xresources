@@ -1,16 +1,16 @@
 rofi.theme: /usr/share/rofi/themes/Arc-Dark.rasi
 
-regolith.wallpaper.file: ~/Pictures/wallpaper/w1.jpg
+regolith.wallpaper.file: ~/Pictures/wallpaper.jpg
 ! look
 
 ! fonts
-gtk.monospace_font_name:        mononoki Nerd Font 11
-gtk.font_name:                  SauceCodePro Nerd Font 11
+gnome.terminal.font:	        SauceCodePro Nerd Font 12
 gtk.document_font_name:         Sans 12
-gnome.terminal.font:	        SauceCodePro Nerd Font 13
-rofi.font:                      DejaVu Sans 9
-i3xrocks.value.font:            SauceCodePro Nerd Font 11
-wm.bar.font:                    SauceCodePro Nerd Font 11
+gtk.font_name:                  SauceCodePro Nerd Font 12
+gtk.monospace_font_name:        mononoki Nerd Font 12
+i3xrocks.value.font:            SauceCodePro Nerd Font 12
+rofi.font:                      DejaVu Sans 12
+wm.bar.font:                    SauceCodePro Nerd Font 12
 
 ! themes
 rofi.theme:                     /usr/share/rofi/themes/Arc-Dark.rasi
@@ -40,6 +40,7 @@ i3xrocks.weather.location: Novosibirsk
 
 ! wm config
 ! wm.binding.scratchpad: o
+i3wm.scratchpad_size: 1920 800
 
 ! date format, see https://regolith-desktop.com/docs/howtos/time-format
 i3xrocks.date.format2: %H:%M %d-%m-%Y

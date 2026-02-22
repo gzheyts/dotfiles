@@ -64,7 +64,7 @@
     "sqldeveloper.sqlHistory.historyLimit": 500,
     "sqldeveloper.plsqlDebugger.lowerPortNumber": 49159,
     "sqldeveloper.plsqlDebugger.upperPortNumber": 49160,
-    "sqldeveloper.telemetry.enabled": false,
+    "sqldeveloper.telemetry.enabled": true,
     "sqldeveloper.datagrid.fontFamily": "'Droid Sans Mono', monospace",
     "[oraclesql]": {
         "editor.suggest.showSnippets": true,
@@ -436,6 +436,5 @@
         "git show"
     ],
     "sourcecraft-code-assist.deniedCommands": [],
-    "jdk.telemetry.enabled": false,
-    "workbench.statusBar.visible": false
+    "jdk.telemetry.enabled": false
 }

@@ -1,6 +1,6 @@
 rofi.theme: /usr/share/rofi/themes/Arc-Dark.rasi
 
-regolith.wallpaper.file: ~/Pictures/wallpaper.jpg
+regolith.wallpaper.file: ~/Pictures/wallpapers/current
 ! look
 
 ! fonts

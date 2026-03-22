@@ -1,0 +1,20 @@
+#!/bin/bash
+# intellij-diff.sh
+# Wrapper script for IntelliJ IDEA diff tool
+
+# Get file paths from SVN (last two arguments)
+LEFT="${@: -2:1}"
+RIGHT="${@: -1:1}"
+
+# Call IntelliJ IDEA diff command
+/snap/bin/idea diff "$LEFT" "$RIGHT"
+
+# Return appropriate exit code
+# 0 = no differences, 1 = differences found, 2 = error
+if [ $? -eq 0 ]; then
+    exit 0  # No differences
+elif [ $? -eq 1 ]; then
+    exit 1  # Differences found
+else
+    exit 2  # Error
+fi

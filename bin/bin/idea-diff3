@@ -1,0 +1,27 @@
+#!/bin/bash
+# intellij-diff3.sh
+# Wrapper script for IntelliJ IDEA three-way merge tool
+
+# Get file paths from SVN (last three arguments)
+# SVN calls diff3 with: diff3 left-file right-file base-file
+MINE="${@: -3:1}"    # Your version
+THEIRS="${@: -2:1}"  # Repository version
+BASE="${@: -1:1}"    # Base version
+
+# Create a temporary output file
+TEMP_OUTPUT=$(mktemp)
+
+# Call IntelliJ IDEA merge command
+/snap/bin/idea merge "$MINE" "$THEIRS" "$BASE" "$TEMP_OUTPUT"
+
+# Check if merge was successful
+if [ $? -eq 0 ]; then
+    # Copy the merged result to stdout (SVN expects this)
+    cat "$TEMP_OUTPUT"
+    rm "$TEMP_OUTPUT"
+    exit 0  # Successful merge
+else
+    # Clean up and exit with error
+    rm -f "$TEMP_OUTPUT"
+    exit 1  # Merge failed
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+# intellij-merge.sh
+# Wrapper script for IntelliJ IDEA merge tool (interactive conflict resolution)
+
+# Get the paths provided by SVN
+BASE="$1"    # Unmodified base version
+THEIRS="$2"  # Repository version (upstream changes)
+MINE="$3"    # Your working copy version (local changes)
+MERGED="$4"  # Where to store the resolved result
+WCPATH="$5"  # Working copy path of conflicted file
+
+# Call IntelliJ IDEA merge command
+/snap/bin/idea merge "$MINE" "$THEIRS" "$BASE" "$MERGED"
+
+# Return appropriate exit code
+# 0 = conflict resolved successfully, 1 = merge failed
+if [ $? -eq 0 ]; then
+    exit 0  # Conflict resolved
+else
+    exit 1  # Merge failed
+fi

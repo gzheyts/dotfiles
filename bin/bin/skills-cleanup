@@ -1,6 +1,6 @@
 #!/bin/sh
 # =============================================================================
-# cleanup_skills.sh - Remove unneeded skills for Java/Spring backend developer
+# skills_cleanup - Remove unneeded skills for Java/Spring backend developer
 # =============================================================================
 # KEEP skills related to: Java, SQL, Linux, DB performance, Backend architecture,
 # Microservices, Architecture design, Software testing, Refactoring, Active Directory,

@@ -1,0 +1,248 @@
+#!/bin/bash
+
+# Function to store credentials
+store_credentials() {
+    if [ $# -lt 2 ]; then
+        echo "Usage: store_credentials <service_name> <username> [password]"
+        return 1
+    fi
+
+    local service_name="$1"
+    local username="$2"
+    local password="$3"
+
+    # If password is not provided, prompt for it
+    if [ -z "$password" ]; then
+        read -s -p "Enter password: " password
+        echo
+    fi
+
+    # Store the credentials
+    echo "$password" | secret-tool store --label="$service_name credentials" \
+        service "$service_name" \
+        username "$username"
+
+    if [ $? -eq 0 ]; then
+        echo "Credentials stored successfully for $service_name"
+    else
+        echo "Failed to store credentials"
+        return 1
+    fi
+}
+
+# Function to get credentials
+get_credentials() {
+    if [ $# -ne 2 ]; then
+        echo "Usage: get_credentials <service_name> <username>"
+        return 1
+    fi
+
+    local service_name="$1"
+    local username="$2"
+
+    # Retrieve the credentials
+    local password
+    password=$(secret-tool lookup service "$service_name" username "$username")
+
+    if [ -z "$password" ]; then
+        echo "No credentials found for $service_name"
+        return 1
+    else
+        echo "$password"
+    fi
+}
+
+# Function to delete credentials
+delete_credentials() {
+    if [ $# -ne 2 ]; then
+        echo "Usage: delete_credentials <service_name> <username>"
+        return 1
+    fi
+
+    local service_name="$1"
+    local username="$2"
+
+    # Delete the credentials
+    secret-tool clear service "$service_name" username "$username"
+
+    if [ $? -eq 0 ]; then
+        echo "Credentials deleted successfully for $service_name"
+    else
+        echo "Failed to delete credentials"
+        return 1
+    fi
+}
+
+# Function to securely encrypt and delete original
+secure_encrypt() {
+    local input_file="$1"
+    local output_file="${input_file}.gpg"
+    local temp_file="/tmp/$(basename "$input_file").tmp"
+    
+    # Validate input file exists
+    if [[ ! -f "$input_file" ]]; then
+        echo "Error: Input file does not exist: $input_file"
+        return 1
+    fi
+    
+    # Create output directory if it doesn't exist
+    local output_dir=$(dirname "$output_file")
+    if [[ ! -d "$output_dir" ]]; then
+        echo "Creating output directory: $output_dir"
+        mkdir -p "$output_dir"
+    fi
+    
+    # Encrypt file
+    if ! gpg -c -o "$output_file" "$input_file"; then
+        echo "Error: Encryption failed"
+        return 1
+    fi
+    
+    # Verify encryption
+    if ! gpg --decrypt --output "$temp_file" "$output_file"; then
+        echo "Error: Verification failed"
+        shred -f "$temp_file"
+        return 1
+    fi
+    
+    # Compare original and decrypted
+    if ! diff "$input_file" "$temp_file" >/dev/null; then
+        echo "Error: Decrypted file doesn't match original"
+        shred -f "$temp_file"
+        return 1
+    fi
+    
+    # Clean up
+    rm -f "$temp_file"
+    shred -u "$input_file"
+    echo "File successfully encrypted and original securely deleted"
+}
+
+# Function to edit encrypted file
+edit_encrypted() {
+    local input_file="$1"
+    local temp_file="/tmp/$(basename "$input_file").tmp"
+    
+    # Validate input file exists
+    if [[ ! -f "$input_file" ]]; then
+        echo "Error: Input file does not exist: $input_file"
+        return 1
+    fi
+    
+    # Decrypt to temporary file
+    echo "file to read: $input_file"
+    if ! gpg  --decrypt --output "$temp_file" "$input_file" ; then
+        echo "Error: Decryption failed. attempt 1"
+        rm -f "$temp_file"
+        return 1
+    fi
+    
+    # Edit file
+    ${EDITOR:-vim} "$temp_file"
+    
+    # Re-encrypt
+    if gpg --batch --yes -c -o "$input_file" "$temp_file"; then
+        shred -u "$temp_file"
+        echo "File successfully edited and re-encrypted"
+    else
+        echo "Error: Re-encryption failed"
+        shred -u "$temp_file"
+        return 1
+    fi
+}
+
+# Function to read encrypted file
+read_encrypted() {
+    local input_file="$1"
+    # Validate input file exists
+    if [[ ! -f "$input_file" ]]; then
+        echo "Error: Input file does not exist: $input_file"
+        return 1
+    fi
+    
+    if ! content=$(gpg --decrypt "$input_file" 2>/dev/null); then
+        echo "Error: Failed to decrypt file"
+        return 1
+    fi
+    echo -n "$content"
+}
+
+# Function to change passphrase
+change_passphrase() {
+    local input_file="$1"
+    local temp_file="/tmp/$(basename "$input_file").tmp"
+    
+    # Decrypt the file
+    if ! gpg -d "$input_file" -o "$temp_file"; then
+        echo "Error: Decryption failed"
+        return 1
+    fi
+    
+    # Re-encrypt with new passphrase
+    if gpg -c -o "$input_file" "$temp_file"; then
+        echo "Passphrase successfully changed"
+        shred -u "$temp_file"
+    else
+        echo "Error: Re-encryption failed"
+        shred -u "$temp_file"
+        return 1
+    fi
+}
+
+# Function to change passphrase batch
+change_passphrase_batch() {
+    local input_dir="$1"
+    
+    # Find all encrypted files and change their passphrases
+    find "$input_dir" -type f -name "*.gpg" | while read -r file; do
+        echo "Processing: $file"
+        if ! change_passphrase_secure "$file"; then
+            echo "Failed to change passphrase for: $file"
+        fi
+    done
+}
+
+print_help() {
+    local cmd = "$(basename $0)"
+    echo "Usage:"
+    echo "  $cmd store <service_name> <username> [password]"
+    echo "  $cmd get <service_name> <username>"
+    echo "  $cmd delete <service_name> <username>"
+    echo "  $cmd encrypt <file>"
+    echo "  $cmd edit <file>"
+    echo "  $cmd read <file>"
+    echo "  $cmd change_passphrase <file>"
+    echo "  $cmd change_passphrase_batch <directory>"
+}
+
+# Example usage
+if [ "$1" = "store" ]; then
+    store_credentials "$2" "$3" "$4"
+elif [ "$1" = "get" ]; then
+    get_credentials "$2" "$3"
+elif [ "$1" = "delete" ]; then
+    delete_credentials "$2" "$3"
+elif [ "$1" = "encrypt" ]; then
+    secure_encrypt "$2"
+elif [ "$1" = "edit" ]; then
+    edit_encrypted "$2"
+elif [ "$1" = "read" ]; then
+    read_encrypted "$2"
+elif [ "$1" = "change_passphrase" ]; then
+    change_passphrase "$2"
+elif [ "$1" = "change_passphrase_batch" ]; then
+    change_passphrase_batch "$2"
+else
+    print_help
+fi 
+
+
+unset -f print_help
+unset -f store_credentials
+unset -f get_credentials
+unset -f delete_credentials
+unset -f secure_encrypt
+unset -f edit_encrypted
+unset -f read_encrypted
+unset -f change_passphrase
+unset -f change_passphrase_batch

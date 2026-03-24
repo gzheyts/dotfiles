@@ -10,3 +10,5 @@ xset r 114
 xset r 116
 #typematic delay/ rate
 xset r rate 200 20
+
+dunst &

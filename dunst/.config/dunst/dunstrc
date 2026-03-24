@@ -1,17 +1,7 @@
 [global]
-    font = "Inconsolata 8"
-    allow_markup = yes
-    bounce_freq = 0
-    format = "<b>%s</b>\n%b"
     sort = yes
     indicate_hidden = true
-    geometry = "350-20+20"
     idle_threshold = 120
-    alignment = left
-    show_age_threshold = 60
-    show_indicators = yes
-    shrink = no
-    transparency = 0
     monitor = 0
     line_height = 0
     ignore_newline = no
@@ -20,25 +10,56 @@
     follow = mouse
     word_wrap = yes
     separator_height = 5
+    gap_size = 10
+    width = 400
+    height = 300
+    origin = top-right
+    offset = 20x20
     padding = 10
     horizontal_padding = 10
     separator_color = frame
-    startup_notification = false
-    dmenu = "/usr/bin/dmenu -p dunst: -nb #FFFFFF -nf #000000 -sb #94DBFF -sf #000000"
     browser = /usr/bin/xdg-open
-    icon_position = left
-    max_icon_size = 32
- 
- 
-[frame]
-    width = 1
-    color = "#1f252d"
- 
-[shortcuts]
+    dmenu = rofi -show drun -prompt 'Open with' 
+    corner_radius = 10
+
+    # Mouse
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    # Shortcuts
     close = ctrl+space
     close_all = ctrl+shift+space
     history = ctrl+shift+grave
     context = ctrl+shift+period
+
+# Progress bar
+progress_bar_frame_width = 0
+progress_bar_corner_radius = 3
+
+# Colors
+foreground = "#cdd1dc"
+frame_color = "#2d303c"
+frame_width = 3
+highlight = "#2274d5" 
+
+# Text
+show_indicators = yes
+transparency = 0
+font = "SauceCodePro Nerd Font 10"
+markup = full
+format = "<small>%a</small>\n<b>%s</b>\n%b"
+alignment = left
+vertical_alignment = center
+show_age_threshold = 60
+hide_duplicate_count = false
+
+# Icon
+icon_position = left
+min_icon_size = 16
+max_icon_size = 32
+enable_recursive_icon_lookup = true
+icon_corner_radius = 4
  
 [urgency_low]
 # IMPORTANT: colors have to be defined in quotation marks.
@@ -55,4 +76,14 @@ timeout = 15
 [urgency_critical]
 background = "#1f252d"
 foreground = "#a2a8ba"
+frame_color = "#ab6d6b"
+highlight = "#eb4d4b"
 timeout = 0
+
+# Rules
+[fullscreen_delay_everything]
+fullscreen = delay
+
+[fullscreen_show_critical]
+msg_urgency = critical
+fullscreen = show

@@ -8,7 +8,6 @@
 
     // Terminal
     "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
-    "terminal.integrated.fontSize": 11,
     "terminal.integrated.tabs.enabled": false,
     "terminal.integrated.stickyScroll.enabled": true,
 
@@ -22,7 +21,7 @@
 
     //Editor
     "editor.tabSize": 2,
-    "editor.fontSize": 14,
+    "editor.fontSize": 12,
     "editor.lineHeight": 24,
     "editor.fontLigatures": true,
     "editor.fontFamily": "SauceCodePro Nerd FontHHH",
@@ -116,7 +115,6 @@
 
     // chat
     "chat.commandCenter.enabled": false,
-    "chat.editor.fontSize": 18,
 
     // java
     "java.completion.filteredTypes": [
@@ -137,7 +135,7 @@
     "workbench.productIconTheme": "jetbrans",
     "workbench.iconTheme": "pcode-icon-theme-jetbrains",
     "telemetry.feedback.enabled": false,
-    "update.releaseTrack": "prerelease",
+    "update.releaseTrack": "dev",
     "[shellscript]": {
         "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
     },
@@ -423,9 +421,7 @@
     "git.blame.editorDecoration.enabled": false,
     "git.blame.statusBarItem.enabled": true,
     "cursor.cpp.enablePartialAccepts": true,
-    "workbench.preferredDarkColorTheme": "GitHub Dark",
     "window.newWindowProfile": "Default",
-    "cursor.composer.usageSummaryDisplay": "always",
     "claudeCode.preferredLocation": "panel",
     "sourcecraft-code-assist.allowedCommands": [
         "npm test",
@@ -433,8 +429,17 @@
         "tsc",
         "git log",
         "git diff",
-        "git show"
+        "git show",
+        "mvn compile -DskipTests",
+        "mvn compile",
+        "mvn"
     ],
     "sourcecraft-code-assist.deniedCommands": [],
-    "jdk.telemetry.enabled": false
+    "jdk.telemetry.enabled": false,
+    "chat.fontSize": 14,
+    "update.mode": "silentlyApplyOnQuit",
+    "workbench.preferredDarkColorTheme": "GitHub Dark",
+    "cursor.composer.usageSummaryDisplay": "always",
+    "workbench.statusBar.visible": false,
+    "jdk.maven.userSettings": "~/.m2/settings.xml",
 }

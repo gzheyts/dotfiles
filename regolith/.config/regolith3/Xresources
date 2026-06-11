@@ -15,8 +15,8 @@ wm.bar.font:                    SauceCodePro Nerd Font 12
 ! themes
 rofi.theme:                     /usr/share/rofi/themes/Arc-Dark.rasi
 gtk.theme_name:                 Adwaita-dark
-gtk.icon_theme_name:            Moka
-gtk.icon_theme_name:            Moka
+gtk.icon_theme_name:            Paper-Mono-Dark
+gtk.icon_theme_name:            Paper-Mono-Dark
 Xcursor.theme:                  Adwaita
 
 ! workspace names

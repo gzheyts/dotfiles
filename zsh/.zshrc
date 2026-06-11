@@ -198,11 +198,10 @@ alias -g C=" | xsel -b "
 alias -g ML=" --settings ~/.m2/settings-local.xml "
 
 # Maven
-alias mvn="mvnd"
 export MAVEN_OPTS="-Daether.dependencyCollector.impl=bf -Dmaven.artifact.threads=10"
 export MAVEN_ARGS="-T 1C -V -e"
-alias mct="mvn -T 1C clean test"
-alias mi="mvn install"
+
+alias mvn="mvnd"
 alias mist="mvn install -DskipTests=true"
 alias mcist="mvn clean install -DskipTests=true"
 alias mits="mvn install -Dmaven.test.skip=true"
@@ -219,8 +218,6 @@ alias mdtf='mvn dependency:tree -Dfull'
 alias mvngen="mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.3"
 
 function cls { printf "\ec"; } 
-
-export PATH="$PATH:$HOME/bin:$HOME/.bin:$HOME/.local/bin"
 
 # zsh autosuggestions
 bindkey '^ ' autosuggest-accept
@@ -242,3 +239,12 @@ if [[ "$TERM_PROGRAM" == "vscode" ||  -n "$CURSOR_CLI"  || -n "$CURSOR_AGENT" ]]
     # disable shell history
     fc -p
 fi
+
+# path
+export PATH="$HOME/.opencode/bin:~/.npm-global/bin:$PATH:$HOME/bin:$HOME/.bin:$HOME/.local/bin"
+
+# The next line updates PATH for src CLI.
+if [ -f "$HOME/sourcecraft/path.zsh.inc" ]; then source "$HOME/sourcecraft/path.zsh.inc"; fi
+
+# The next line enables shell command completion for src.
+if [ -f "$HOME/sourcecraft/completion.zsh.inc" ]; then source "$HOME/sourcecraft/completion.zsh.inc"; fi

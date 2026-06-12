@@ -1,2 +1,2 @@
-aliases.local.zsh
+aliases/local.aliases
 plugins/zsh-autosuggestions

@@ -24,3 +24,6 @@ fontconfig/.fonts/.uuid
 pgcli/.config/pgcli/history
 pgcli/.config/pgcli/log
 tmux/.tmux/plugins/tmux-*
+
+#zsh
+zsh/.zsh-custom/plugins

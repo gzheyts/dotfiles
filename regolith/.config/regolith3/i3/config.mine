@@ -207,16 +207,15 @@ for_window [instance="telegram-desktop"] floating enable
 for_window [class="Gnome-pomodoro"]  floating enable 
 for_window [class="Gnome-calendar"]  floating enable 
 for_window [class="zoom"]  floating enable 
-# for_window [class="Mattermost"]  floating enable 
 for_window [class="copyq"]  floating enable 
-# for_window [class="org.remmina.Remmina"]  floating enable 
 for_window [class="Variety"]  floating enable 
 for_window [instance="Places"]  floating enable 
-# for_window [instance="vlc"]  floating enable 
 for_window [instance="stacer"]  floating enable 
 for_window [instance="gnome-tweaks"]  floating enable 
 
 for_window [class=".*-control-center$"] floating enable
+for_window [class=".*Remmina$"] floating enable
+for_window [class="crow-translate"] floating enable
 
 for_window [all] border pixel $wm.window.border.size
 for_window [all] title_window_icon off

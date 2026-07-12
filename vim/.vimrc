@@ -89,8 +89,11 @@ map <Leader><Leader> <Plug>(easymotion-prefix)
 
 
 " yaml config
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yaml set foldlevelstart=20
+augroup yaml
+    autocmd!
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType yaml setlocal foldlevelstart=20
+augroup end
 
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_error = '✘'
@@ -124,7 +127,7 @@ set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set showbreak=↪
 set scrolljump=5
 set hidden
-set viminfo='0,:0,<0,@0,f0
+set viminfo='100,<50,:100,@20,f1,h
 set synmaxcol=120
 set colorcolumn=120
 highlight OverLength ctermfg=white ctermbg=darkred guibg=#FFD9D9
@@ -243,71 +246,71 @@ endif
 set background=dark
 
 " russian mappings {{{
-map ё `
-map й q
-map ц w
-map у e
-map к r
-map е t
-map н y
-map г u
-map ш i
-map щ o
-map з p
-map х [
-map ъ ]
-map ф a
-map ы s
-map в d
-map а f
-map п g
-map р h
-map о j
-map л k
-map д l
-map ж ;
-map э '
-map я z
-map ч x
-map с c
-map м v
-map и b
-map т n
-map ь m
-map б ,
-map ю .
-map Ё ~
-map Й Q
-map Ц W
-map У E
-map К R
-map Е T
-map Н Y
-map Г U
-map Ш I
-map Щ O
-map З P
-map Х {
-map Ъ }
-map Ф A
-map Ы S
-map В D
-map А F
-map П G
-map Р H
-map О J
-map Л K
-map Д L
-map Ж :
-map Э "
-map Я Z
-map Ч X
-map С C
-map М V
-map И B
-map Т N
-map Ь M
-map Б <
-map Ю >
+noremap ё `
+noremap й q
+noremap ц w
+noremap у e
+noremap к r
+noremap е t
+noremap н y
+noremap г u
+noremap ш i
+noremap щ o
+noremap з p
+noremap х [
+noremap ъ ]
+noremap ф a
+noremap ы s
+noremap в d
+noremap а f
+noremap п g
+noremap р h
+noremap о j
+noremap л k
+noremap д l
+noremap ж ;
+noremap э '
+noremap я z
+noremap ч x
+noremap с c
+noremap м v
+noremap и b
+noremap т n
+noremap ь m
+noremap б ,
+noremap ю .
+noremap Ё ~
+noremap Й Q
+noremap Ц W
+noremap У E
+noremap К R
+noremap Е T
+noremap Н Y
+noremap Г U
+noremap Ш I
+noremap Щ O
+noremap З P
+noremap Х {
+noremap Ъ }
+noremap Ф A
+noremap Ы S
+noremap В D
+noremap А F
+noremap П G
+noremap Р H
+noremap О J
+noremap Л K
+noremap Д L
+noremap Ж :
+noremap Э "
+noremap Я Z
+noremap Ч X
+noremap С C
+noremap М V
+noremap И B
+noremap Т N
+noremap Ь M
+noremap Б <
+noremap Ю >
 " }}}
 " vim:ft=vim:fdm=marker

@@ -1,64 +1,60 @@
 " plugins setup {{{ 
-" Vundle configuration
-set nocompatible              " be iMproved, required
-
-filetype off                 " required
+" vim-plug configuration
 
 " Download vim-plug if not already installed
 if has('unix')
-  if empty(glob('~/.vim/bundle/Vundle.vim'))
-    silent ! git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent ! curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 endif
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin()
 
 "Color picker
-Plugin 'KabbAmine/vCoolor.vim'
-Plugin 'unblevable/quick-scope'   
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-Plugin 'MattesGroeger/vim-bookmarks'
-Plugin 'PotatoesMaster/i3-vim-syntax'
-" Plugin 'SirVer/ultisnips'
-Plugin 'copypath.vim'
-Plugin 'VisIncr'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'bling/vim-airline'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'elzr/vim-json'
-Plugin 'dense-analysis/ale'
-Plugin 'pedrohdz/vim-yaml-folds'
-Plugin 'haya14busa/incsearch-fuzzy.vim'
-Plugin 'haya14busa/incsearch.vim'
-Plugin 'honza/vim-snippets'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kien/ctrlp.vim'
-Plugin 'lilydjwg/colorizer'
-Plugin 'majutsushi/tagbar'
-Plugin 'morhetz/gruvbox'
-Plugin 'rking/ag.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'sjl/gundo.vim'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'sudo.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
+Plug 'KabbAmine/vCoolor.vim'
+Plug 'unblevable/quick-scope'   
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+Plug 'MattesGroeger/vim-bookmarks'
+Plug 'PotatoesMaster/i3-vim-syntax'
+" Plug 'SirVer/ultisnips'
+Plug 'vim-scripts/copypath.vim'
+Plug 'vim-scripts/VisIncr'
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'elzr/vim-json'
+Plug 'dense-analysis/ale'
+Plug 'pedrohdz/vim-yaml-folds'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch.vim'
+Plug 'honza/vim-snippets'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'kana/vim-textobj-user'
+Plug 'kien/ctrlp.vim'
+Plug 'lilydjwg/colorizer'
+Plug 'majutsushi/tagbar'
+Plug 'morhetz/gruvbox'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'sjl/gundo.vim'
+Plug 'suan/vim-instant-markdown'
+Plug 'vim-scripts/sudo.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 " Wiki
-Plugin 'vimwiki/vimwiki'
-Plugin 'easymotion/vim-easymotion'
+Plug 'vimwiki/vimwiki'
+Plug 'easymotion/vim-easymotion'
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
 
 " }}}
 

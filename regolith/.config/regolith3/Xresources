@@ -18,6 +18,7 @@ gtk.theme_name:                 Adwaita-dark
 gtk.icon_theme_name:            Paper-Mono-Dark
 gtk.icon_theme_name:            Paper-Mono-Dark
 Xcursor.theme:                  Adwaita
+Xcursor.size:                   24
 
 ! workspace names
 wm.workspace.01.name: 1:  www

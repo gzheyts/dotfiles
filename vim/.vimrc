@@ -40,7 +40,6 @@ Plug 'morhetz/gruvbox'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'sjl/gundo.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'vim-scripts/sudo.vim'
@@ -83,7 +82,6 @@ let maplocalleader = " "
 " easy motion
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
-
 " yaml config
 augroup yaml
     autocmd!
@@ -91,10 +89,25 @@ augroup yaml
     autocmd FileType yaml setlocal foldlevelstart=20
 augroup end
 
+" protect help files from colorizer (disables auto-scanning of colors)
+let g:colorizer_startup = 0
+
+" hides airline statusline, disables gitgutter on help
+augroup help_optimizations
+    autocmd!
+    autocmd FileType help setlocal laststatus=0 nolist nospell
+    autocmd FileType help GitGutterBufferDisable
+augroup END
+
+let g:ale_filetype_blacklist = ['help']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_lint_on_text_changed = 'never'
+
+set nocompatible
+filetype plugin on
+syntax on
 
 set directory=~/tmp
 set encoding=utf-8
@@ -104,7 +117,6 @@ set cursorline
 set cursorcolumn
 set autoindent
 set mouse=a
-syntax enable
 set wildmenu
 set wildmode=list:full
 set number
@@ -167,6 +179,7 @@ nnoremap <silent> <leader>\ :TmuxNavigatePrevious<cr>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files = 5000
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
                           \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']

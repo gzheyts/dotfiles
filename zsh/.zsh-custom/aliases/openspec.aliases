@@ -1,0 +1,5 @@
+#!/bin/sh
+
+alias os='openspec'
+alias osi='openspec init'
+alias osh='openspec help'

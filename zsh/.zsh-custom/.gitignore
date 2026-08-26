@@ -1,3 +1,4 @@
 aliases/local.aliases
 config/local.config
+config/env.config
 plugins/zsh-autosuggestions

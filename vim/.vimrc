@@ -33,11 +33,12 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'honza/vim-snippets'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'kana/vim-textobj-user'
-Plug 'kien/ctrlp.vim'
+" FZF replacement for CtrlP
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'lilydjwg/colorizer'
 Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
-Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/gundo.vim'
@@ -64,7 +65,7 @@ noremap <silent> <F5> :InstantMarkdownPreview<cr>
 let g:instant_markdown_autostart = 0
 " }}}
 
-set grepprg=ack\ -k
+set grepprg=rg\ --vimgrep\ --smart-case
 
 
 " Quick Scopes
@@ -109,10 +110,6 @@ syntax on
 
 set directory=~/tmp
 set encoding=utf-8
-set t_Co=256
-" set term=rxvt-256color
-set cursorline
-set cursorcolumn
 set autoindent
 set mouse=a
 set wildmenu
@@ -127,7 +124,7 @@ set smartcase
 set incsearch
 set laststatus=2
 set showfulltag
-set foldmethod=syntax
+set foldmethod=manual
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set showbreak=↪
@@ -143,10 +140,23 @@ match OverLength /\%81v.\+/
 highlight BookmarkSign ctermbg=NONE ctermfg=160
 let g:bookmark_sign = '♥'
 
-" setup vimwiki plugin
+" setup vimwiki plugin {{{
 let g:vimwiki_folding = 'list'
 let g:vimwiki_list = [{}, {'path': '~/Yandex.Disk/notes', 'ext': '.notes'}]
+" Stop Vimwiki from aggressively managing every .md file on your hard drive
+let g:vimwiki_global_ext = 0
+augroup markdown_optimizations
+    autocmd!
+    " Kill all automatic folding calculations on markdown file load
+    autocmd FileType markdown,vimwiki setlocal foldmethod=manual foldexpr=0
+augroup END
+" }}}
 
+if has('termguicolors')
+    set termguicolors
+endif
+
+set background=dark
 silent! colorscheme  gruvbox
 
 
@@ -173,19 +183,32 @@ nnoremap <silent> <leader>l :TmuxNavigateRight<cr>
 nnoremap <silent> <leader>\ :TmuxNavigatePrevious<cr>
 " }}}
 
-" ctrlp setup  {{{
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_files = 5000
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
-                          \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
-" window prefferences
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
-let g:ctrlp_max_depth 	=   40
-let g:ctrlp_max_files 	= 100000
-let g:ctrlp_max_history = 1000
+" fzf setup {{{
+let g:fzf_command_prefix = 'FZF'
+
+" Bind Ctrl+P to instant file search
+nnoremap <c-p> :FZFFiles<CR>
+
+" 1:1 replacement of your exact CtrlP mappings
+nnoremap <Leader>fl   :FZFLines<CR>
+nnoremap <Leader>fb   :FZFBuffers<CR>
+nnoremap <Leader>ff   :FZFFiles<CR>
+nnoremap <Leader>fc   :FZFCommands<CR>
+nnoremap <Leader>fw   :FZFWindows<CR>
+nnoremap <Leader>fm   :FZFHistory<CR>
+
+nnoremap <Leader>gq   :copen 30<CR>
+nnoremap <Leader>gs   :shell <CR>
+
+" Supercharge FZF with your system ripgrep 
+" (Respects .gitignore, includes hidden files, ignores .git directory)
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+endif
+
+" Modern floating/popup layout (Works flawlessly on Vim 8.2+)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+" }}}
 
 " vCooler mappings
 noremap <localleader>c  :VCoolor<CR>
@@ -198,15 +221,7 @@ noremap 		<leader>P "+P
 "}}}
 
 " mappings
-nnoremap <Leader>fl	:CtrlPLine<CR>
-nnoremap <Leader>fb	:CtrlPBuffer<CR>
-nnoremap <Leader>fm	:CtrlPMRU<CR>
-nnoremap <Leader>fbt	:CtrlPBufTag<CR>
-nnoremap <Leader>fbT	:CtrlPBufTagAll<CR>
-nnoremap <Leader>ft	:CtrlPTag<CR>
-nnoremap <Leader>fd 	:CtrlPDir<CR>
-nnoremap <Leader>fq 	:CtrlPQuickfix<CR>
-
+"
 nnoremap <Leader>gq 	:copen 30<CR>
 nnoremap <Leader>gs 	:shell <CR>
 
@@ -250,7 +265,6 @@ if has('gui_running')
         set background=dark
 endif 
 
-set background=dark
 
 " russian mappings {{{
 noremap ё `

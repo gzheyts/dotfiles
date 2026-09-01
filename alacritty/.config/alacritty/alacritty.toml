@@ -2,47 +2,23 @@
 WINIT_X11_SCALE_FACTOR = "1.0"
 
 [window]
+decorations = "None"
 decorations_theme_variant = "Dark"
+padding = { x = 4, y = 4 }
+dynamic_padding = true
+resize_increments = true
 
 [scrolling]
-history = 99999
+history = 10000
 multiplier = 3
 
 [cursor]
 style = { shape = "Block", blinking = "On" }
-thickness = 1.2
 
+[mouse]
+hide_when_typing = true
 
 [font]
-# list available values:
-#       fc-list -f "%{family[0]}: %{style[0]}\n"
-# normal = { family = "<string>", style = "<string>" }
+# list available values: fc-list -f "%{family[0]}: %{style[0]}\n"
 normal = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
-
-# bold = { family = "<string>", style = "<string>" }
-#
-#     If the family is not specified, it will fall back to the value specified for the normal font.
-#
-#     Default: { style = "Bold" }
-bold = { style = "Bold" }
-
-# italic = { family = "<string>", style = "<string>" }
-#
-#     If the family is not specified, it will fall back to the value specified for the normal font.
-#
-#     Default: { style = "Italic" }
-italic = { style = "Italic" }
-
-# bold_italic = { family = "<string>", style = "<string>" }
-#
-#     If the family is not specified, it will fall back to the value specified for the normal font.
-#
-#     Default: { style = "Bold Italic" }
-bold_italic = { style = "Bold Italic" }
-
-
-# size = <float>
-#     Font size in points.
-#
-#     Default: 11.25
 size = 14

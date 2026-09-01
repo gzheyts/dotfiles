@@ -4,8 +4,6 @@ WINIT_X11_SCALE_FACTOR = "1.0"
 [window]
 decorations = "None"
 decorations_theme_variant = "Dark"
-padding = { x = 4, y = 4 }
-dynamic_padding = true
 resize_increments = true
 
 [scrolling]

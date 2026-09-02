@@ -123,6 +123,9 @@ set ignorecase
 set smartcase
 set incsearch
 set laststatus=2
+set noshowmode          " hide -- INSERT --; airline shows mode
+set ttimeout            " honor timeout for key codes (Esc)
+set ttimeoutlen=10      " ms to wait after Esc; faster airline mode change
 set showfulltag
 set foldmethod=manual
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮

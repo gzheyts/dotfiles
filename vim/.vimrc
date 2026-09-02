@@ -139,9 +139,22 @@ set colorcolumn=120
 highlight OverLength ctermfg=white ctermbg=darkred guibg=#FFD9D9
 match OverLength /\%81v.\+/
 
-" setup bookmarks plugin
+" bookmarks setup {{{
 highlight BookmarkSign ctermbg=NONE ctermfg=160
 let g:bookmark_sign = '♥'
+" no default m* maps: they steal NERDTree menu and vim marks
+let g:bookmark_no_default_key_mappings = 1
+nmap <silent> <leader>mm  <Plug>BookmarkToggle
+nmap <silent> <leader>mi  <Plug>BookmarkAnnotate
+nmap <silent> <leader>mn  <Plug>BookmarkNext
+nmap <silent> <leader>mp  <Plug>BookmarkPrev
+nmap <silent> <leader>ma  <Plug>BookmarkShowAll
+nmap <silent> <leader>mc  <Plug>BookmarkClear
+nmap <silent> <leader>mx  <Plug>BookmarkClearAll
+nmap <silent> <leader>mkk <Plug>BookmarkMoveUp
+nmap <silent> <leader>mjj <Plug>BookmarkMoveDown
+nmap <silent> <leader>mg  <Plug>BookmarkMoveToLine
+" }}}
 
 " setup vimwiki plugin {{{
 let g:vimwiki_folding = 'list'

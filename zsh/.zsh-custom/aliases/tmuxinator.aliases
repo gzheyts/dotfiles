@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# tmuxinator
+alias tx='tmuxinator'
+alias txh='tmuxinator help'

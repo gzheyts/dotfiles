@@ -1,9 +1,12 @@
 #!/bin/sh
 
 alias oc='opencode'
+alias occ='opencode --continue'
+
 alias och='opencode --help'
 alias ocd='opencode debug'
 alias ocs='opencode session'
+alias oc-config='vim ~/.config/opencode/opencode.jsonc'
 
 
 # Yandex Code Assistant -  launch OpenCode

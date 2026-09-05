@@ -42,7 +42,7 @@ Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/gundo.vim'
-Plug 'suan/vim-instant-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
 Plug 'vim-scripts/sudo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
@@ -58,11 +58,16 @@ call plug#end()
 
 " }}}
 
-" instant markdown plugin setup {{{
-let g:instant_markdown_slow = 1
-" use :InstantMarkdownPreivew to manually show preview
-noremap <silent> <F5> :InstantMarkdownPreview<cr>
-let g:instant_markdown_autostart = 0
+" markdown-preview.nvim {{{
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 1
+let g:mkdp_theme = 'dark'
+function! OpenMarkdownPreview(url) abort
+  execute 'silent ! firefox --private-window ' . shellescape(a:url) . ' &'
+endfunction
+let g:mkdp_browserfunc = 'OpenMarkdownPreview'
+nmap <silent> <F3> <Plug>MarkdownPreviewToggle
 " }}}
 
 set grepprg=rg\ --vimgrep\ --smart-case

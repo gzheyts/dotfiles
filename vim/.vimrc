@@ -42,7 +42,7 @@ Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/gundo.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'vim-scripts/sudo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
@@ -53,6 +53,7 @@ Plug 'tpope/vim-unimpaired'
 " Wiki
 Plug 'vimwiki/vimwiki'
 Plug 'easymotion/vim-easymotion'
+Plug 'skywind3000/asyncrun.vim'
 
 call plug#end()
 
@@ -64,10 +65,10 @@ let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 1
 let g:mkdp_theme = 'dark'
 function! OpenMarkdownPreview(url) abort
-  execute 'silent ! firefox --private-window ' . shellescape(a:url) . ' &'
+  call job_start(['firefox', '--private-window', a:url])
 endfunction
 let g:mkdp_browserfunc = 'OpenMarkdownPreview'
-nmap <silent> <F3> <Plug>MarkdownPreviewToggle
+nnoremap <silent> <F3> <Plug>MarkdownPreviewToggle
 " }}}
 
 set grepprg=rg\ --vimgrep\ --smart-case

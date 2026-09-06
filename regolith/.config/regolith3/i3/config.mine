@@ -237,6 +237,7 @@ popup_during_fullscreen smart
 # Don't focus window upon opening
 no_focus [window_role="pop-up"]
 for_window [window_role=PictureInPicture] sticky enable
+for_window [class="crow-translate"]       sticky enable
 
 # The window will always be marked urgent, but the focus will not be stolen
 focus_on_window_activation urgent
@@ -421,7 +422,6 @@ bindsym z [class="Zathura"] focus; mode "default"
 bindsym Shift+z [class="zoom"] focus; mode "default"
 bindsym Shift+s [class="Shutter"] focus; mode "default"
 bindsym d [class="Zeal"] focus; mode "default"
-bindsym c [instance="cursor"] focus; mode "default"
 bindsym p [instance="gnome-pomodoro"] focus; mode "default"
 bindsym Shift+v [instance="vlc"] focus; mode "default"
 bindsym v [instance="code"] focus; mode "default"
@@ -474,8 +474,7 @@ mode $mode-launch {
     bindsym Shift+t mode "default", exec gnome-tweaks
     bindsym f mode "default", exec --no-startup-id firefox
     bindsym Shift+c mode "default", exec gnome-calendar
-    bindsym c mode "default", exec --no-startup-id cursor editor
-    bindsym Shift+m mode "default", exec thunderbiro
+    bindsym Shift+m mode "default", exec thunderbird
     bindsym y mode "default", exec --no-startup-id yandex-browser-beta
     bindsym r mode "default", exec --no-startup-id remmina
     bindsym z mode "default", exec --no-startup-id zathura

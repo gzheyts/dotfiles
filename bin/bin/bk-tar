@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tar -zcvf "$1-backup-$(date +"%d.%m.%Y_%H.%M.%S").tar.gz" $1

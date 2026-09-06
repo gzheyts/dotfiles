@@ -19,5 +19,8 @@ hide_when_typing = true
 
 [font]
 # list available values: fc-list -f "%{family[0]}: %{style[0]}\n"
-normal = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
-size = 14
+size = 11
+normal      = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
+bold        = { family = "SauceCodePro Nerd Font Mono", style = "Bold" }
+italic      = { family = "SauceCodePro Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "SauceCodePro Nerd Font Mono", style = "Bold Italic" }

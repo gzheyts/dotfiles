@@ -8,11 +8,13 @@ decorations_theme_variant = "Dark"
 resize_increments = true
 
 [scrolling]
-history = 10000
+# tmux owns scrollback (history-limit); Alacritty history is a second
+history = 0
 multiplier = 3
 
 [cursor]
-style = { shape = "Block", blinking = "On" }
+# Vim draws the block cursor; emulator blink is a second clock
+style = { shape = "Block", blinking = "Never" }
 
 [mouse]
 hide_when_typing = true

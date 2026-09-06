@@ -9,7 +9,7 @@ resize_increments = true
 
 [scrolling]
 # tmux owns scrollback (history-limit); Alacritty history is a second
-history = 0
+history = 100000
 multiplier = 3
 
 [cursor]

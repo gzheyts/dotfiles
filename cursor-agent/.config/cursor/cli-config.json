@@ -1,0 +1,91 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(ls)"
+    ],
+    "deny": []
+  },
+  "version": 1,
+  "editor": {
+    "vimMode": true
+  },
+  "display": {
+    "showLineNumbers": true,
+    "showThinkingBlocks": true,
+    "showStatusIndicators": true,
+    "showStatusLineRunningTime": true,
+    "mode": "zen"
+  },
+  "notifications": false,
+  "hints": true,
+  "modelSlashCommands": true,
+  "rewind": true,
+  "model": {
+    "modelId": "default",
+    "displayModelId": "auto",
+    "displayName": "Auto",
+    "displayNameShort": "Auto",
+    "aliases": [
+      "auto"
+    ],
+    "maxMode": false
+  },
+  "hasChangedDefaultModel": false,
+  "maxMode": false,
+  "modelParameters": {
+    "default": []
+  },
+  "selectedModel": {
+    "modelId": "default",
+    "parameters": []
+  },
+  "modelSelectionHistory": [
+    "default"
+  ],
+  "exploreSubagentModel": "default",
+  "subagentModels": {
+    "explore": "default"
+  },
+  "privacyCache": {
+    "ghostMode": true,
+    "privacyMode": 2,
+    "updatedAt": 1788694636409
+  },
+  "autoReviewAvailabilityCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:google-oauth2|user_01JKA8H0KYR20MMP466FT8M94Z",
+    "available": true,
+    "updatedAt": 1788691387619
+  },
+  "serverConfigCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:google-oauth2|user_01JKA8H0KYR20MMP466FT8M94Z",
+    "agentUrlConfig": {
+      "agentUrl": "https://agentn.global.api5.cursor.sh",
+      "agentnUrl": "https://agentn.global.api5.cursor.sh"
+    },
+    "cliSandboxDefaultEnabled": false,
+    "serverHttp2Config": 0,
+    "updatedAt": 1788694626489
+  },
+  "authInfo": {
+    "email": "gzheyts@gmail.com",
+    "displayName": "Georgy Zheyts",
+    "userId": 158996606,
+    "authId": "google-oauth2|user_01JKA8H0KYR20MMP466FT8M94Z"
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  },
+  "approvalMode": "allowlist",
+  "autoAcceptWebSearch": false,
+  "sandbox": {
+    "mode": "disabled",
+    "networkAccess": "user_config_with_defaults"
+  },
+  "runEverythingSettingsPromptStreak": 0,
+  "attribution": {
+    "attributeCommitsToAgent": false,
+    "attributePRsToAgent": false
+  }
+}

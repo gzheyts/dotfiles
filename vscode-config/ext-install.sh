@@ -1,11 +1,5 @@
 #!/bin/sh
 
-for extension in $(ls vsix/); do
-    echo "[vscode] >>>> install from file $extension"
-    code --install-extension vsix/$extension 
-echo "<<<<<\n"
-done
-
 for extension in $(cat extensions.list | grep -v installed); do
     echo "[vscode] >>>> install $extension"
     code --install-extension "$extension";

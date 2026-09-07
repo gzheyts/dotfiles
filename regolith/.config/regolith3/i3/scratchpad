@@ -3,8 +3,8 @@
 # reopen scratchpad when closed
 while true; do
   if pgrep '^i3$' > /dev/null 2>&1; then
-          alacritty  --class scratchpad,scratchpad -e /usr/bin/tmux
-sleep 1
+    alacritty --class scratchpad,scratchpad -e /usr/bin/tmux new-session -A -s main
+    sleep 1
   else
     break
   fi

@@ -1,2 +1,18 @@
 #!/bin/sh
 
+# Yandex Code Assistant -  launch OpenCode
+alias ysc='src code'
+alias yscc='src code -- --continue'
+
+alias ysch='src code --help'
+alias yscd='src code -- debug'
+
+alias ysci='src code install'
+
+alias yscq='src quota'
+alias yscu='src update'
+
+alias yscuc='src update --check'
+
+alias ysd='src do'
+alias yss='src skill'

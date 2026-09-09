@@ -214,7 +214,6 @@ for_window [instance="stacer"]  floating enable
 for_window [instance="gnome-tweaks"]  floating enable 
 
 for_window [class=".*-control-center$"] floating enable
-for_window [class=".*Remmina$"] floating enable
 for_window [class="crow-translate"] floating enable
 
 for_window [all] border pixel $wm.window.border.size
@@ -476,7 +475,7 @@ mode $mode-launch {
     bindsym Shift+c mode "default", exec gnome-calendar
     bindsym Shift+m mode "default", exec thunderbird
     bindsym y mode "default", exec --no-startup-id yandex-browser-beta
-    bindsym r mode "default", exec --no-startup-id remmina
+    bindsym r mode "default", exec --no-startup-id remmina-launch
     bindsym z mode "default", exec --no-startup-id zathura
     bindsym Shift+z mode "default", exec --no-startup-id zoom
     bindsym d mode "default", exec --no-startup-id zeal

@@ -26,8 +26,6 @@ plugins=(
 	mvn
 	rsync
 	systemd
-	tmux
-        tmuxinator
 	vi-mode
 	vundle
         colored-man-pages

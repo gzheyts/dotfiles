@@ -423,7 +423,7 @@ bindsym Shift+s [class="Shutter"] focus; mode "default"
 bindsym d [class="Zeal"] focus; mode "default"
 bindsym p [instance="gnome-pomodoro"] focus; mode "default"
 bindsym Shift+v [instance="vlc"] focus; mode "default"
-bindsym v [instance="code"] focus; mode "default"
+bindsym c [instance="code"] focus; mode "default"
 bindsym Shift+o [instance="postman"] focus; mode "default"
 bindsym o [title="Oracle SQL Developer.*"] focus; mode "default"
 
@@ -491,7 +491,7 @@ mode $mode-launch {
     bindsym $alt+s mode "default", exec --no-startup-id $control_center sound
 
     bindsym Shift+v mode "default", exec --no-startup-id vlc
-    bindsym v mode "default",       exec --no-startup-id code
+    bindsym c mode "default",       exec --no-startup-id code
     bindsym shift+t mode "default", exec --no-startup-id tomighty
     bindsym Return mode "default"
     bindsym Escape mode "default"

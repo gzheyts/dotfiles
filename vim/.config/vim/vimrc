@@ -1,16 +1,46 @@
-" plugins setup {{{ 
+" XDG Base Directory support {{{
+if empty($MYVIMRC) | let $MYVIMRC = expand('<sfile>:p') | endif
+
+if empty($XDG_CACHE_HOME)  | let $XDG_CACHE_HOME  = $HOME."/.cache"       | endif
+if empty($XDG_CONFIG_HOME) | let $XDG_CONFIG_HOME = $HOME."/.config"      | endif
+if empty($XDG_DATA_HOME)   | let $XDG_DATA_HOME   = $HOME."/.local/share" | endif
+if empty($XDG_STATE_HOME)  | let $XDG_STATE_HOME  = $HOME."/.local/state" | endif
+
+if !has('nvim')
+  set runtimepath^=$XDG_CONFIG_HOME/vim
+  set runtimepath+=$XDG_DATA_HOME/vim
+  set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+  set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+  set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+  set backupdir=$XDG_STATE_HOME/vim/backup | call mkdir(&backupdir, 'p', 0700)
+  set directory=$XDG_STATE_HOME/vim/swap   | call mkdir(&directory, 'p', 0700)
+  set viewdir=$XDG_STATE_HOME/vim/view     | call mkdir(&viewdir,   'p', 0700)
+  set undodir=$XDG_STATE_HOME/vim/undo     | call mkdir(&undodir,   'p', 0700)
+  set viminfofile=$XDG_STATE_HOME/vim/viminfo
+endif
+
+let g:netrw_home = $XDG_DATA_HOME."/vim"
+call mkdir($XDG_DATA_HOME."/vim/spell", 'p', 0700)
+call mkdir($XDG_STATE_HOME."/vim", 'p', 0700)
+" }}}
+
+" plugins setup {{{
 " vim-plug configuration
 
 " Download vim-plug if not already installed
 if has('unix')
-  if empty(glob('~/.vim/autoload/plug.vim'))
-    silent ! curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  let s:plug_file = $XDG_DATA_HOME.'/vim/autoload/plug.vim'
+  if empty(glob(s:plug_file))
+    silent execute '!curl -fLo ' . s:plug_file . ' --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
+  unlet s:plug_file
 endif
 
-call plug#begin()
+call plug#begin($XDG_DATA_HOME.'/vim/plugged')
 
 "Color picker
 Plug 'KabbAmine/vCoolor.vim'
@@ -114,7 +144,6 @@ set nocompatible
 filetype plugin on
 syntax on
 
-set directory=~/tmp
 set encoding=utf-8
 set autoindent
 set mouse=a
@@ -150,6 +179,7 @@ highlight BookmarkSign ctermbg=NONE ctermfg=160
 let g:bookmark_sign = '♥'
 " no default m* maps: they steal NERDTree menu and vim marks
 let g:bookmark_no_default_key_mappings = 1
+let g:bookmark_auto_save_file = $XDG_DATA_HOME.'/vim/bookmarks'
 nmap <silent> <leader>mm  <Plug>BookmarkToggle
 nmap <silent> <leader>mi  <Plug>BookmarkAnnotate
 nmap <silent> <leader>mn  <Plug>BookmarkNext
@@ -278,10 +308,11 @@ let g:vrc_auto_format_uhex = 1
 " session management
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
+let g:session_directory = $XDG_DATA_HOME.'/vim/sessions'
+call mkdir(g:session_directory, 'p', 0700)
 
 if has('persistent_undo')
 	set undofile
-	set undodir=$HOME/.vim/undo
 endif
 
 if has('gui_running')

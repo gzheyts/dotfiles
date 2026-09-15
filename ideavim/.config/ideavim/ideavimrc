@@ -204,8 +204,8 @@ nnoremap <space><cr> 	:nohlsearch<cr>
 nnoremap ZQ 		:action Exit<cr>
 nnoremap ZZ             :action CloseContent<cr>
 noremap <c-q>  		:action QuickJavaDoc<cr>
-noremap \sc      	:source ~/.ideavimrc<cr>
-noremap \ec      	:e ~/.ideavimrc<cr>
+noremap \sc      	:source ~/.config/ideavim/ideavimrc<cr>
+noremap \ec      	:e ~/.config/ideavim/ideavimrc<cr>
 nnoremap <space>oe 	:action FileEditor.OpenDataEditor<cr>
 nnoremap <leader>nl     :action SelectInProjectView<cr>
 nnoremap <c-z>          :action ToggleZenMode<cr>

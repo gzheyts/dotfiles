@@ -164,7 +164,20 @@ set ttimeoutlen=10      " ms to wait after Esc; faster airline mode change
 set showfulltag
 set foldmethod=manual
 set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+
+" Indentation & Tabs Configuration (IntelliJ IDEA Sync) {{{
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smarttab
+
+augroup sql_indentation
+    autocmd!
+    autocmd FileType sql setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=2 nosmarttab
+augroup end
+" }}}
+
 set showbreak=↪
 set scrolljump=5
 set hidden

@@ -266,6 +266,7 @@ nnoremap <Leader>fm   :FZFHistory<CR>
 
 nnoremap <Leader>gq   :copen 30<CR>
 nnoremap <Leader>gs   :shell <CR>
+nnoremap <silent> <leader>gv :silent !glow %<CR>:redraw!<CR>
 
 " Supercharge FZF with your system ripgrep 
 " (Respects .gitignore, includes hidden files, ignores .git directory)
@@ -286,11 +287,6 @@ noremap 		<leader>Y "+Y
 noremap 		<leader>p "+p
 noremap 		<leader>P "+P
 "}}}
-
-" mappings
-"
-nnoremap <Leader>gq 	:copen 30<CR>
-nnoremap <Leader>gs 	:shell <CR>
 
 " }}}
 

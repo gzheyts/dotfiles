@@ -90,6 +90,11 @@ Plug 'skywind3000/asyncrun.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" database
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
+
 call plug#end()
 
 " }}}
@@ -354,6 +359,8 @@ endfunction
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " }}}
+
+let g:dbext_default_ORA_bin = 'sql'
 
 " russian mappings {{{
 noremap ё `

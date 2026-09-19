@@ -48,15 +48,12 @@ Plug 'unblevable/quick-scope'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'PotatoesMaster/i3-vim-syntax'
-" Plug 'SirVer/ultisnips'
+Plug 'mboughaba/i3config.vim'
 Plug 'vim-scripts/copypath.vim'
 Plug 'vim-scripts/VisIncr'
-Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'elzr/vim-json'
-Plug 'dense-analysis/ale'
 Plug 'pedrohdz/vim-yaml-folds'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/incsearch.vim'
@@ -66,18 +63,24 @@ Plug 'kana/vim-textobj-user'
 " FZF replacement for CtrlP
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
 Plug 'lilydjwg/colorizer'
 Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'sjl/gundo.vim'
+Plug 'mbbill/undotree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'vim-scripts/sudo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
+
+" Git
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 " Wiki
@@ -101,8 +104,9 @@ let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 nnoremap <silent> <F3> <Plug>MarkdownPreviewToggle
 " }}}
 
-set grepprg=rg\ --vimgrep\ --smart-case
-
+if executable('rg')
+  let &grepprg = 'rg --vimgrep --smart-case'
+endif
 
 " Quick Scopes
 " Trigger a highlight in the appropriate direction when pressing these keys:
@@ -134,12 +138,6 @@ augroup help_optimizations
     autocmd FileType help GitGutterBufferDisable
 augroup END
 
-let g:ale_filetype_blacklist = ['help']
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
-let g:ale_lint_on_text_changed = 'never'
-
 set nocompatible
 filetype plugin on
 syntax on
@@ -158,6 +156,7 @@ set ignorecase
 set smartcase
 set incsearch
 set laststatus=2
+set updatetime=300
 set noshowmode          " hide -- INSERT --; airline shows mode
 set ttimeout            " honor timeout for key codes (Esc)
 set ttimeoutlen=10      " ms to wait after Esc; faster airline mode change
@@ -226,7 +225,6 @@ endif
 set background=dark
 silent! colorscheme  gruvbox
 
-
 nnoremap <leader>ev :vsp $MYVIMRC<cr>
 nnoremap <leader>sv :so $MYVIMRC<cr>
 
@@ -236,8 +234,6 @@ highlight SpecialKey guifg=#4a4a59
 
 noremap <silent> <F4> 	:NERDTreeToggle<cr>
 noremap <leader>nl 	:NERDTreeFind<cr>
-
-noremap <leader>M 	:w \| make<cr><cr>
 
 noremap <silent> <F8> :TagbarToggle<CR>
 
@@ -267,6 +263,7 @@ nnoremap <Leader>fm   :FZFHistory<CR>
 nnoremap <Leader>gq   :copen 30<CR>
 nnoremap <Leader>gs   :shell <CR>
 nnoremap <silent> <leader>gv :silent !glow %<CR>:redraw!<CR>
+nnoremap <silent> <F5> :UndotreeToggle<CR>
 
 " Supercharge FZF with your system ripgrep 
 " (Respects .gitignore, includes hidden files, ignores .git directory)
@@ -286,18 +283,6 @@ noremap 		<leader>y "+y
 noremap 		<leader>Y "+Y
 noremap 		<leader>p "+p
 noremap 		<leader>P "+P
-"}}}
-
-" }}}
-
-" Ultisnips setup {{{
-
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" inoremap <C-\> <C-R>=UltiSnips#ListSnippets()<cr>
-"
-" let g:UltiSnipsEditSplit="vertical"
 " }}}
 
 nnoremap <Leader>w 	:update <CR>

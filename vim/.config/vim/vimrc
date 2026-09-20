@@ -99,6 +99,10 @@ call plug#end()
 
 " }}}
 
+" dadbod config {{{
+let g:dbext_default_ORA_bin = 'sql'
+" }}}
+
 " markdown-preview.nvim {{{
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
@@ -111,11 +115,13 @@ let g:mkdp_browserfunc = 'OpenMarkdownPreview'
 nnoremap <silent> <F3> <Plug>MarkdownPreviewToggle
 " }}}
 
+" grep config {{{
 if executable('rg')
   let &grepprg = 'rg --vimgrep --smart-case'
 endif
+" }}}
 
-" Quick Scopes
+" Quick Scopes {{{
 " Trigger a highlight in the appropriate direction when pressing these keys:
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
@@ -124,6 +130,7 @@ let g:qs_highlight_on_keys = ['f', 'F']
 
 let mapleader = ","
 let maplocalleader = " "
+" }}}
 
 " easy motion
 map <Leader><Leader> <Plug>(easymotion-prefix)
@@ -186,9 +193,9 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 
-augroup sql_indentation
+augroup sql_plsql_indentation
     autocmd!
-    autocmd FileType sql setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=2 nosmarttab
+    autocmd FileType sql,plsql setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=2 nosmarttab
 augroup end
 " }}}
 
@@ -303,12 +310,10 @@ noremap 		<leader>P "+P
 nnoremap <Leader>w 	:update <CR>
 
 " airlinea setup {{{
-
  let g:airline_powerline_fonts 	=  1
  let g:airline#extensions#tabline#enabled 	=  1
  let g:airline#extensions#tabline#left_sep 	= ' '
  let g:airline#extensions#tabline#left_alt_sep 	= '|'
-
 "  }}}
 
 " rest console 
@@ -359,8 +364,6 @@ endfunction
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " }}}
-
-let g:dbext_default_ORA_bin = 'sql'
 
 " russian mappings {{{
 noremap ё `

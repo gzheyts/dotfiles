@@ -41,7 +41,7 @@ i3xrocks.weather.location: Novosibirsk
 
 ! wm config
 ! wm.binding.scratchpad: o
-i3wm.scratchpad_size: 1920 800
+i3wm.scratchpad_size: 1920 1050
 
 ! date format, see https://regolith-desktop.com/docs/howtos/time-format
 i3xrocks.date.format2: %H:%M %d-%m-%Y

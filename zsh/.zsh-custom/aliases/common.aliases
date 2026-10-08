@@ -5,17 +5,15 @@ alias :t="tree"
 
 alias pactree='pactree -c'
 alias pacman='pacman --color always '
+
 alias r="ranger"
+alias fd='fdfind'
+alias v='vim'
 
 alias -g BG=" >/dev/null 2>&1 &"
 alias -g ERR=" 2>/dev/null "
 alias -g LI=" | less -i "
 alias -g C=" | xsel -b "
-
-alias grepc="grep --color=always"
-
-alias ff='find -type f -name '
-alias fd='find -type d -name '
 
 alias idiff="idea diff"
 alias imerge="idea merge"

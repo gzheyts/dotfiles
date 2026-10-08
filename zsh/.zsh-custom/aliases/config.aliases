@@ -13,5 +13,3 @@ alias xinit-config="vim ~/.xinitrc"
 alias psql-config="vim ~/.psqlrc"
 
 alias sz='source ~/.zshrc'
-
-alias fd='fdfind'

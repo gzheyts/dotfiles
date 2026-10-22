@@ -1,13 +1,13 @@
 #!/bin/sh
 
 # Yandex Code Assistant -  launch OpenCode
-alias ysc='src code'
-alias yscc='src code -- --continue'
+alias ysc='ysc-wrapper'
+alias yscc='ysc -- --continue'
 
-alias ysch='src code --help'
-alias yscd='src code -- debug'
+alias ysch='ysc --help'
+alias yscd='ysc -- debug'
 
-alias ysci='src code install'
+alias ysci='ysc install'
 
 alias yscq='src quota'
 alias yscu='src update'

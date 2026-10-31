@@ -1,6 +1,6 @@
 #!/bin/sh
 # bk-tar [-h|--help] [<source>] [-p|--path <target>]
-# Backup a directory as a gzipped tar archive with a timestamped name.
+# Backup a file or directory as a gzipped tar archive with a timestamped name.
 
 set -eu
 
@@ -8,10 +8,10 @@ usage() {
 	cat <<'EOF'
 Usage: bk-tar [-h|--help] [<source>] [-p|--path <target>]
 
-Create a timestamped .tar.gz backup of a directory.
+Create a timestamped .tar.gz backup of a file or directory.
 
   -h, --help           Show this help
-  <source>             Directory to back up (default: current directory)
+  <source>             File or directory to back up (default: current directory)
   -p, --path <target>  Destination directory for the archive
 
 Defaults:
@@ -81,10 +81,15 @@ if [ ! -d "$target" ]; then
 	exit 1
 fi
 
-# Prefer real directory name for "." / ".."
-src_abs=$(cd -- "$source" && pwd -P)
-base=$(basename -- "$src_abs")
-src_parent=$(dirname -- "$src_abs")
+# Prefer real name for "." / ".."; files resolve via parent dir
+if [ -d "$source" ]; then
+	src_abs=$(cd -- "$source" && pwd -P)
+	base=$(basename -- "$src_abs")
+	src_parent=$(dirname -- "$src_abs")
+else
+	src_parent=$(cd -- "$(dirname -- "$source")" && pwd -P)
+	base=$(basename -- "$source")
+fi
 stamp=$(date +"%d.%m.%Y_%H.%M.%S")
 dest="$target/${base}-backup-${stamp}.tar.gz"
 

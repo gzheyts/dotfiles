@@ -1,3 +1,92 @@
 #!/bin/sh
+# bk-tar [-h|--help] [<source>] [-p|--path <target>]
+# Backup a directory as a gzipped tar archive with a timestamped name.
 
-tar -zcvf "$1-backup-$(date +"%d.%m.%Y_%H.%M.%S").tar.gz" $1
+set -eu
+
+usage() {
+	cat <<'EOF'
+Usage: bk-tar [-h|--help] [<source>] [-p|--path <target>]
+
+Create a timestamped .tar.gz backup of a directory.
+
+  -h, --help           Show this help
+  <source>             Directory to back up (default: current directory)
+  -p, --path <target>  Destination directory for the archive
+
+Defaults:
+  no args              archive cwd into ../
+  <source> only        archive <source> into cwd
+  <source> -p <target> archive <source> into <target>
+EOF
+}
+
+source=""
+target=""
+has_source=0
+has_path=0
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-h | --help)
+		usage
+		exit 0
+		;;
+	-p | --path)
+		if [ $# -lt 2 ]; then
+			echo "bk-tar: -p/--path requires a directory argument" >&2
+			exit 1
+		fi
+		target=$2
+		has_path=1
+		shift 2
+		;;
+	-*)
+		echo "bk-tar: unknown option: $1" >&2
+		usage >&2
+		exit 1
+		;;
+	*)
+		if [ "$has_source" -eq 1 ]; then
+			echo "bk-tar: unexpected argument: $1" >&2
+			usage >&2
+			exit 1
+		fi
+		source=$1
+		has_source=1
+		shift
+		;;
+	esac
+done
+
+if [ "$has_source" -eq 0 ]; then
+	source=.
+fi
+
+if [ "$has_path" -eq 0 ]; then
+	if [ "$has_source" -eq 0 ]; then
+		target=..
+	else
+		target=.
+	fi
+fi
+
+if [ ! -e "$source" ]; then
+	echo "bk-tar: source does not exist: $source" >&2
+	exit 1
+fi
+
+if [ ! -d "$target" ]; then
+	echo "bk-tar: target is not a directory: $target" >&2
+	exit 1
+fi
+
+# Prefer real directory name for "." / ".."
+src_abs=$(cd -- "$source" && pwd -P)
+base=$(basename -- "$src_abs")
+src_parent=$(dirname -- "$src_abs")
+stamp=$(date +"%d.%m.%Y_%H.%M.%S")
+dest="$target/${base}-backup-${stamp}.tar.gz"
+
+echo "backup: $source -> $dest"
+tar -zcf "$dest" -C "$src_parent" "$base"

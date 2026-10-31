@@ -2,7 +2,9 @@
 	editor = vim
 	autocrlf = input
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset %C(cyan)<%ae>%Creset%n' --abbrev-commit
+    lgs = lg --stat
+    lgp = lg --patch
 	co = checkout
 	br = branch
 	ci = commit
@@ -25,3 +27,5 @@
 	log = false
 [init]
 	defaultBranch = develop
+[pull]
+	rebase = true

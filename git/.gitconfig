@@ -19,7 +19,7 @@
 	keepBackup = false
 	prompt = false
 [merge]
-	tool = vimdiff
+	tool = vimdiff3
 	conflictstyle = diff3
 [http]
 	sslVerify = false

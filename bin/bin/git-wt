@@ -1,8 +1,13 @@
 #!/bin/sh
 # git-wt <command> [<args>]
 # Bare-hub worktree helpers (git-worktree layout).
+#
+# Requires: git (>= 2.5 for worktree), find, tar (migrate --keep-ignored),
+#           a POSIX sh. Optional: set -o pipefail when the shell supports it.
 
 set -eu
+# pipefail is not POSIX; enable when available (bash/ksh/etc as /bin/sh).
+(set -o pipefail) 2>/dev/null && set -o pipefail
 
 usage() {
 	cat <<'USAGE'
@@ -30,6 +35,9 @@ migrate:
 
   Requires a clean tree (no modified / staged / untracked).
   Creates one worktree per local branch (refs/heads/*).
+  Restores origin to the pre-migrate remote URL (not the local .git path
+  that git clone --bare would otherwise record).
+  Sets each local branch to track origin/<branch> when that remote ref exists.
 
   Ignored files (git ls-files -oi --exclude-standard):
     (default)           fail if any ignored paths exist
@@ -62,16 +70,22 @@ die() {
 	exit 1
 }
 
+require_cmd() {
+	# Prefer command -v over which (skill: bash-defensive-patterns).
+	_cmd=$1
+	command -v "$_cmd" >/dev/null 2>&1 || die "required command not found: $_cmd"
+}
+
 repo_name_from_url() {
 	# Mirror git clone's usual directory guess (basename, strip .git).
 	_url=$1
 	_url=${_url%/}
-	case $_url in
+	case "$_url" in
 	*.git) _url=${_url%.git} ;;
 	esac
 	_base=${_url##*/}
 	# scp-like git@host:path with no slash after colon → take after :
-	case $_base in
+	case "$_base" in
 	*:*) _base=${_base##*:} ;;
 	esac
 	[ -n "$_base" ] || return 1
@@ -103,16 +117,30 @@ has_gitmodules() {
 		&& git -C "$_hub" cat-file -e HEAD:.gitmodules 2>/dev/null
 }
 
+track_origin_if_present() {
+	_hub=$1
+	_b=$2
+	if git -C "$_hub" show-ref --verify --quiet "refs/remotes/origin/$_b"; then
+		log "upstream $_b -> origin/$_b"
+		git -C "$_hub" branch --set-upstream-to="origin/$_b" "$_b" \
+			|| die "failed to set upstream for $_b"
+	else
+		log "no origin/$_b; leave $_b without upstream"
+	fi
+}
+
 add_worktree() {
 	_hub=$1
 	_b=$2
 	if git -C "$_hub" show-ref --verify --quiet "refs/heads/$_b"; then
 		log "worktree add $_b (local refs/heads/$_b)"
-		git -C "$_hub" worktree add "$_b" "$_b"
+		git -C "$_hub" worktree add "$_b" "$_b" || die "worktree add failed for $_b"
 	else
 		log "worktree add $_b (create from origin/$_b)"
-		git -C "$_hub" worktree add -b "$_b" "$_b" "origin/$_b"
+		git -C "$_hub" worktree add -b "$_b" "$_b" "origin/$_b" \
+			|| die "worktree add failed for $_b (from origin/$_b)"
 	fi
+	track_origin_if_present "$_hub" "$_b"
 }
 
 hub_fix_fetch() {
@@ -204,15 +232,17 @@ hub_worktrees_all_local() {
 		hub_warm_submodules_or_bootstrap "$_hub" ""
 		return 0
 	fi
-	# Word-split is intentional: branch names cannot contain IFS whitespace
+	# Word-split is intentional: git branch names cannot contain IFS whitespace
+	# or newlines; a pipeline `while read` would run in a subshell and lose _first.
 	for b in $_branches; do
-		case $b in
+		case "$b" in
 		.bare | .git | .wtree-bootstrap | .wt-keep)
 			die "refusing worktree for reserved branch name: $b"
 			;;
 		esac
 		log "worktree add $b (local refs/heads/$b)"
 		git -C "$_hub" worktree add "$b" "$b" || die "worktree add failed for $b"
+		track_origin_if_present "$_hub" "$b"
 		hub_submodule_update "$_hub" "$b"
 		[ -n "$_first" ] || _first=$b
 	done
@@ -234,9 +264,10 @@ migrate_park_ignored() {
 	_list=$2
 	_keep=$_hub/.wt-keep
 
+	require_cmd tar
 	log "migrate: parking ignored paths under .wt-keep/"
 	rm -rf -- "$_keep"
-	mkdir -- "$_keep"
+	mkdir -- "$_keep" || die "migrate: cannot create $_keep"
 	# Preserve relative paths via tar file list
 	printf '%s\n' "$_list" | tar -C "$_hub" -T - -cf - | tar -C "$_keep" -xf - \
 		|| die "migrate: failed to park ignored files"
@@ -320,7 +351,7 @@ cmd_init() {
 		log "directory: $directory"
 	fi
 
-	case $directory in
+	case "$directory" in
 	"" | . | ..) die "invalid directory: $directory" ;;
 	esac
 
@@ -424,7 +455,7 @@ cmd_migrate() {
 	[ ! -e "$hub/.bare" ] || die "migrate: $hub/.bare already exists"
 
 	common=$(git -C "$hub" rev-parse --git-common-dir) || die "migrate: cannot resolve git-common-dir"
-	case $common in
+	case "$common" in
 	/*) common_abs=$common ;;
 	*) common_abs=$(CDPATH= cd -- "$hub" && CDPATH= cd -- "$common" && pwd) ;;
 	esac
@@ -469,8 +500,48 @@ cmd_migrate() {
 		log "migrate: no ignored files"
 	fi
 
+	# git clone --bare from a local path sets origin to that path; keep the
+	# external URL (and distinct push URL, if any) from the pre-migrate repo.
+	origin_url=""
+	origin_push=""
+	has_origin=0
+	if git -C "$hub" remote get-url origin >/dev/null 2>&1; then
+		has_origin=1
+		origin_url=$(git -C "$hub" remote get-url origin)
+		origin_push=$(git -C "$hub" remote get-url --push origin)
+		[ -n "$origin_url" ] || die "migrate: origin URL is empty"
+		[ -n "$origin_push" ] || die "migrate: origin push URL is empty"
+		log "migrate: remembered origin $origin_url"
+		if [ "$origin_push" != "$origin_url" ]; then
+			log "migrate: remembered origin (push) $origin_push"
+		fi
+	else
+		log "migrate: no origin remote before migrate"
+	fi
+
 	log "migrate: git clone --bare $hub/.git -> $hub/.bare"
 	git clone --bare -- "$hub/.git" "$hub/.bare" || die "migrate: git clone --bare failed"
+
+	# Verify bare before deleting the old .git (fail closed; leave original intact).
+	_bare_flag=$(git -C "$hub/.bare" rev-parse --is-bare-repository 2>/dev/null || true)
+	[ "$_bare_flag" = "true" ] || die "migrate: $hub/.bare is not a bare repository; refusing to remove .git"
+
+	if [ "$has_origin" -eq 1 ]; then
+		log "migrate: set origin url -> $origin_url"
+		git -C "$hub/.bare" remote set-url origin -- "$origin_url" \
+			|| die "migrate: failed to set origin url"
+		if [ "$origin_push" != "$origin_url" ]; then
+			log "migrate: set origin pushurl -> $origin_push"
+			git -C "$hub/.bare" remote set-url --push origin -- "$origin_push" \
+				|| die "migrate: failed to set origin pushurl"
+		fi
+		_check_url=$(git -C "$hub/.bare" remote get-url origin)
+		[ "$_check_url" = "$origin_url" ] \
+			|| die "migrate: origin URL mismatch after set-url (got: $_check_url)"
+	else
+		log "migrate: remove clone-created origin (local path)"
+		git -C "$hub/.bare" remote remove origin 2>/dev/null || true
+	fi
 
 	log "migrate: remove old $hub/.git directory"
 	rm -rf -- "$hub/.git"
@@ -509,15 +580,29 @@ fi
 cmd=$1
 shift
 
-case $cmd in
+case "$cmd" in
+help | -h | --help)
+	cmd_help
+	exit 0
+	;;
+esac
+
+require_cmd git
+
+case "$cmd" in
 init)
 	cmd_init "$@"
 	;;
 migrate)
+	require_cmd find
+	# tar only needed for --keep-ignored; checked inside that path would be
+	# nicer, but fail early if the option is present among args.
+	for _a in "$@"; do
+		case "$_a" in
+		--keep-ignored) require_cmd tar; break ;;
+		esac
+	done
 	cmd_migrate "$@"
-	;;
-help | -h | --help)
-	cmd_help
 	;;
 *)
 	die "unknown command: $cmd (try: git-wt help)"

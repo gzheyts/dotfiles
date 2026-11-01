@@ -1,0 +1,525 @@
+#!/bin/sh
+# git-wt <command> [<args>]
+# Bare-hub worktree helpers (git-worktree layout).
+
+set -eu
+
+usage() {
+	cat <<'USAGE'
+Usage: git-wt <command> [<args>]
+
+Commands:
+  init <url> [<directory>]   Bootstrap bare hub + long-lived worktrees
+  migrate [opts] [<path>]    In-place convert a clean local clone to bare hub
+  help                       Show this help
+
+init:
+  Clone <url> as a bare hub under <directory> (default: basename of URL,
+  like git clone), then:
+
+  - write gitfile -> .bare
+  - fix origin fetch refspec (bare "blind clone" trap)
+  - git fetch --all --tags
+  - add worktrees for existing branches among: master, develop, dev, main
+  - git submodule update --init --recursive in those trees
+    (or a temporary bootstrap tree if none of the four exist)
+
+migrate:
+  Convert an existing local clone in-place into the bare-hub layout.
+  <path> defaults to cwd; must be the worktree toplevel.
+
+  Requires a clean tree (no modified / staged / untracked).
+  Creates one worktree per local branch (refs/heads/*).
+
+  Ignored files (git ls-files -oi --exclude-standard):
+    (default)           fail if any ignored paths exist
+    --keep-ignored      park under .wt-keep, restore into pre-migrate HEAD worktree
+    --drop-ignored      delete ignored paths with the old working tree
+    --keep and --drop are mutually exclusive
+
+Hub layout:
+
+  <dir>/.bare/     object store
+  <dir>/.git       gitfile: gitdir: ./.bare
+  <dir>/<branch>/  worktrees
+
+Examples:
+  git-wt init git@github.com:user/repo.git
+  git-wt init https://example.com/repo.git my-hub
+  git-wt migrate
+  git-wt migrate --keep-ignored ~/Projects/my-app
+  git-wt migrate --drop-ignored
+  git wt init git@github.com:user/repo.git
+USAGE
+}
+
+log() {
+	printf 'git-wt: %s\n' "$*" >&2
+}
+
+die() {
+	printf 'git-wt: error: %s\n' "$*" >&2
+	exit 1
+}
+
+repo_name_from_url() {
+	# Mirror git clone's usual directory guess (basename, strip .git).
+	_url=$1
+	_url=${_url%/}
+	case $_url in
+	*.git) _url=${_url%.git} ;;
+	esac
+	_base=${_url##*/}
+	# scp-like git@host:path with no slash after colon → take after :
+	case $_base in
+	*:*) _base=${_base##*:} ;;
+	esac
+	[ -n "$_base" ] || return 1
+	printf '%s\n' "$_base"
+}
+
+dir_is_empty() {
+	# True if directory has no entries (including hidden), except . and ..
+	_d=$1
+	[ -d "$_d" ] || return 1
+	_ents=$(ls -A -- "$_d" 2>/dev/null || true)
+	[ -z "$_ents" ]
+}
+
+abs_path() {
+	CDPATH= cd -- "$1" && pwd
+}
+
+branch_exists() {
+	_hub=$1
+	_b=$2
+	git -C "$_hub" show-ref --verify --quiet "refs/heads/$_b" \
+		|| git -C "$_hub" show-ref --verify --quiet "refs/remotes/origin/$_b"
+}
+
+has_gitmodules() {
+	_hub=$1
+	git -C "$_hub" rev-parse --verify --quiet HEAD >/dev/null 2>&1 \
+		&& git -C "$_hub" cat-file -e HEAD:.gitmodules 2>/dev/null
+}
+
+add_worktree() {
+	_hub=$1
+	_b=$2
+	if git -C "$_hub" show-ref --verify --quiet "refs/heads/$_b"; then
+		log "worktree add $_b (local refs/heads/$_b)"
+		git -C "$_hub" worktree add "$_b" "$_b"
+	else
+		log "worktree add $_b (create from origin/$_b)"
+		git -C "$_hub" worktree add -b "$_b" "$_b" "origin/$_b"
+	fi
+}
+
+hub_fix_fetch() {
+	_hub=$1
+	if git -C "$_hub" remote get-url origin >/dev/null 2>&1; then
+		log "fix origin fetch refspec (bare blind-clone trap)"
+		git -C "$_hub" config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+	else
+		log "no origin remote; skip fetch refspec fix"
+	fi
+
+	if [ -n "$(git -C "$_hub" remote 2>/dev/null || true)" ]; then
+		log "git fetch --all --tags"
+		git -C "$_hub" fetch --all --tags || die "git fetch --all --tags failed"
+	else
+		log "no remotes; skip fetch"
+	fi
+}
+
+hub_cleanup_bootstrap() {
+	_hub=$1
+	if [ -d "$_hub/.wtree-bootstrap" ]; then
+		log "cleanup: removing leftover .wtree-bootstrap"
+		git -C "$_hub" worktree remove -f "$_hub/.wtree-bootstrap" 2>/dev/null || true
+		rm -rf -- "$_hub/.wtree-bootstrap" 2>/dev/null || true
+	fi
+}
+
+hub_submodule_update() {
+	_hub=$1
+	_path=$2
+	log "submodule update --init --recursive in $_path/"
+	git -C "$_hub/$_path" submodule update --init --recursive \
+		|| die "submodule update failed in $_path"
+}
+
+hub_warm_submodules_or_bootstrap() {
+	_hub=$1
+	_first=$2
+
+	if [ -n "$_first" ]; then
+		log "created worktrees; first: $_first (modules warmed there)"
+		return 0
+	fi
+
+	if has_gitmodules "$_hub"; then
+		log "no worktrees; HEAD has .gitmodules — temp bootstrap worktree"
+		# shellcheck disable=SC2064
+		trap "hub_cleanup_bootstrap \"$_hub\"" EXIT INT TERM
+		log "worktree add --detach .wtree-bootstrap"
+		git -C "$_hub" worktree add --detach "$_hub/.wtree-bootstrap" HEAD \
+			|| die "bootstrap worktree add failed"
+		log "submodule update --init --recursive in .wtree-bootstrap"
+		git -C "$_hub/.wtree-bootstrap" submodule update --init --recursive \
+			|| die "submodule update failed in bootstrap worktree"
+		log "worktree remove -f .wtree-bootstrap"
+		git -C "$_hub" worktree remove -f "$_hub/.wtree-bootstrap" \
+			|| die "bootstrap worktree remove failed"
+		trap - EXIT INT TERM
+		log "bootstrap done; modules under .bare/modules/"
+	else
+		log "no worktrees and no .gitmodules — nothing to warm"
+	fi
+}
+
+hub_worktrees_fixed() {
+	_hub=$1
+	_first=""
+	log "long-lived worktrees (master develop dev main)"
+	for b in master develop dev main; do
+		if branch_exists "$_hub" "$b"; then
+			add_worktree "$_hub" "$b" || die "worktree add failed for $b"
+			hub_submodule_update "$_hub" "$b"
+			[ -n "$_first" ] || _first=$b
+		else
+			log "skip branch $b (not in refs/heads or refs/remotes/origin)"
+		fi
+	done
+	hub_warm_submodules_or_bootstrap "$_hub" "$_first"
+}
+
+hub_worktrees_all_local() {
+	_hub=$1
+	_first=""
+	log "worktrees for all local branches (refs/heads/*)"
+	_branches=$(git -C "$_hub" for-each-ref --format='%(refname:short)' refs/heads/)
+	if [ -z "$_branches" ]; then
+		log "no local branches"
+		hub_warm_submodules_or_bootstrap "$_hub" ""
+		return 0
+	fi
+	# Word-split is intentional: branch names cannot contain IFS whitespace
+	for b in $_branches; do
+		case $b in
+		.bare | .git | .wtree-bootstrap | .wt-keep)
+			die "refusing worktree for reserved branch name: $b"
+			;;
+		esac
+		log "worktree add $b (local refs/heads/$b)"
+		git -C "$_hub" worktree add "$b" "$b" || die "worktree add failed for $b"
+		hub_submodule_update "$_hub" "$b"
+		[ -n "$_first" ] || _first=$b
+	done
+	hub_warm_submodules_or_bootstrap "$_hub" "$_first"
+}
+
+hub_done() {
+	_hub=$1
+	log "done"
+	printf '\nHub ready: %s\n' "$_hub"
+	git -C "$_hub" worktree list
+	printf '\nNext (examples):\n'
+	printf '  cd %s\n' "$_hub"
+	printf '  git worktree add feature/x -b feature/x develop   # or main/master/dev\n'
+}
+
+migrate_park_ignored() {
+	_hub=$1
+	_list=$2
+	_keep=$_hub/.wt-keep
+
+	log "migrate: parking ignored paths under .wt-keep/"
+	rm -rf -- "$_keep"
+	mkdir -- "$_keep"
+	# Preserve relative paths via tar file list
+	printf '%s\n' "$_list" | tar -C "$_hub" -T - -cf - | tar -C "$_keep" -xf - \
+		|| die "migrate: failed to park ignored files"
+
+	_mib=$(du -sm -- "$_keep" 2>/dev/null | awk '{print $1}')
+	if [ -n "$_mib" ] && [ "$_mib" -ge 50 ]; then
+		log "warning: parked ignored payload is ${_mib}MiB (>= 50MiB)"
+	fi
+}
+
+migrate_restore_ignored() {
+	_hub=$1
+	_branch=$2
+	_keep=$_hub/.wt-keep
+	_dest=$_hub/$_branch
+
+	[ -d "$_keep" ] || return 0
+	[ -d "$_dest" ] || die "migrate: restore target worktree missing: $_dest"
+	log "migrate: restoring ignored paths into $_branch/"
+	tar -C "$_keep" -cf - . | tar -C "$_dest" -xf - \
+		|| die "migrate: failed to restore ignored files into $_branch"
+	rm -rf -- "$_keep"
+	log "migrate: restored ignored files; removed .wt-keep"
+}
+
+cmd_init() {
+	url=""
+	directory=""
+	has_url=0
+	has_dir=0
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		--)
+			shift
+			break
+			;;
+		-*)
+			die "init: unknown option: $1"
+			;;
+		*)
+			if [ "$has_url" -eq 0 ]; then
+				url=$1
+				has_url=1
+			elif [ "$has_dir" -eq 0 ]; then
+				directory=$1
+				has_dir=1
+			else
+				die "init: unexpected argument: $1"
+			fi
+			shift
+			continue
+			;;
+		esac
+		shift
+	done
+
+	while [ $# -gt 0 ]; do
+		if [ "$has_url" -eq 0 ]; then
+			url=$1
+			has_url=1
+		elif [ "$has_dir" -eq 0 ]; then
+			directory=$1
+			has_dir=1
+		else
+			die "init: unexpected argument: $1"
+		fi
+		shift
+	done
+
+	[ "$has_url" -eq 1 ] || die "init: missing <url> (try: git-wt help)"
+
+	if [ "$has_dir" -eq 0 ]; then
+		directory=$(repo_name_from_url "$url") || die "cannot derive directory name from URL"
+		log "directory not given; using basename from URL: $directory"
+	else
+		log "directory: $directory"
+	fi
+
+	case $directory in
+	"" | . | ..) die "invalid directory: $directory" ;;
+	esac
+
+	log "url: $url"
+
+	if [ -e "$directory" ]; then
+		[ -d "$directory" ] || die "not a directory: $directory"
+		dir_is_empty "$directory" || die "destination path '$directory' already exists and is not an empty directory"
+		log "using existing empty directory: $directory"
+	else
+		log "mkdir $directory"
+		mkdir -- "$directory"
+	fi
+
+	hub=$(abs_path "$directory") || die "cannot enter $directory"
+	log "hub: $hub"
+
+	log "step: git clone --bare -> $hub/.bare"
+	git clone --bare -- "$url" "$hub/.bare" || die "git clone --bare failed"
+
+	log "step: write gitfile $hub/.git -> ./.bare"
+	printf 'gitdir: ./.bare\n' >"$hub/.git"
+
+	hub_fix_fetch "$hub"
+	hub_worktrees_fixed "$hub"
+	hub_done "$hub"
+}
+
+cmd_migrate() {
+	path="."
+	has_path=0
+	keep_ignored=0
+	drop_ignored=0
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		--keep-ignored)
+			keep_ignored=1
+			shift
+			continue
+			;;
+		--drop-ignored)
+			drop_ignored=1
+			shift
+			continue
+			;;
+		--)
+			shift
+			break
+			;;
+		-*)
+			die "migrate: unknown option: $1"
+			;;
+		*)
+			if [ "$has_path" -eq 1 ]; then
+				die "migrate: unexpected argument: $1"
+			fi
+			path=$1
+			has_path=1
+			shift
+			continue
+			;;
+		esac
+		shift
+	done
+
+	while [ $# -gt 0 ]; do
+		if [ "$has_path" -eq 1 ]; then
+			die "migrate: unexpected argument: $1"
+		fi
+		path=$1
+		has_path=1
+		shift
+	done
+
+	if [ "$keep_ignored" -eq 1 ] && [ "$drop_ignored" -eq 1 ]; then
+		die "migrate: --keep-ignored and --drop-ignored are mutually exclusive"
+	fi
+
+	[ -e "$path" ] || die "migrate: path does not exist: $path"
+	[ -d "$path" ] || die "migrate: not a directory: $path"
+
+	hub=$(abs_path "$path") || die "migrate: cannot enter $path"
+	log "migrate: path $hub"
+
+	git -C "$hub" rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+		|| die "migrate: not a git work tree: $hub"
+
+	toplevel=$(git -C "$hub" rev-parse --show-toplevel) || die "migrate: cannot resolve toplevel"
+	toplevel=$(abs_path "$toplevel")
+	[ "$hub" = "$toplevel" ] || die "migrate: path must be the worktree toplevel (got $hub, toplevel is $toplevel)"
+
+	bare=$(git -C "$hub" rev-parse --is-bare-repository) || die "migrate: rev-parse failed"
+	[ "$bare" = "false" ] || die "migrate: repository is already bare"
+
+	[ -d "$hub/.git" ] || die "migrate: .git is not a directory (already a gitfile/hub/linked worktree?)"
+	[ ! -e "$hub/.bare" ] || die "migrate: $hub/.bare already exists"
+
+	common=$(git -C "$hub" rev-parse --git-common-dir) || die "migrate: cannot resolve git-common-dir"
+	case $common in
+	/*) common_abs=$common ;;
+	*) common_abs=$(CDPATH= cd -- "$hub" && CDPATH= cd -- "$common" && pwd) ;;
+	esac
+	expected_git=$(abs_path "$hub/.git")
+	[ "$common_abs" = "$expected_git" ] || die "migrate: not the main worktree (git-common-dir=$common_abs)"
+
+	porcelain=$(git -C "$hub" status --porcelain)
+	if [ -n "$porcelain" ]; then
+		printf '%s\n' "git-wt: error: migrate: working tree is not clean (commit/stash/clean first):" >&2
+		printf '%s\n' "$porcelain" >&2
+		exit 1
+	fi
+	log "migrate: working tree clean"
+
+	ignored=$(git -C "$hub" ls-files -o -i --exclude-standard || true)
+	head_branch=""
+	do_keep=0
+
+	if [ -n "$ignored" ]; then
+		if [ "$keep_ignored" -eq 1 ]; then
+			head_branch=$(git -C "$hub" symbolic-ref -q --short HEAD) \
+				|| die "migrate: --keep-ignored requires a checked-out branch (not detached); checkout a branch or use --drop-ignored"
+			log "migrate: --keep-ignored (restore into $head_branch/)"
+			printf '%s\n' "$ignored" | while IFS= read -r _p; do
+				[ -n "$_p" ] || continue
+				log "  keep: $_p"
+			done
+			migrate_park_ignored "$hub" "$ignored"
+			do_keep=1
+		elif [ "$drop_ignored" -eq 1 ]; then
+			log "migrate: --drop-ignored (ignored paths will be deleted)"
+			printf '%s\n' "$ignored" | while IFS= read -r _p; do
+				[ -n "$_p" ] || continue
+				log "  drop: $_p"
+			done
+		else
+			printf '%s\n' "git-wt: error: migrate: ignored files present; pass --keep-ignored or --drop-ignored:" >&2
+			printf '%s\n' "$ignored" >&2
+			exit 1
+		fi
+	else
+		log "migrate: no ignored files"
+	fi
+
+	log "migrate: git clone --bare $hub/.git -> $hub/.bare"
+	git clone --bare -- "$hub/.git" "$hub/.bare" || die "migrate: git clone --bare failed"
+
+	log "migrate: remove old $hub/.git directory"
+	rm -rf -- "$hub/.git"
+
+	log "migrate: write gitfile $hub/.git -> ./.bare"
+	printf 'gitdir: ./.bare\n' >"$hub/.git"
+
+	log "migrate: remove old working-tree files from hub root"
+	if [ "$do_keep" -eq 1 ]; then
+		find "$hub" -mindepth 1 -maxdepth 1 ! -name .bare ! -name .git ! -name .wt-keep -exec rm -rf {} +
+	else
+		find "$hub" -mindepth 1 -maxdepth 1 ! -name .bare ! -name .git -exec rm -rf {} +
+	fi
+
+	hub_fix_fetch "$hub"
+	hub_worktrees_all_local "$hub"
+
+	if [ "$do_keep" -eq 1 ]; then
+		migrate_restore_ignored "$hub" "$head_branch"
+	fi
+
+	hub_done "$hub"
+}
+
+cmd_help() {
+	usage
+}
+
+# --- dispatch ---
+
+if [ $# -eq 0 ]; then
+	usage >&2
+	exit 1
+fi
+
+cmd=$1
+shift
+
+case $cmd in
+init)
+	cmd_init "$@"
+	;;
+migrate)
+	cmd_migrate "$@"
+	;;
+help | -h | --help)
+	cmd_help
+	;;
+*)
+	die "unknown command: $cmd (try: git-wt help)"
+	;;
+esac

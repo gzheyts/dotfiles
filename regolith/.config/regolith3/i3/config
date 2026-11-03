@@ -1,4 +1,4 @@
-# vim: set filetype=i3:
+# vim: set filetype=i3config:
 
 ###############################################################################
 # Meta Key Mappings
@@ -221,6 +221,15 @@ for_window [all] title_window_icon off
 
 for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_size, move absolute position 0 0
 
+# assign {{{
+assign [class="firefox"] $tag1
+assign [class="jetbrains-idea"] $tag2
+assign [instance="telegram-desktop"] $tag10
+assign [class="Apache Directory Studio"] $tag4
+assign [title="Oracle SQL Developer.*"] $tag4
+assign [class="DBeaver"] $tag4
+# }}}
+
 # Set titlebar mode
 set_from_resource $wm.floatingwindow.border.size wm.floatingwindow.border.size 1
 default_floating_border normal $wm.floatingwindow.border.size
@@ -238,8 +247,8 @@ no_focus [window_role="pop-up"]
 for_window [window_role=PictureInPicture] sticky enable
 for_window [class="crow-translate"]       sticky enable
 
-# The window will always be marked urgent, but the focus will not be stolen
-focus_on_window_activation urgent
+# Focus only if the window is on an active workspace; otherwise mark urgent
+focus_on_window_activation smart
 
 focus_wrapping force
 
@@ -404,7 +413,7 @@ bindsym j [class="Joplin"] focus; mode "default"
 bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym e [class="Evince"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
-bindsym t [class="TelegramDesktop"] focus; mode "default"
+bindsym t [instance="telegram-desktop"] focus; mode "default"
 bindsym Shift+t [class="Gnome-Tweaks"] focus; mode "default"
 bindsym Shift+a [class="Archi"] focus; mode "default"
 bindsym s [class="Mattermost"] focus; mode "default"

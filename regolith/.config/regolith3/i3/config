@@ -660,7 +660,7 @@ set_from_resource $wm.program.unclutter wm.program.unclutter /usr/bin/unclutter 
 exec --no-startup-id $wm.program.unclutter
 exec --no-startup-id /usr/bin/nm-applet
 
-workspace_layout default
+workspace_layout tabbed
 default_orientation horizontal
 
 # dunst

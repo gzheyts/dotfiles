@@ -223,11 +223,20 @@ for_window [instance="scratchpad"] move to scratchpad, resize set $scratchpad_si
 
 # assign {{{
 assign [class="firefox"] $tag1
+
 assign [class="jetbrains-idea"] $tag2
-assign [instance="telegram-desktop"] $tag10
+
 assign [class="Apache Directory Studio"] $tag4
 assign [title="Oracle SQL Developer.*"] $tag4
 assign [class="DBeaver"] $tag4
+
+assign [class="org.gnome.Nautilus"] $tag5
+assign [class="Evince"] $tag6
+
+assign [class="ktalk"] $tag8
+
+assign [instance="telegram-desktop"] $tag10
+assign [class="org.remmina.Remmina"] $tagD
 # }}}
 
 # Set titlebar mode
@@ -412,6 +421,8 @@ bindsym f [class="firefox"] focus; mode "default"
 bindsym j [class="Joplin"] focus; mode "default"
 bindsym q [class="qBittorrent"] focus; mode "default"
 bindsym e [class="Evince"] focus; mode "default"
+bindsym k [class="ktalk"] focus; mode "default"
+bindsym b [class="browsec-desktop"] focus; mode "default"
 bindsym y [class="Yandex-browser-beta"] focus; mode "default"
 bindsym t [instance="telegram-desktop"] focus; mode "default"
 bindsym Shift+t [class="Gnome-Tweaks"] focus; mode "default"
@@ -485,6 +496,8 @@ mode $mode-launch {
     bindsym Shift+m mode "default", exec thunderbird
     bindsym y mode "default", exec --no-startup-id yandex-browser-beta
     bindsym r mode "default", exec --no-startup-id remmina-launch
+    bindsym k mode "default", exec --no-startup-id ktalk
+    bindsym b mode "default", exec --no-startup-id browsec-desktop
     bindsym z mode "default", exec --no-startup-id zathura
     bindsym Shift+z mode "default", exec --no-startup-id zoom
     bindsym d mode "default", exec --no-startup-id zeal

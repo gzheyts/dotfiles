@@ -203,7 +203,6 @@ for_window [class="floating_window"] floating enable
 for_window [class="gnome-control-center"] floating enable
 
 for_window [title="win.*"] floating enable
-for_window [instance="telegram-desktop"] floating enable
 for_window [class="Gnome-pomodoro"]  floating enable 
 for_window [class="Gnome-calendar"]  floating enable 
 for_window [class="zoom"]  floating enable 
@@ -231,12 +230,16 @@ assign [title="Oracle SQL Developer.*"] $tag4
 assign [class="DBeaver"] $tag4
 
 assign [class="org.gnome.Nautilus"] $tag5
+
 assign [class="Evince"] $tag6
+assign [instance="md.obsidian.obsidian"] $tag6
 
 assign [class="ktalk"] $tag8
 
 assign [instance="telegram-desktop"] $tag10
 assign [class="org.remmina.Remmina"] $tagD
+
+assign [class="Alacritty"] $tagU
 # }}}
 
 # Set titlebar mode
@@ -446,6 +449,7 @@ bindsym Shift+v [instance="vlc"] focus; mode "default"
 bindsym c [instance="code"] focus; mode "default"
 bindsym Shift+o [instance="postman"] focus; mode "default"
 bindsym o [title="Oracle SQL Developer.*"] focus; mode "default"
+bindsym n [instance="md.obsidian.obsidian"] focus; mode "default"
 
 bindsym r [class="org.remmina.Remmina"] focus; mode "default"
 
@@ -487,6 +491,7 @@ mode $mode-launch {
     bindsym e mode "default", exec --no-startup-id evince
     bindsym a mode "default", exec --no-startup-id apacheds
     bindsym o mode "default", exec --no-startup-id sqldeveloper
+    bindsym n mode "default", exec --no-startup-id obsidian
     bindsym s mode "default", exec --no-startup-id mattermost-desktop
     bindsym z mode "default", exec --no-startup-id zoom
     bindsym Shift+s mode "default", exec SoapUI-5.7.0

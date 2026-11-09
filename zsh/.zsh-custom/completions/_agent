@@ -1,0 +1,154 @@
+#compdef agent cursor-agent
+# Hand-written compsys for Cursor Agent CLI.
+# Upstream has no `agent --completions`; keep in sync with `agent --help`.
+
+_agent() {
+  local curcontext="$curcontext" state state_descr line
+  typeset -A opt_args
+
+  local -a commands
+  commands=(
+    'persist:Start or manage a session that survives terminal disconnects'
+    'install-shell-integration:Install shell integration to ~/.zshrc'
+    'uninstall-shell-integration:Remove shell integration from ~/.zshrc'
+    'login:Authenticate with Cursor'
+    'logout:Sign out and clear stored authentication'
+    'mcp:Manage MCP servers'
+    'plugin:Manage plugins and plugin marketplaces'
+    'worker:Run a self-hosted Cloud Agent worker'
+    'status:View authentication status'
+    'whoami:Alias for status'
+    'models:List available models for this account'
+    'team:View or switch the active team'
+    'bedrock:Configure AWS Bedrock usage for CLI'
+    'about:Display version, system, and account information'
+    'update:Update Cursor Agent to the latest version'
+    'create-chat:Create a new empty chat and return its ID'
+    'generate-rule:Generate a new Cursor rule'
+    'rule:Alias for generate-rule'
+    'agent:Start the Cursor Agent'
+    'ls:Resume a chat session'
+    'resume:Resume the latest chat session'
+    'help:Display help for command'
+  )
+
+  _arguments -C \
+    '(-v --version)'{-v,--version}'[Output the version number]' \
+    '--api-key[API key for authentication]:key:' \
+    '*'{-H,--header}'[Add custom header to agent requests]:header:' \
+    '(-e --endpoint)'{-e,--endpoint}'[Target API endpoint URL]:url:' \
+    '(-p --print)'{-p,--print}'[Print responses to console (non-interactive)]' \
+    '--output-format[Output format for --print]:format:(text json stream-json)' \
+    '--stream-partial-output[Stream partial output as text deltas]' \
+    '--mode[Execution mode]:mode:(plan ask)' \
+    '--plan[Start in plan mode]' \
+    '--resume[Resume a session]::chat id:' \
+    '--continue[Continue previous session]' \
+    '--model[Model to use]:model:->models' \
+    '--list-models[List available models and exit]' \
+    '(-f --force)'{-f,--force}'[Force allow commands unless explicitly denied]' \
+    '--yolo[Alias for --force]' \
+    '--auto-review[Auto-review: classifier auto-runs safe tool calls]' \
+    '--sandbox[Sandbox mode]:mode:(enabled disabled)' \
+    '--approve-mcps[Automatically approve all MCP servers]' \
+    '--trust[Trust the current workspace without prompting]' \
+    '--workspace[Workspace directory or saved name]:workspace:_files -/' \
+    '*'{-w,--worktree}'[Start in an isolated git worktree]::name:' \
+    '--worktree-base[Base branch/ref for new worktree]:ref:' \
+    '--skip-worktree-setup[Skip worktree setup scripts]' \
+    '*--add-dir[Additional workspace root]:directory:_files -/' \
+    '*--plugin-dir[Load a local plugin directory]:directory:_files -/' \
+    '(-h --help)'{-h,--help}'[Display help for command]' \
+    '1:command:->command' \
+    '*::arg:->args'
+
+  case $state in
+    models)
+      _message 'model name'
+      ;;
+    command)
+      _describe -t commands 'command' commands
+      ;;
+    args)
+      case $words[1] in
+        mcp)
+          _arguments -C \
+            '(-h --help)'{-h,--help}'[Display help]' \
+            '1:subcommand:(login list list-tools enable disable)' \
+            '*::mcp-arg:->mcp_args'
+          case $state in
+            mcp_args)
+              case $words[1] in
+                login|list-tools|enable|disable)
+                  _message 'mcp identifier'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        plugin)
+          _arguments \
+            '(-h --help)'{-h,--help}'[Display help]' \
+            '1:subcommand:(marketplace)'
+          ;;
+        persist)
+          _arguments \
+            '1:subcommand:(list attach stop)' \
+            '*::persist-arg:->persist_args'
+          case $state in
+            persist_args)
+              case $words[1] in
+                attach|stop) _message 'session' ;;
+                *) _default ;;
+              esac
+              ;;
+          esac
+          ;;
+        worker)
+          _arguments \
+            '--auth-token-file[Path to worker auth token file]:file:_files' \
+            '*--worker-dir[Workspace root to expose]:directory:_files -/' \
+            '--management-addr[HTTP probe/metrics listen address]:address:' \
+            '*--label[Worker label key=value]:label:' \
+            '--labels-file[Labels JSON/TOML file]:file:_files' \
+            '--idle-release-timeout[Idle release timeout seconds]:seconds:' \
+            '--pool[Join a team Self-Hosted Pool]::name:' \
+            '--mint-github-token[Receive short-lived GitHub tokens]' \
+            '--clone-git-repos[Clone claimed agent git repos]' \
+            '--sync-dashboard-secrets[Sync dashboard secrets]' \
+            '--on-session-start[sessionStart hook command]:command:' \
+            '--on-session-end[sessionEnd hook command]:command:' \
+            '*--mcp-tool-timeout[MCP tool timeout]:spec:' \
+            '--identity-socket[Expose OIDC identity socket]' \
+            '--computer-use[Enable computer use]' \
+            '--display[X11 display for computer-use]:display:' \
+            '--share-desktop[Share desktop]::mode:(view view_and_control)' \
+            '--connect-workspace[Connect live workspace via cursor-server]' \
+            '--single-use[Alias for --pool]' \
+            '--pool-name[Deprecated alias for --pool]:name:' \
+            '--name[Worker display name]:name:' \
+            '--data-dir[Data directory]:directory:_files -/' \
+            '(-h --help)'{-h,--help}'[Display help]' \
+            '1:subcommand:(debug start)'
+          ;;
+        help)
+          _describe -t commands 'command' commands
+          ;;
+        update|about|status|whoami|models|login|logout|ls|resume|create-chat|generate-rule|rule|team|bedrock|install-shell-integration|uninstall-shell-integration)
+          _arguments '(-h --help)'{-h,--help}'[Display help]'
+          ;;
+        *)
+          _default
+          ;;
+      esac
+      ;;
+  esac
+}
+
+if [[ "${zsh_eval_context[-1]}" == "loadautofunc" ]]; then
+  _agent "$@"
+else
+  compdef _agent agent cursor-agent
+  # Alias from cursor.aliases (loaded before completions)
+  (( $+aliases[ca] )) && compdef ca=cursor-agent
+fi

@@ -1,0 +1,51 @@
+# Key injects for opencode behind tmux (alacritty → tmux → opencode).
+#
+# Why two strategies:
+#   CSI 27~  — Ctrl/Shift combos have no legacy encoding; Alacritty must inject.
+#   leader   — Alt+char CSI is rewritten by tmux to ESC+char; map to <leader>…
+#
+# Leader in opencode cli.json is ctrl+o (\u000f).
+# CSI form: \u001b[27;<mod>;<code>~
+#   mod = 1 + Shift(1) + Alt(2) + Ctrl(4)
+
+# Ctrl+Shift+A → command.palette.show
+[[keyboard.bindings]]
+key = "A"
+mods = "Control|Shift"
+chars = "\u001b[27;6;65~"
+
+# Alt+\ → session.list  (= <leader>l)
+[[keyboard.bindings]]
+key = "Backslash"
+mods = "Alt"
+chars = "\u000fl"
+
+# Alt+- → session.tab.close  (= <leader>w)
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Alt"
+chars = "\u000fw"
+
+# Alt+Shift+= → session.tab.reopen  (= Ctrl+Shift+T CSI)
+# Shift makes logical key "+"; keep scancode fallback.
+[[keyboard.bindings]]
+key = "+"
+mods = "Alt|Shift"
+chars = "\u001b[27;6;84~"
+
+[[keyboard.bindings]]
+key = 13
+mods = "Alt|Shift"
+chars = "\u001b[27;6;84~"
+
+# Ctrl+Alt+Shift+\ → open.menu
+# "|" is the shifted Backslash form that actually matches.
+[[keyboard.bindings]]
+key = "Backslash"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;92~"
+
+[[keyboard.bindings]]
+key = "|"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;92~"

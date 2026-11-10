@@ -1,3 +1,5 @@
+import = ["~/.config/alacritty/opencode-keys.toml"]
+
 [env]
 WINIT_X11_SCALE_FACTOR = "1.0"
 COLORTERM = "truecolor"

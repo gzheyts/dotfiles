@@ -1,6 +1,7 @@
 {
   "json.schemaDownload.trustedDomains": {
     "https://opencode.ai": true,
-    "https://models.dev": true
+    "https://models.dev": true,
+    "https://raw.githubusercontent.com": true
   }
 }

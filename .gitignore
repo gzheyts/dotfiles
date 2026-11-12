@@ -27,3 +27,6 @@ tmux/.tmux/plugins/tmux-*
 
 #zsh
 zsh/.zsh-custom/plugins
+
+#git
+git/.config/git/ignore

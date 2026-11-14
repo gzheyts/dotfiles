@@ -235,6 +235,8 @@ assign [class="Evince"] $tag6
 assign [instance="md.obsidian.obsidian"] $tag6
 
 assign [class="ktalk"] $tag8
+assign [class="vlc"] $tag8
+assign [class="qBittorrent"] $tag8
 
 assign [instance="telegram-desktop"] $tag10
 assign [class="org.remmina.Remmina"] $tagD

@@ -236,6 +236,12 @@ augroup markdown_optimizations
     " Kill all automatic folding calculations on markdown file load
     autocmd FileType markdown,vimwiki setlocal foldmethod=manual foldexpr=0
 augroup END
+
+" *.mdc — markdown syntax & plugins
+augroup mdc_filetype
+    autocmd!
+    autocmd BufRead,BufNewFile *.mdc setfiletype markdown
+augroup END
 " }}}
 
 if has('termguicolors')

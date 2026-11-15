@@ -30,3 +30,6 @@ zsh/.zsh-custom/plugins
 
 #git
 git/.config/git/ignore
+
+# Cursor CLI — seeded global agent rules (local harness)
+.cursor

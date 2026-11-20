@@ -1,49 +1,40 @@
 #!/bin/sh
 # git-wt <command> [<args>]
-# Bare-hub worktree helpers (git-worktree layout).
+# Project-local (.worktrees/) and bare-hub worktree helpers.
 #
-# Requires: git (>= 2.5 for worktree), find, tar (migrate --keep-ignored),
+# Requires: git (>= 2.5 for worktree), find, tar (hub migrate --keep-ignored),
 #           a POSIX sh. Optional: set -o pipefail when the shell supports it.
 
 set -eu
 # pipefail is not POSIX; enable when available (bash/ksh/etc as /bin/sh).
 (set -o pipefail) 2>/dev/null && set -o pipefail
 
+WT_PARENT=.worktrees
+
 usage() {
 	cat <<'USAGE'
 Usage: git-wt <command> [<args>]
 
 Commands:
-  init <url> [<directory>]   Bootstrap bare hub + long-lived worktrees
-  migrate [opts] [<path>]    In-place convert a clean local clone to bare hub
-  help                       Show this help
+  local <subcommand>   Project-local .worktrees/ helpers (day path)
+  hub <subcommand>     Bare-hub bootstrap (human multi-branch)
+  help                 Show this help
 
-init:
-  Clone <url> as a bare hub under <directory> (default: basename of URL,
-  like git clone), then:
+local:
+  init                 ensure-ignore + mkdir .worktrees (primary checkout)
+  ensure-ignore        ensure .worktrees/ is in local .gitignore (create or append)
+  add <name> [-b <branch>] [<start-point>]
+  rm <name> [--force]
+  list
 
-  - write gitfile -> .bare
-  - fix origin fetch refspec (bare "blind clone" trap)
-  - git fetch --all --tags
-  - add worktrees for existing branches among: master, develop, dev, main
-  - git submodule update --init --recursive in those trees
-    (or a temporary bootstrap tree if none of the four exist)
-
-migrate:
-  Convert an existing local clone in-place into the bare-hub layout.
-  <path> defaults to cwd; must be the worktree toplevel.
-
-  Requires a clean tree (no modified / staged / untracked).
-  Creates one worktree per local branch (refs/heads/*).
-  Restores origin to the pre-migrate remote URL (not the local .git path
-  that git clone --bare would otherwise record).
-  Sets each local branch to track origin/<branch> when that remote ref exists.
-
-  Ignored files (git ls-files -oi --exclude-standard):
-    (default)           fail if any ignored paths exist
-    --keep-ignored      park under .wt-keep, restore into pre-migrate HEAD worktree
-    --drop-ignored      delete ignored paths with the old working tree
-    --keep and --drop are mutually exclusive
+hub:
+  init <url> [<directory>]
+    Clone <url> as a bare hub under <directory> (default: basename of URL),
+    then: gitfile -> .bare, fix origin fetch refspec, fetch --all --tags,
+    add worktrees for master/develop/dev/main, submodule init in those trees.
+  migrate [opts] [<path>]
+    In-place convert a clean local clone to bare hub.
+    Ignored files: (default) fail | --keep-ignored | --drop-ignored
 
 Hub layout:
 
@@ -51,13 +42,24 @@ Hub layout:
   <dir>/.git       gitfile: gitdir: ./.bare
   <dir>/<branch>/  worktrees
 
+Local layout (ordinary clone):
+
+  <repo>/
+    .git/
+    .worktrees/<name>/   linked worktrees
+    .gitignore           contains .worktrees/
+
+Deprecated (redirect with warning):
+  init … / migrate …   → hub init / hub migrate
+
 Examples:
-  git-wt init git@github.com:user/repo.git
-  git-wt init https://example.com/repo.git my-hub
-  git-wt migrate
-  git-wt migrate --keep-ignored ~/Projects/my-app
-  git-wt migrate --drop-ignored
-  git wt init git@github.com:user/repo.git
+  git-wt local init
+  git-wt local add feat-auth -b feat-auth
+  git-wt local list
+  git-wt local rm feat-auth
+  git-wt hub init git@github.com:user/repo.git
+  git-wt hub migrate --keep-ignored
+  git wt local add feat-auth -b feat-auth
 USAGE
 }
 
@@ -103,6 +105,297 @@ dir_is_empty() {
 abs_path() {
 	CDPATH= cd -- "$1" && pwd
 }
+
+# --- local (project-local .worktrees/) ---
+
+require_git_repo() {
+	git rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+		|| die "not inside a git work tree"
+}
+
+require_primary_checkout() {
+	require_git_repo
+	_super=$(git rev-parse --show-superproject-working-tree 2>/dev/null || true)
+	[ -z "$_super" ] || die "refuse: inside a submodule (run from the superproject primary checkout)"
+
+	_toplevel=$(git rev-parse --show-toplevel) || die "cannot resolve toplevel"
+	_cwd=$(pwd -P)
+	_top_abs=$(abs_path "$_toplevel")
+	[ "$_cwd" = "$_top_abs" ] \
+		|| die "refuse: cwd must be the worktree toplevel (got $_cwd, toplevel is $_top_abs)"
+
+	_git_dir=$(cd "$(git rev-parse --git-dir)" && pwd -P)
+	_git_common=$(cd "$(git rev-parse --git-common-dir)" && pwd -P)
+	[ "$_git_dir" = "$_git_common" ] \
+		|| die "refuse: already in a linked worktree (run from the primary checkout)"
+}
+
+gitignore_has_worktrees() {
+	# True if local .gitignore already lists .worktrees or .worktrees/ (line-level).
+	# Does not consult global excludes or $GIT_DIR/info/exclude.
+	_gi=$1
+	[ -f "$_gi" ] || return 1
+	# Optional trailing comment; ignore blank-only lines.
+	grep -Eq '^[[:space:]]*\.worktrees(/)?([[:space:]]*(#.*)?)?$' "$_gi"
+}
+
+local_ensure_ignore() {
+	require_git_repo
+	_toplevel=$(git rev-parse --show-toplevel) || die "cannot resolve toplevel"
+	_gi=$_toplevel/.gitignore
+	_entry="$WT_PARENT/"
+
+	if gitignore_has_worktrees "$_gi"; then
+		log "$_entry already in .gitignore"
+		return 0
+	fi
+
+	if [ -f "$_gi" ]; then
+		log "append $_entry to .gitignore"
+		if [ -s "$_gi" ]; then
+			_last=$(tail -c 1 "$_gi" | od -An -tx1 | tr -d ' \n' || true)
+			# 0a = newline; append one if the file does not end with it
+			[ "$_last" = "0a" ] || printf '\n' >>"$_gi"
+		fi
+		printf '%s\n' "$_entry" >>"$_gi" || die "cannot append to $_gi"
+	else
+		log "create .gitignore with $_entry"
+		printf '%s\n' "$_entry" >"$_gi" || die "cannot create $_gi"
+	fi
+
+	gitignore_has_worktrees "$_gi" \
+		|| die "failed to record $_entry in .gitignore"
+}
+
+cmd_local_init() {
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		-*)
+			die "local init: unknown option: $1"
+			;;
+		*)
+			die "local init: unexpected argument: $1"
+			;;
+		esac
+	done
+
+	require_primary_checkout
+	local_ensure_ignore
+	_toplevel=$(git rev-parse --show-toplevel)
+	mkdir -p -- "$_toplevel/$WT_PARENT" || die "cannot create $_toplevel/$WT_PARENT"
+	log "ready: $_toplevel/$WT_PARENT"
+	printf '%s\n' "$_toplevel/$WT_PARENT"
+}
+
+cmd_local_ensure_ignore() {
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		*)
+			die "local ensure-ignore: unexpected argument: $1"
+			;;
+		esac
+	done
+	local_ensure_ignore
+}
+
+cmd_local_add() {
+	_name=""
+	_branch=""
+	_start=""
+	_has_b=0
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		-b)
+			[ $# -ge 2 ] || die "local add: -b requires a branch name"
+			_branch=$2
+			_has_b=1
+			shift 2
+			continue
+			;;
+		--)
+			shift
+			break
+			;;
+		-*)
+			die "local add: unknown option: $1"
+			;;
+		*)
+			if [ -z "$_name" ]; then
+				_name=$1
+			elif [ -z "$_start" ]; then
+				_start=$1
+			else
+				die "local add: unexpected argument: $1"
+			fi
+			shift
+			continue
+			;;
+		esac
+		shift
+	done
+
+	while [ $# -gt 0 ]; do
+		if [ -z "$_name" ]; then
+			_name=$1
+		elif [ -z "$_start" ]; then
+			_start=$1
+		else
+			die "local add: unexpected argument: $1"
+		fi
+		shift
+	done
+
+	[ -n "$_name" ] || die "local add: missing <name> (try: git-wt help)"
+	case "$_name" in
+	*/* | *\\* | .* | "")
+		die "local add: invalid name '$_name' (flat name only, no slashes)"
+		;;
+	esac
+
+	require_primary_checkout
+	local_ensure_ignore
+
+	_toplevel=$(git rev-parse --show-toplevel)
+	_path=$_toplevel/$WT_PARENT/$_name
+	[ ! -e "$_path" ] || die "local add: path already exists: $_path"
+
+	# Never touch remote.* — ordinary clone remotes stay as-is.
+	if [ "$_has_b" -eq 1 ]; then
+		[ -n "$_branch" ] || die "local add: empty -b branch"
+		if [ -n "$_start" ]; then
+			log "worktree add -b $_branch $WT_PARENT/$_name $_start"
+			git -C "$_toplevel" worktree add -b "$_branch" "$_path" "$_start" \
+				|| die "worktree add failed"
+		else
+			log "worktree add -b $_branch $WT_PARENT/$_name"
+			git -C "$_toplevel" worktree add -b "$_branch" "$_path" \
+				|| die "worktree add failed"
+		fi
+	else
+		if [ -n "$_start" ]; then
+			log "worktree add $WT_PARENT/$_name $_start"
+			git -C "$_toplevel" worktree add "$_path" "$_start" \
+				|| die "worktree add failed"
+		else
+			log "worktree add $WT_PARENT/$_name (new branch $_name)"
+			git -C "$_toplevel" worktree add -b "$_name" "$_path" \
+				|| die "worktree add failed"
+		fi
+	fi
+
+	printf '%s\n' "$_path"
+}
+
+cmd_local_rm() {
+	_name=""
+	_force=0
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		--force | -f)
+			_force=1
+			shift
+			continue
+			;;
+		-*)
+			die "local rm: unknown option: $1"
+			;;
+		*)
+			[ -z "$_name" ] || die "local rm: unexpected argument: $1"
+			_name=$1
+			shift
+			continue
+			;;
+		esac
+		shift
+	done
+
+	[ -n "$_name" ] || die "local rm: missing <name> (try: git-wt help)"
+	case "$_name" in
+	*/* | *\\*)
+		die "local rm: invalid name '$_name' (flat name only)"
+		;;
+	esac
+
+	require_primary_checkout
+	_toplevel=$(git rev-parse --show-toplevel)
+	_path=$_toplevel/$WT_PARENT/$_name
+
+	if [ "$_force" -eq 1 ]; then
+		log "worktree remove --force $WT_PARENT/$_name"
+		git -C "$_toplevel" worktree remove --force -- "$_path" \
+			|| die "worktree remove failed"
+	else
+		log "worktree remove $WT_PARENT/$_name"
+		git -C "$_toplevel" worktree remove -- "$_path" \
+			|| die "worktree remove failed"
+	fi
+}
+
+cmd_local_list() {
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		*)
+			die "local list: unexpected argument: $1"
+			;;
+		esac
+	done
+	require_git_repo
+	git worktree list
+}
+
+cmd_local() {
+	[ $# -gt 0 ] || die "local: missing subcommand (try: git-wt help)"
+	_sub=$1
+	shift
+	case "$_sub" in
+	init)
+		cmd_local_init "$@"
+		;;
+	ensure-ignore)
+		cmd_local_ensure_ignore "$@"
+		;;
+	add)
+		cmd_local_add "$@"
+		;;
+	rm | remove)
+		cmd_local_rm "$@"
+		;;
+	list)
+		cmd_local_list "$@"
+		;;
+	help | -h | --help)
+		usage
+		exit 0
+		;;
+	*)
+		die "local: unknown subcommand: $_sub (try: git-wt help)"
+		;;
+	esac
+}
+
+# --- hub (bare hub) ---
 
 branch_exists() {
 	_hub=$1
@@ -255,8 +548,9 @@ hub_done() {
 	printf '\nHub ready: %s\n' "$_hub"
 	git -C "$_hub" worktree list
 	printf '\nNext (examples):\n'
-	printf '  cd %s\n' "$_hub"
-	printf '  git worktree add feature/x -b feature/x develop   # or main/master/dev\n'
+	printf '  cd %s/<long-lived-branch>\n' "$_hub"
+	printf '  git-wt local init    # if you want .worktrees under that checkout\n'
+	printf '  git worktree add feature/x -b feature/x develop   # hub sibling\n'
 }
 
 migrate_park_ignored() {
@@ -293,7 +587,7 @@ migrate_restore_ignored() {
 	log "migrate: restored ignored files; removed .wt-keep"
 }
 
-cmd_init() {
+cmd_hub_init() {
 	url=""
 	directory=""
 	has_url=0
@@ -310,7 +604,7 @@ cmd_init() {
 			break
 			;;
 		-*)
-			die "init: unknown option: $1"
+			die "hub init: unknown option: $1"
 			;;
 		*)
 			if [ "$has_url" -eq 0 ]; then
@@ -320,7 +614,7 @@ cmd_init() {
 				directory=$1
 				has_dir=1
 			else
-				die "init: unexpected argument: $1"
+				die "hub init: unexpected argument: $1"
 			fi
 			shift
 			continue
@@ -337,12 +631,12 @@ cmd_init() {
 			directory=$1
 			has_dir=1
 		else
-			die "init: unexpected argument: $1"
+			die "hub init: unexpected argument: $1"
 		fi
 		shift
 	done
 
-	[ "$has_url" -eq 1 ] || die "init: missing <url> (try: git-wt help)"
+	[ "$has_url" -eq 1 ] || die "hub init: missing <url> (try: git-wt help)"
 
 	if [ "$has_dir" -eq 0 ]; then
 		directory=$(repo_name_from_url "$url") || die "cannot derive directory name from URL"
@@ -380,7 +674,7 @@ cmd_init() {
 	hub_done "$hub"
 }
 
-cmd_migrate() {
+cmd_hub_migrate() {
 	path="."
 	has_path=0
 	keep_ignored=0
@@ -407,11 +701,11 @@ cmd_migrate() {
 			break
 			;;
 		-*)
-			die "migrate: unknown option: $1"
+			die "hub migrate: unknown option: $1"
 			;;
 		*)
 			if [ "$has_path" -eq 1 ]; then
-				die "migrate: unexpected argument: $1"
+				die "hub migrate: unexpected argument: $1"
 			fi
 			path=$1
 			has_path=1
@@ -424,7 +718,7 @@ cmd_migrate() {
 
 	while [ $# -gt 0 ]; do
 		if [ "$has_path" -eq 1 ]; then
-			die "migrate: unexpected argument: $1"
+			die "hub migrate: unexpected argument: $1"
 		fi
 		path=$1
 		has_path=1
@@ -432,39 +726,39 @@ cmd_migrate() {
 	done
 
 	if [ "$keep_ignored" -eq 1 ] && [ "$drop_ignored" -eq 1 ]; then
-		die "migrate: --keep-ignored and --drop-ignored are mutually exclusive"
+		die "hub migrate: --keep-ignored and --drop-ignored are mutually exclusive"
 	fi
 
-	[ -e "$path" ] || die "migrate: path does not exist: $path"
-	[ -d "$path" ] || die "migrate: not a directory: $path"
+	[ -e "$path" ] || die "hub migrate: path does not exist: $path"
+	[ -d "$path" ] || die "hub migrate: not a directory: $path"
 
-	hub=$(abs_path "$path") || die "migrate: cannot enter $path"
+	hub=$(abs_path "$path") || die "hub migrate: cannot enter $path"
 	log "migrate: path $hub"
 
 	git -C "$hub" rev-parse --is-inside-work-tree >/dev/null 2>&1 \
-		|| die "migrate: not a git work tree: $hub"
+		|| die "hub migrate: not a git work tree: $hub"
 
-	toplevel=$(git -C "$hub" rev-parse --show-toplevel) || die "migrate: cannot resolve toplevel"
+	toplevel=$(git -C "$hub" rev-parse --show-toplevel) || die "hub migrate: cannot resolve toplevel"
 	toplevel=$(abs_path "$toplevel")
-	[ "$hub" = "$toplevel" ] || die "migrate: path must be the worktree toplevel (got $hub, toplevel is $toplevel)"
+	[ "$hub" = "$toplevel" ] || die "hub migrate: path must be the worktree toplevel (got $hub, toplevel is $toplevel)"
 
-	bare=$(git -C "$hub" rev-parse --is-bare-repository) || die "migrate: rev-parse failed"
-	[ "$bare" = "false" ] || die "migrate: repository is already bare"
+	bare=$(git -C "$hub" rev-parse --is-bare-repository) || die "hub migrate: rev-parse failed"
+	[ "$bare" = "false" ] || die "hub migrate: repository is already bare"
 
-	[ -d "$hub/.git" ] || die "migrate: .git is not a directory (already a gitfile/hub/linked worktree?)"
-	[ ! -e "$hub/.bare" ] || die "migrate: $hub/.bare already exists"
+	[ -d "$hub/.git" ] || die "hub migrate: .git is not a directory (already a gitfile/hub/linked worktree?)"
+	[ ! -e "$hub/.bare" ] || die "hub migrate: $hub/.bare already exists"
 
-	common=$(git -C "$hub" rev-parse --git-common-dir) || die "migrate: cannot resolve git-common-dir"
+	common=$(git -C "$hub" rev-parse --git-common-dir) || die "hub migrate: cannot resolve git-common-dir"
 	case "$common" in
 	/*) common_abs=$common ;;
 	*) common_abs=$(CDPATH= cd -- "$hub" && CDPATH= cd -- "$common" && pwd) ;;
 	esac
 	expected_git=$(abs_path "$hub/.git")
-	[ "$common_abs" = "$expected_git" ] || die "migrate: not the main worktree (git-common-dir=$common_abs)"
+	[ "$common_abs" = "$expected_git" ] || die "hub migrate: not the main worktree (git-common-dir=$common_abs)"
 
 	porcelain=$(git -C "$hub" status --porcelain)
 	if [ -n "$porcelain" ]; then
-		printf '%s\n' "git-wt: error: migrate: working tree is not clean (commit/stash/clean first):" >&2
+		printf '%s\n' "git-wt: error: hub migrate: working tree is not clean (commit/stash/clean first):" >&2
 		printf '%s\n' "$porcelain" >&2
 		exit 1
 	fi
@@ -477,7 +771,7 @@ cmd_migrate() {
 	if [ -n "$ignored" ]; then
 		if [ "$keep_ignored" -eq 1 ]; then
 			head_branch=$(git -C "$hub" symbolic-ref -q --short HEAD) \
-				|| die "migrate: --keep-ignored requires a checked-out branch (not detached); checkout a branch or use --drop-ignored"
+				|| die "hub migrate: --keep-ignored requires a checked-out branch (not detached); checkout a branch or use --drop-ignored"
 			log "migrate: --keep-ignored (restore into $head_branch/)"
 			printf '%s\n' "$ignored" | while IFS= read -r _p; do
 				[ -n "$_p" ] || continue
@@ -492,7 +786,7 @@ cmd_migrate() {
 				log "  drop: $_p"
 			done
 		else
-			printf '%s\n' "git-wt: error: migrate: ignored files present; pass --keep-ignored or --drop-ignored:" >&2
+			printf '%s\n' "git-wt: error: hub migrate: ignored files present; pass --keep-ignored or --drop-ignored:" >&2
 			printf '%s\n' "$ignored" >&2
 			exit 1
 		fi
@@ -509,8 +803,8 @@ cmd_migrate() {
 		has_origin=1
 		origin_url=$(git -C "$hub" remote get-url origin)
 		origin_push=$(git -C "$hub" remote get-url --push origin)
-		[ -n "$origin_url" ] || die "migrate: origin URL is empty"
-		[ -n "$origin_push" ] || die "migrate: origin push URL is empty"
+		[ -n "$origin_url" ] || die "hub migrate: origin URL is empty"
+		[ -n "$origin_push" ] || die "hub migrate: origin push URL is empty"
 		log "migrate: remembered origin $origin_url"
 		if [ "$origin_push" != "$origin_url" ]; then
 			log "migrate: remembered origin (push) $origin_push"
@@ -520,24 +814,24 @@ cmd_migrate() {
 	fi
 
 	log "migrate: git clone --bare $hub/.git -> $hub/.bare"
-	git clone --bare -- "$hub/.git" "$hub/.bare" || die "migrate: git clone --bare failed"
+	git clone --bare -- "$hub/.git" "$hub/.bare" || die "hub migrate: git clone --bare failed"
 
 	# Verify bare before deleting the old .git (fail closed; leave original intact).
 	_bare_flag=$(git -C "$hub/.bare" rev-parse --is-bare-repository 2>/dev/null || true)
-	[ "$_bare_flag" = "true" ] || die "migrate: $hub/.bare is not a bare repository; refusing to remove .git"
+	[ "$_bare_flag" = "true" ] || die "hub migrate: $hub/.bare is not a bare repository; refusing to remove .git"
 
 	if [ "$has_origin" -eq 1 ]; then
 		log "migrate: set origin url -> $origin_url"
 		git -C "$hub/.bare" remote set-url origin -- "$origin_url" \
-			|| die "migrate: failed to set origin url"
+			|| die "hub migrate: failed to set origin url"
 		if [ "$origin_push" != "$origin_url" ]; then
 			log "migrate: set origin pushurl -> $origin_push"
 			git -C "$hub/.bare" remote set-url --push origin -- "$origin_push" \
-				|| die "migrate: failed to set origin pushurl"
+				|| die "hub migrate: failed to set origin pushurl"
 		fi
 		_check_url=$(git -C "$hub/.bare" remote get-url origin)
 		[ "$_check_url" = "$origin_url" ] \
-			|| die "migrate: origin URL mismatch after set-url (got: $_check_url)"
+			|| die "hub migrate: origin URL mismatch after set-url (got: $_check_url)"
 	else
 		log "migrate: remove clone-created origin (local path)"
 		git -C "$hub/.bare" remote remove origin 2>/dev/null || true
@@ -566,8 +860,40 @@ cmd_migrate() {
 	hub_done "$hub"
 }
 
+cmd_hub() {
+	[ $# -gt 0 ] || die "hub: missing subcommand (try: git-wt help)"
+	_sub=$1
+	shift
+	case "$_sub" in
+	init)
+		cmd_hub_init "$@"
+		;;
+	migrate)
+		require_cmd find
+		for _a in "$@"; do
+			case "$_a" in
+			--keep-ignored) require_cmd tar; break ;;
+			esac
+		done
+		cmd_hub_migrate "$@"
+		;;
+	help | -h | --help)
+		usage
+		exit 0
+		;;
+	*)
+		die "hub: unknown subcommand: $_sub (try: git-wt help)"
+		;;
+	esac
+}
+
 cmd_help() {
 	usage
+}
+
+warn_deprecated_hub() {
+	_old=$1
+	log "warning: 'git-wt $_old' is deprecated; use 'git-wt hub $_old' instead"
 }
 
 # --- dispatch ---
@@ -590,19 +916,25 @@ esac
 require_cmd git
 
 case "$cmd" in
+local)
+	cmd_local "$@"
+	;;
+hub)
+	cmd_hub "$@"
+	;;
 init)
-	cmd_init "$@"
+	warn_deprecated_hub init
+	cmd_hub_init "$@"
 	;;
 migrate)
+	warn_deprecated_hub migrate
 	require_cmd find
-	# tar only needed for --keep-ignored; checked inside that path would be
-	# nicer, but fail early if the option is present among args.
 	for _a in "$@"; do
 		case "$_a" in
 		--keep-ignored) require_cmd tar; break ;;
 		esac
 	done
-	cmd_migrate "$@"
+	cmd_hub_migrate "$@"
 	;;
 *)
 	die "unknown command: $cmd (try: git-wt help)"

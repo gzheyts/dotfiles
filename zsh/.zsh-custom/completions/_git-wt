@@ -1,0 +1,253 @@
+#compdef git-wt
+###-begin-git-wt-completions-###
+#
+# Static completion script for Zsh (hand-written; keep in sync with `git-wt help`).
+# Architecture mirrors completions/_opencode: nested _git-wt_<cmd> + commands/specs.
+#
+# Loaded via ~/.zsh-custom/bootstrap.zsh (source completions/*).
+# Function name MUST match filename (_git-wt), same as _opencode / _agent.
+#
+
+_git-wt_worktree_names() {
+  local top
+  local -a names
+  top=$(git rev-parse --show-toplevel 2>/dev/null) || return 0
+  [[ -d "$top/.worktrees" ]] || return 0
+  names=(${(f)"$(command ls -1 "$top/.worktrees" 2>/dev/null)"})
+  (( $#names )) && compadd -a names
+}
+
+_git-wt_branch_names() {
+  local -a refs
+  refs=(${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads/ refs/remotes/ 2>/dev/null)"})
+  (( $#refs )) && compadd -a refs
+}
+
+_git-wt() {
+  local context state state_descr line
+  typeset -A opt_args
+
+  local -a commands
+  commands=(
+    'local:Project-local .worktrees/ helpers (day path)'
+    'hub:Bare-hub bootstrap (human multi-branch)'
+    'help:Show help'
+    'init:Deprecated -- use hub init'
+    'migrate:Deprecated -- use hub migrate'
+  )
+
+  local -a specs
+  specs=(
+    '1:command:->command'
+    '*::arg:->args'
+  )
+
+  _arguments -C "${specs[@]}"
+
+  case "$state" in
+    command)
+      _describe -t commands 'commands' commands
+      ;;
+    args)
+      case "$words[1]" in
+        local)
+          _git-wt_local
+          ;;
+        hub)
+          _git-wt_hub
+          ;;
+        help)
+          _git-wt_help
+          ;;
+        init)
+          _git-wt_hub_init
+          ;;
+        migrate)
+          _git-wt_hub_migrate
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_git-wt_help() {
+}
+
+_git-wt_local() {
+  local context state state_descr line
+  typeset -A opt_args
+
+  local -a commands
+  commands=(
+    'init:ensure-ignore + mkdir .worktrees (primary checkout)'
+    'ensure-ignore:Ensure .worktrees/ is in local .gitignore'
+    'add:Add linked worktree under .worktrees/<name>'
+    'rm:Remove .worktrees/<name>'
+    'list:git worktree list'
+    'help:Show help'
+  )
+
+  local -a specs
+  specs=(
+    '1:command:->command'
+    '*::arg:->args'
+  )
+
+  _arguments -C "${specs[@]}"
+
+  case "$state" in
+    command)
+      _describe -t commands 'commands' commands
+      ;;
+    args)
+      case "$words[1]" in
+        init)
+          _git-wt_local_init
+          ;;
+        ensure-ignore)
+          _git-wt_local_ensure_ignore
+          ;;
+        add)
+          _git-wt_local_add
+          ;;
+        rm|remove)
+          _git-wt_local_rm
+          ;;
+        list)
+          _git-wt_local_list
+          ;;
+        help)
+          _git-wt_help
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_git-wt_local_init() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+  )
+  _arguments "${specs[@]}"
+}
+
+_git-wt_local_ensure_ignore() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+  )
+  _arguments "${specs[@]}"
+}
+
+_git-wt_local_list() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+  )
+  _arguments "${specs[@]}"
+}
+
+_git-wt_local_add() {
+  local context state state_descr line
+  typeset -A opt_args
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    '(-b)-b[Create new branch]:branch:->branch'
+    ':worktree name:'
+    ':start-point:->branch'
+  )
+  _arguments -C "${specs[@]}"
+  case "$state" in
+    branch)
+      _git-wt_branch_names
+      ;;
+  esac
+}
+
+_git-wt_local_rm() {
+  local context state state_descr line
+  typeset -A opt_args
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    '(--force -f)--force[Force remove unclean worktree]'
+    '(--force -f)-f[Force remove unclean worktree]'
+    ':worktree name:->wtname'
+  )
+  _arguments -C "${specs[@]}"
+  case "$state" in
+    wtname)
+      _git-wt_worktree_names
+      ;;
+  esac
+}
+
+_git-wt_hub() {
+  local context state state_descr line
+  typeset -A opt_args
+
+  local -a commands
+  commands=(
+    'init:Bootstrap bare hub + long-lived worktrees'
+    'migrate:Convert clean clone to bare hub'
+    'help:Show help'
+  )
+
+  local -a specs
+  specs=(
+    '1:command:->command'
+    '*::arg:->args'
+  )
+
+  _arguments -C "${specs[@]}"
+
+  case "$state" in
+    command)
+      _describe -t commands 'commands' commands
+      ;;
+    args)
+      case "$words[1]" in
+        init)
+          _git-wt_hub_init
+          ;;
+        migrate)
+          _git-wt_hub_migrate
+          ;;
+        help)
+          _git-wt_help
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_git-wt_hub_init() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    ':repository URL:'
+    ':directory:_files -/'
+  )
+  _arguments "${specs[@]}"
+}
+
+_git-wt_hub_migrate() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    '(--keep-ignored --drop-ignored)--keep-ignored[Park ignored files under .wt-keep and restore]'
+    '(--keep-ignored --drop-ignored)--drop-ignored[Delete ignored files with old working tree]'
+    ':path:_files -/'
+  )
+  _arguments "${specs[@]}"
+}
+
+# Handle both direct invocation and autoload
+if [[ "${zsh_eval_context[-1]}" == "loadautofunc" ]]; then
+  _git-wt "$@"
+else
+  compdef _git-wt git-wt
+fi
+###-end-git-wt-completions-###

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Compact mem/cpu for tmux status: mem=cyan, cpu=colour176 (no bg thresholds).
+# Mem/cpu for status-right; FA icons match i3blocks ( / ).
+set -Eeuo pipefail
+
 bin="${TMUX_PLUGIN_MANAGER_PATH:-$HOME/.tmux/plugins/}tmux-mem-cpu-load/tmux-mem-cpu-load"
 raw=$("$bin" -i 2 -m 0 -g 0 -a 0 | tr -d '\0')
 read -r mem cpu _ <<<"$raw"
-printf '#[fg=cyan]%s#[default] #[fg=colour176]%s#[default]' "$mem" "$cpu"
+printf '#[fg=cyan] %s#[default] #[fg=colour176] %s#[default]' "$mem" "$cpu"

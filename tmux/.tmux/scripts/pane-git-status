@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Centre git segment for tmux status-format.
+# One porcelain -b call; empty output if cwd is not a work tree.
+set -Eeuo pipefail
+
+# Branch quiet; +/~/? mono; only upstream delta is colored.
+readonly BRANCH_FG=colour109
+readonly COUNT_FG=colour245
+readonly AHEAD_FG=colour72
+readonly BEHIND_FG=colour167
+
+path=${1-}
+[[ -n $path && -d $path ]] || exit 0
+
+status=$(git -C "$path" -c core.quotePath=false status --porcelain=v1 --branch --ignore-submodules=dirty 2>/dev/null) \
+	|| exit 0
+[[ -n $status ]] || exit 0
+
+IFS= read -r header <<<"$status"
+
+branch=
+ahead=0
+behind=0
+
+if [[ $header == '## HEAD (no branch)'* ]]; then
+	branch=$(git -C "$path" rev-parse --short HEAD 2>/dev/null || printf 'DETACHED')
+elif [[ $header =~ ^##\ (.+)$ ]]; then
+	# "## main...origin/main [ahead 1, behind 2]" — first token is ref
+	ref=${BASH_REMATCH[1]}
+	ref=${ref%% *}
+	branch=${ref%%...*}
+	[[ $header =~ ahead\ ([0-9]+) ]] && ahead=${BASH_REMATCH[1]}
+	[[ $header =~ behind\ ([0-9]+) ]] && behind=${BASH_REMATCH[1]}
+else
+	exit 0
+fi
+[[ -n $branch ]] || exit 0
+
+staged=0
+changed=0
+untracked=0
+
+while IFS= read -r line || [[ -n ${line-} ]]; do
+	[[ $line == \#\#* || -z $line ]] && continue
+	xy=${line:0:2}
+	case $xy in
+		\?\?) untracked=$((untracked + 1)) ;;
+		\!\!) continue ;;
+		*)
+			x=${xy:0:1}
+			y=${xy:1:1}
+			[[ $x != ' ' && $x != '?' ]] && staged=$((staged + 1))
+			[[ $y != ' ' && $y != '?' ]] && changed=$((changed + 1))
+			;;
+	esac
+done <<<"$status"
+
+#  — FA code-branch (same PUA as i3blocks labels)
+out=" #[fg=${BRANCH_FG}] ${branch}#[default]"
+((staged > 0)) && out+=" #[fg=${COUNT_FG}]+${staged}#[default]"
+((changed > 0)) && out+=" #[fg=${COUNT_FG}]~${changed}#[default]"
+((untracked > 0)) && out+=" #[fg=${COUNT_FG}]?${untracked}#[default]"
+((ahead > 0)) && out+=" #[fg=${AHEAD_FG}]↑${ahead}#[default]"
+((behind > 0)) && out+=" #[fg=${BEHIND_FG}]↓${behind}#[default]"
+
+printf '%s' "$out"

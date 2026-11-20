@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Build status-format[0] once on conf load (not every status-interval).
+# Default tmux layout + centred cwd (HOME→~) and git segment.
+set -Eeuo pipefail
+
+if ! command -v tmux >/dev/null 2>&1; then
+	printf '%s\n' "apply-status-format: tmux not found" >&2
+	exit 1
+fi
+
+status_left=
+status_left+='#[align=left range=left #{E:status-left-style}]'
+status_left+='#[push-default]#{T;=/#{status-left-length}:status-left}#[pop-default]'
+status_left+='#[norange default]'
+
+# Stock #{W:inactive,current} block from tmux's default status-format[0]
+window_list=
+window_list+='#[list=on align=#{status-justify}]'
+window_list+='#[list=left-marker]<#[list=right-marker]>#[list=on]'
+window_list+='#{W:'
+window_list+='#[range=window|#{window_index} #{E:window-status-style}'
+window_list+='#{?#{&&:#{window_last_flag},#{!=:#{E:window-status-last-style},default}}, #{E:window-status-last-style},}'
+window_list+='#{?#{&&:#{window_bell_flag},#{!=:#{E:window-status-bell-style},default}}, #{E:window-status-bell-style},'
+window_list+='#{?#{&&:#{||:#{window_activity_flag},#{window_silence_flag}},#{!=:#{E:window-status-activity-style},default}}, #{E:window-status-activity-style},}}]'
+window_list+='#[push-default]#{T:window-status-format}#[pop-default]#[norange default]'
+window_list+='#{?window_end_flag,,#{window-status-separator}}'
+window_list+=','
+window_list+='#[range=window|#{window_index} list=focus '
+window_list+='#{?#{!=:#{E:window-status-current-style},default},#{E:window-status-current-style},#{E:window-status-style}}'
+window_list+='#{?#{&&:#{window_last_flag},#{!=:#{E:window-status-last-style},default}}, #{E:window-status-last-style},}'
+window_list+='#{?#{&&:#{window_bell_flag},#{!=:#{E:window-status-bell-style},default}}, #{E:window-status-bell-style},'
+window_list+='#{?#{&&:#{||:#{window_activity_flag},#{window_silence_flag}},#{!=:#{E:window-status-activity-style},default}}, #{E:window-status-activity-style},}}]'
+window_list+='#[push-default]#{T:window-status-current-format}#[pop-default]'
+window_list+='#[norange list=on default]'
+window_list+='#{?window_end_flag,,#{window-status-separator}}'
+window_list+='}'
+
+centre=
+centre+='#[nolist align=centre]'
+centre+='#[fg=colour247]#{s|#{e:HOME}|~|:pane_current_path}'
+centre+='#(~/.tmux/scripts/pane-git-status #{pane_current_path})'
+
+status_right=
+status_right+='#[align=right range=right #{E:status-right-style}]'
+status_right+='#[push-default]#{T;=/#{status-right-length}:status-right}#[pop-default]'
+status_right+='#[norange default]'
+
+tmux set-option -g 'status-format[0]' "${status_left}${window_list}${centre}${status_right}"

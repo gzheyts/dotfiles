@@ -8,3 +8,4 @@ alias ocd='opencode debug'
 alias ocs='opencode session'
 
 alias oc-config='vim ~/.config/opencode/opencode.jsonc'
+alias oc-config-cli='vim ~/.config/opencode/cli.json'

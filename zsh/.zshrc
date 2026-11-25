@@ -3,10 +3,6 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.zsh-custom
 eval `dircolors ~/.dircolors/dircolors.mine`
 
-# ZSH_THEME="af-magic"
-# ZSH_THEME="wezm"
-ZSH_THEME="nicoulaj"
-
 ENABLE_CORRECTION="true"
 
 # ZSHZ setings

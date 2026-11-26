@@ -5,7 +5,7 @@ while true; do
   if pgrep '^i3$' > /dev/null 2>&1; then
     alacritty --class scratchpad,scratchpad \
       -o 'window.resize_increments=false' \
-      -e /usr/bin/tmux new-session -A -s main
+      -e tmux new-session -A -s main
     sleep 1
   else
     break

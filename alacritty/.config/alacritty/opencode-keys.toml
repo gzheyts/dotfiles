@@ -1,19 +1,152 @@
 # Key injects for opencode behind tmux (alacritty → tmux → opencode).
 #
+# Versions checked: tmux 3.8 · opencode v2.3.2 · alacritty 0.13.2
+#
 # Why two strategies:
-#   CSI 27~  — Ctrl/Shift combos have no legacy encoding; Alacritty must inject.
+#   CSI 27~  — modified combos Alacritty won't send distinctly; inject xterm form.
 #   leader   — Alt+char CSI is rewritten by tmux to ESC+char; map to <leader>…
 #
 # Leader in opencode cli.json is ctrl+o (\u000f).
 # CSI form: \u001b[27;<mod>;<code>~
 #   mod = 1 + Shift(1) + Alt(2) + Ctrl(4)
+#   code for letters: unshifted (97=a), not 65=A — OpenTUI matches
+#   ctrl+shift+a on lowercase name + shift flag.
+#
+# tmux peer: ~/.tmux/opencode-keys.conf — OpenTUI still requests modifyOtherKeys
+# level 1 (Ext 1), which collapses C-S-* / C-M-S-* / M-S-*; that file's binds
+# re-inject the same CSI. Remove both sides when opentui#1184 (Ext 2) lands.
 
-# Ctrl+Shift+A → command.palette.show
+# --- Ctrl+Shift+* (mod 6) — cli.json: palette, terminal, input.*, tab.reopen ---
 [[keyboard.bindings]]
 key = "A"
 mods = "Control|Shift"
-chars = "\u001b[27;6;65~"
+chars = "\u001b[27;6;97~"
 
+[[keyboard.bindings]]
+key = "E"
+mods = "Control|Shift"
+chars = "\u001b[27;6;101~"
+
+[[keyboard.bindings]]
+key = "D"
+mods = "Control|Shift"
+chars = "\u001b[27;6;100~"
+
+[[keyboard.bindings]]
+key = "T"
+mods = "Control|Shift"
+chars = "\u001b[27;6;116~"
+
+[[keyboard.bindings]]
+key = "0"
+mods = "Control|Shift"
+chars = "\u001b[27;6;48~"
+
+# --- Ctrl+Alt+Shift+* (mod 8) — open.menu / session.* / which-key.* ---
+[[keyboard.bindings]]
+key = "A"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;97~"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;99~"
+
+[[keyboard.bindings]]
+key = "D"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;100~"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;102~"
+
+[[keyboard.bindings]]
+key = "K"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;107~"
+
+[[keyboard.bindings]]
+key = "M"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;109~"
+
+[[keyboard.bindings]]
+key = "P"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;112~"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;118~"
+
+[[keyboard.bindings]]
+key = "X"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;120~"
+
+# Ctrl+Alt+Shift+\ → open.menu ("|" = shifted Backslash form)
+[[keyboard.bindings]]
+key = "Backslash"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;92~"
+
+[[keyboard.bindings]]
+key = "|"
+mods = "Control|Alt|Shift"
+chars = "\u001b[27;8;92~"
+
+# --- Alt+Shift+* (mod 4) — tab unread / input select / tab.reopen ---
+[[keyboard.bindings]]
+key = "A"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;97~"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;98~"
+
+[[keyboard.bindings]]
+key = "E"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;101~"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;102~"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;110~"
+
+[[keyboard.bindings]]
+key = "P"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;112~"
+
+# Alt+Shift+= → session.tab.reopen (logical key "+" under Shift)
+[[keyboard.bindings]]
+key = "+"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;61~"
+
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Alt|Shift"
+chars = "\u001b[27;4;61~"
+
+[[keyboard.bindings]]
+key = 13
+mods = "Alt|Shift"
+chars = "\u001b[27;4;61~"
+
+# --- leader remaps (not CSI; Alt alone → ESC+char inside tmux) ---
 # Alt+\ → session.list  (= <leader>l)
 [[keyboard.bindings]]
 key = "Backslash"
@@ -25,27 +158,3 @@ chars = "\u000fl"
 key = "Minus"
 mods = "Alt"
 chars = "\u000fw"
-
-# Alt+Shift+= → session.tab.reopen  (= Ctrl+Shift+T CSI)
-# Shift makes logical key "+"; keep scancode fallback.
-[[keyboard.bindings]]
-key = "+"
-mods = "Alt|Shift"
-chars = "\u001b[27;6;84~"
-
-[[keyboard.bindings]]
-key = 13
-mods = "Alt|Shift"
-chars = "\u001b[27;6;84~"
-
-# Ctrl+Alt+Shift+\ → open.menu
-# "|" is the shifted Backslash form that actually matches.
-[[keyboard.bindings]]
-key = "Backslash"
-mods = "Control|Alt|Shift"
-chars = "\u001b[27;8;92~"
-
-[[keyboard.bindings]]
-key = "|"
-mods = "Control|Alt|Shift"
-chars = "\u001b[27;8;92~"

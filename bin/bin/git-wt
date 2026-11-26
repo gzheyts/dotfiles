@@ -24,7 +24,11 @@ local:
   init                 ensure-ignore + mkdir .worktrees (primary checkout)
   ensure-ignore        ensure .worktrees/ is in local .gitignore (create or append)
   add <name> [-b <branch>] [<start-point>]
-  rm <name> [--force]
+  rm <name> [--force] [--branch]
+  path <name>          print absolute .worktrees/<name> (fail if missing)
+  status               status for trees under .worktrees/ only
+  prune [--dry-run] [--force]
+                       git worktree prune + orphan cleanup under .worktrees/
   list
 
 hub:
@@ -55,8 +59,11 @@ Deprecated (redirect with warning):
 Examples:
   git-wt local init
   git-wt local add feat-auth -b feat-auth
+  git-wt local path feat-auth
+  git-wt local status
   git-wt local list
-  git-wt local rm feat-auth
+  git-wt local rm feat-auth --branch
+  git-wt local prune --dry-run
   git-wt hub init git@github.com:user/repo.git
   git-wt hub migrate --keep-ignored
   git wt local add feat-auth -b feat-auth
@@ -128,6 +135,40 @@ require_primary_checkout() {
 	_git_common=$(cd "$(git rev-parse --git-common-dir)" && pwd -P)
 	[ "$_git_dir" = "$_git_common" ] \
 		|| die "refuse: already in a linked worktree (run from the primary checkout)"
+}
+
+# Resolve the checkout that owns .worktrees/ (ordinary primary, or long-lived
+# hub tree). From .../.worktrees/<name>, walk up; otherwise use show-toplevel.
+resolve_primary_toplevel() {
+	require_git_repo
+	_top=$(git rev-parse --show-toplevel) || die "cannot resolve toplevel"
+	_top_abs=$(abs_path "$_top")
+	_parent=$(dirname "$_top_abs")
+	_parent_base=$(basename "$_parent")
+	if [ "$_parent_base" = "$WT_PARENT" ]; then
+		abs_path "$(dirname "$_parent")"
+		return 0
+	fi
+	printf '%s\n' "$_top_abs"
+}
+
+validate_local_wt_name() {
+	# Flat name only (same rules as local add).
+	_n=$1
+	case "$_n" in
+	*/* | *\\* | .* | "")
+		return 1
+		;;
+	esac
+	return 0
+}
+
+local_wt_path() {
+	# Print $primary/.worktrees/<name> (does not require the directory to exist).
+	_n=$1
+	validate_local_wt_name "$_n" || die "invalid name '$_n' (flat name only, no slashes)"
+	_primary=$(resolve_primary_toplevel) || die "cannot resolve primary toplevel"
+	printf '%s\n' "$_primary/$WT_PARENT/$_n"
 }
 
 gitignore_has_worktrees() {
@@ -302,6 +343,7 @@ cmd_local_add() {
 cmd_local_rm() {
 	_name=""
 	_force=0
+	_branch_flag=0
 
 	while [ $# -gt 0 ]; do
 		case "$1" in
@@ -311,6 +353,11 @@ cmd_local_rm() {
 			;;
 		--force | -f)
 			_force=1
+			shift
+			continue
+			;;
+		--branch)
+			_branch_flag=1
 			shift
 			continue
 			;;
@@ -328,15 +375,17 @@ cmd_local_rm() {
 	done
 
 	[ -n "$_name" ] || die "local rm: missing <name> (try: git-wt help)"
-	case "$_name" in
-	*/* | *\\*)
-		die "local rm: invalid name '$_name' (flat name only)"
-		;;
-	esac
+	validate_local_wt_name "$_name" \
+		|| die "local rm: invalid name '$_name' (flat name only)"
 
 	require_primary_checkout
 	_toplevel=$(git rev-parse --show-toplevel)
 	_path=$_toplevel/$WT_PARENT/$_name
+
+	_br=""
+	if [ "$_branch_flag" -eq 1 ] && [ -d "$_path" ]; then
+		_br=$(git -C "$_path" symbolic-ref -q --short HEAD 2>/dev/null || true)
+	fi
 
 	if [ "$_force" -eq 1 ]; then
 		log "worktree remove --force $WT_PARENT/$_name"
@@ -347,6 +396,232 @@ cmd_local_rm() {
 		git -C "$_toplevel" worktree remove -- "$_path" \
 			|| die "worktree remove failed"
 	fi
+
+	if [ "$_branch_flag" -eq 1 ]; then
+		if [ -z "$_br" ]; then
+			log "rm --branch: skip (detached HEAD or no branch recorded)"
+		elif [ "$_force" -eq 1 ]; then
+			log "branch -D $_br"
+			git -C "$_toplevel" branch -D -- "$_br" \
+				|| die "branch -D failed for $_br"
+		else
+			log "branch -d $_br"
+			git -C "$_toplevel" branch -d -- "$_br" \
+				|| die "branch -d failed for $_br"
+		fi
+	fi
+}
+
+cmd_local_path() {
+	_name=""
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		-*)
+			die "local path: unknown option: $1"
+			;;
+		*)
+			[ -z "$_name" ] || die "local path: unexpected argument: $1"
+			_name=$1
+			shift
+			continue
+			;;
+		esac
+		shift
+	done
+
+	[ -n "$_name" ] || die "local path: missing <name> (try: git-wt help)"
+	_path=$(local_wt_path "$_name") || exit 1
+	[ -d "$_path" ] || die "local path: not found: $_path"
+	printf '%s\n' "$_path"
+}
+
+cmd_local_status() {
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		*)
+			die "local status: unexpected argument: $1"
+			;;
+		esac
+	done
+
+	require_git_repo
+	_primary=$(resolve_primary_toplevel) || die "cannot resolve primary toplevel"
+	_prefix=$_primary/$WT_PARENT
+	_prefix_slash=$_prefix/
+
+	# Collect registered worktrees under .worktrees/ from porcelain.
+	_paths=""
+	_cur=""
+	while IFS= read -r _line || [ -n "$_line" ]; do
+		case "$_line" in
+		worktree\ *)
+			_cur=${_line#worktree }
+			_cur_abs=$(abs_path "$_cur" 2>/dev/null || printf '%s\n' "$_cur")
+			case "$_cur_abs" in
+			"$_prefix_slash"*)
+				if [ -z "$_paths" ]; then
+					_paths=$_cur_abs
+				else
+					_paths=$(printf '%s\n%s\n' "$_paths" "$_cur_abs")
+				fi
+				;;
+			esac
+			;;
+		esac
+	done <<EOF
+$(git worktree list --porcelain)
+EOF
+
+	printf '%-20s %-24s %-5s %5s %6s\n' NAME BRANCH DIRTY AHEAD BEHIND
+	if [ -z "$_paths" ]; then
+		return 0
+	fi
+
+	printf '%s\n' "$_paths" | while IFS= read -r _wt || [ -n "$_wt" ]; do
+		[ -n "$_wt" ] || continue
+		_name=$(basename "$_wt")
+		_br=$(git -C "$_wt" symbolic-ref -q --short HEAD 2>/dev/null || true)
+		if [ -z "$_br" ]; then
+			_sha=$(git -C "$_wt" rev-parse --short HEAD 2>/dev/null || printf '?')
+			_br="detached@$_sha"
+		fi
+		_dirty="-"
+		_porc=$(git -C "$_wt" status --porcelain 2>/dev/null || true)
+		[ -z "$_porc" ] || _dirty="*"
+
+		_ahead="-"
+		_behind="-"
+		_counts=$(git -C "$_wt" rev-list --left-right --count '@{upstream}...HEAD' 2>/dev/null || true)
+		if [ -n "$_counts" ]; then
+			# shellcheck disable=SC2086
+			set -- $_counts
+			_behind=$1
+			_ahead=$2
+		fi
+
+		printf '%-20s %-24s %-5s %5s %6s\n' "$_name" "$_br" "$_dirty" "$_ahead" "$_behind"
+	done
+}
+
+cmd_local_prune() {
+	_dry=0
+	_force=0
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			usage
+			exit 0
+			;;
+		--dry-run)
+			_dry=1
+			shift
+			continue
+			;;
+		--force | -f)
+			_force=1
+			shift
+			continue
+			;;
+		-*)
+			die "local prune: unknown option: $1"
+			;;
+		*)
+			die "local prune: unexpected argument: $1"
+			;;
+		esac
+		shift
+	done
+
+	require_primary_checkout
+	_toplevel=$(git rev-parse --show-toplevel)
+	_parent=$_toplevel/$WT_PARENT
+
+	if [ "$_dry" -eq 1 ]; then
+		log "worktree prune --dry-run"
+		git -C "$_toplevel" worktree prune --dry-run \
+			|| die "worktree prune --dry-run failed"
+	else
+		log "worktree prune"
+		git -C "$_toplevel" worktree prune \
+			|| die "worktree prune failed"
+	fi
+
+	[ -d "$_parent" ] || return 0
+
+	# Registered absolute paths (any worktree), for orphan detection.
+	_registered=$(
+		git -C "$_toplevel" worktree list --porcelain | while IFS= read -r _line; do
+			case "$_line" in
+			worktree\ *)
+				_p=${_line#worktree }
+				abs_path "$_p" 2>/dev/null || printf '%s\n' "$_p"
+				;;
+			esac
+		done
+	)
+
+	# Word-split-safe: iterate directory entries via find -print0 would need
+	# non-POSIX; names are flat (no spaces expected from local add). Use ls -A.
+	_ents=$(ls -A -- "$_parent" 2>/dev/null || true)
+	[ -n "$_ents" ] || return 0
+
+	for _ent in $_ents; do
+		_cand=$_parent/$_ent
+		[ -e "$_cand" ] || continue
+		_cand_abs=$(abs_path "$_cand" 2>/dev/null || printf '%s\n' "$_cand")
+
+		_is_reg=0
+		# Compare against registered list line-by-line
+		while IFS= read -r _reg || [ -n "$_reg" ]; do
+			[ -n "$_reg" ] || continue
+			if [ "$_reg" = "$_cand_abs" ]; then
+				_is_reg=1
+				break
+			fi
+		done <<EOF
+$_registered
+EOF
+
+		[ "$_is_reg" -eq 0 ] || continue
+
+		if [ ! -d "$_cand_abs" ]; then
+			log "orphan (not a directory), skip: $WT_PARENT/$_ent"
+			continue
+		fi
+
+		# Empty? (no entries except . / ..)
+		_child=$(ls -A -- "$_cand_abs" 2>/dev/null || true)
+		if [ -z "$_child" ]; then
+			if [ "$_dry" -eq 1 ]; then
+				log "dry-run: would rmdir orphan $WT_PARENT/$_ent"
+			else
+				log "rmdir orphan $WT_PARENT/$_ent"
+				rmdir -- "$_cand_abs" || die "rmdir failed: $_cand_abs"
+			fi
+			continue
+		fi
+
+		if [ "$_force" -eq 1 ]; then
+			if [ "$_dry" -eq 1 ]; then
+				log "dry-run: would rm -rf orphan $WT_PARENT/$_ent"
+			else
+				log "rm -rf orphan $WT_PARENT/$_ent"
+				rm -rf -- "$_cand_abs" || die "rm -rf failed: $_cand_abs"
+			fi
+		else
+			log "orphan non-empty (pass --force to remove): $WT_PARENT/$_ent"
+		fi
+	done
 }
 
 cmd_local_list() {
@@ -381,6 +656,15 @@ cmd_local() {
 		;;
 	rm | remove)
 		cmd_local_rm "$@"
+		;;
+	path)
+		cmd_local_path "$@"
+		;;
+	status)
+		cmd_local_status "$@"
+		;;
+	prune)
+		cmd_local_prune "$@"
 		;;
 	list)
 		cmd_local_list "$@"

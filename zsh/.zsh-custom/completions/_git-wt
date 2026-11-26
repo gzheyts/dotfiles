@@ -83,6 +83,9 @@ _git-wt_local() {
     'ensure-ignore:Ensure .worktrees/ is in local .gitignore'
     'add:Add linked worktree under .worktrees/<name>'
     'rm:Remove .worktrees/<name>'
+    'path:Print absolute .worktrees/<name>'
+    'status:Status for trees under .worktrees/'
+    'prune:Prune stale admin + orphan .worktrees dirs'
     'list:git worktree list'
     'help:Show help'
   )
@@ -112,6 +115,15 @@ _git-wt_local() {
           ;;
         rm|remove)
           _git-wt_local_rm
+          ;;
+        path)
+          _git-wt_local_path
+          ;;
+        status)
+          _git-wt_local_status
+          ;;
+        prune)
+          _git-wt_local_prune
           ;;
         list)
           _git-wt_local_list
@@ -148,6 +160,41 @@ _git-wt_local_list() {
   _arguments "${specs[@]}"
 }
 
+_git-wt_local_status() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+  )
+  _arguments "${specs[@]}"
+}
+
+_git-wt_local_path() {
+  local context state state_descr line
+  typeset -A opt_args
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    ':worktree name:->wtname'
+  )
+  _arguments -C "${specs[@]}"
+  case "$state" in
+    wtname)
+      _git-wt_worktree_names
+      ;;
+  esac
+}
+
+_git-wt_local_prune() {
+  local -a specs
+  specs=(
+    '(-h --help)'{-h,--help}'[Show help]'
+    '--dry-run[Show what would be pruned without deleting]'
+    '(--force -f)--force[Remove non-empty orphan dirs under .worktrees/]'
+    '(--force -f)-f[Remove non-empty orphan dirs under .worktrees/]'
+  )
+  _arguments "${specs[@]}"
+}
+
 _git-wt_local_add() {
   local context state state_descr line
   typeset -A opt_args
@@ -172,8 +219,9 @@ _git-wt_local_rm() {
   local -a specs
   specs=(
     '(-h --help)'{-h,--help}'[Show help]'
-    '(--force -f)--force[Force remove unclean worktree]'
-    '(--force -f)-f[Force remove unclean worktree]'
+    '(--force -f)--force[Force remove unclean worktree; with --branch use branch -D]'
+    '(--force -f)-f[Force remove unclean worktree; with --branch use branch -D]'
+    '--branch[Delete the worktree branch after remove (-d, or -D with --force)]'
     ':worktree name:->wtname'
   )
   _arguments -C "${specs[@]}"
